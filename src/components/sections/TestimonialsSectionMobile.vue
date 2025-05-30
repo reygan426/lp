@@ -49,7 +49,7 @@ const prevSlide = () => {
 </script>
 
 <template>
-  <div class="px-[20px] md:px-[60px] lg:px-[120px]">
+  <div class="px-[10px] md:px-[60px] lg:px-[120px]">
     <div class="relative">
       <swiper v-if="testimoni.length > 0" :modules="modules" :effect="'fade'" :fadeEffect="{
         crossFade: false

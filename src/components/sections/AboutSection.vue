@@ -44,7 +44,7 @@ onUnmounted(() => {
         <!-- tablet & dekstop -->
         <div class="w-full h-[490px] md:w-[75%] xl:w-1/2 relative hidden md:block">
             <div :class="['absolute top-0 z-10 w-[60%] h-[460px]', { 'img-reveal-1': isVisible }]">
-                <img src="https://plus.unsplash.com/premium_photo-1674418805914-9d92336a3ea0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""
+                <img src="https://cms.jatidiri.app/storage/identities/5tMLmahOWkwV4HlIkru01k9PEmkJDJ8UTubKWA70.jpg" alt=""
                     class="w-full h-full object-cover rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
             </div>
             <div
@@ -53,7 +53,7 @@ onUnmounted(() => {
                     <div class="relative w-full h-full">
                         <div class="group relative cursor-pointer" @click="isVideoOpen = true">
                             <img
-                                src="https://images.unsplash.com/photo-1545074439-5b5078c5f149?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                src="https://cms.jatidiri.app/storage/identities/1Nhqi9TSUi7xtGgYZlpig1dPMXIY2I9MZrSfYpAk.jpg"
                                 alt="Jatidiri"
                                 class="w-full h-[460px] object-cover rounded-[8px] md:rounded-[16px] lg:rounded-[24px] shadow-lg transition-all duration-200 ease-out group-hover:brightness-[0.8]"
                             />
@@ -82,7 +82,7 @@ onUnmounted(() => {
         <div class="w-full h-full md:hidden">
             <HeroVideoDialog :size="'w-full h-[40vh] rounded-[8px] md:rounded-[16px] lg:rounded-[24px]'"
                 :video-src="`https://www.youtube.com/embed/CtVbj_Nd7Zs?si=CtVVJuV35gRQte-y`"
-                :thumbnail-src="'https://images.unsplash.com/photo-1545074439-5b5078c5f149?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
+                :thumbnail-src="'https://cms.jatidiri.app/storage/identities/1Nhqi9TSUi7xtGgYZlpig1dPMXIY2I9MZrSfYpAk.jpg'"
                 :thumbnail-alt="`Jatidiri`" animation-style="from-center" />
         </div>
 

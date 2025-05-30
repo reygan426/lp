@@ -4,7 +4,7 @@
 
 <template>
     <div
-        class="py-[30px] px-[20px] md:py-[60px] md:px-[40px] lg:py-[60px] lg:px-[120px] grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-36 relative z-10 bg-[#F0F7FD]">
+        class="pt-[30px] pb-[120px] px-[20px] md:py-[60px] md:pt-[40px] md:pb-[140px] lg:py-[60px] lg:px-[120px] grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-36 relative z-10 bg-[#F0F7FD]">
         <div class="space-y-4 md:space-y-5 lg:space-y-6">
             <h6 class="text-[14px] md:text-[18px] lg:text-[20px] font-semibold">Our Package</h6>
             <div class="flex flex-col gap-2 lg:gap-4">

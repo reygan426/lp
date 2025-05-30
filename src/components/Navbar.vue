@@ -249,8 +249,8 @@ const beritaItems = [
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
-  height: 2px;
+  width: 80%;
+  height: 1.5px;
   background: linear-gradient(90deg, #6464FA, #0e0e82);
   transform: scaleX(0);
   transform-origin: left;

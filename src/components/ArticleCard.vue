@@ -76,7 +76,7 @@ defineProps({
             </div>
         </div>
 
-        <p class="text-[14px] md:text-[18px] lg:text-[20px] font-bold">{{ title }}</p>
+        <p class="text-[14px] md:text-[18px] lg:text-[20px] font-bold font-sora">{{ title }}</p>
     </div>
 </template>
 

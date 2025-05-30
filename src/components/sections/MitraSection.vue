@@ -1,13 +1,27 @@
 <script setup lang="ts">
 import TextSection from '../TextSection.vue';
 import TitleSection from '../TitleSection.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import type { Partner } from '@/core/types/partner';
 
 const modules = ref([Autoplay, Pagination]);
+const isMobile = ref(false);
+
+const checkScreenSize = () => {
+  isMobile.value = window.innerWidth < 768;
+};
+
+onMounted(() => {
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize);
+});
 
 const props = defineProps<{
   partners: Partner[]
@@ -17,9 +31,10 @@ const titleHTML = 'Mitra <span class="text-primary">Kerjasama</span>';
 
 const groupedPartners = computed(() => {
   const partnersToShow = props.partners?.slice(0, 15) || [];
+  const itemsPerGroup = isMobile.value ? 3 : 5;
 
   const desiredGroupCount = Math.min(
-    Math.max(1, Math.ceil(partnersToShow.length / 5)),
+    Math.max(1, Math.ceil(partnersToShow.length / itemsPerGroup)),
     3
   );
 
@@ -32,7 +47,6 @@ const groupedPartners = computed(() => {
 
   return groups;
 });
-
 </script>
 
 <template>
@@ -55,9 +69,9 @@ const groupedPartners = computed(() => {
           bulletActiveClass: 'custom-bullet-active'
         }">
         <swiper-slide v-for="(group, groupIndex) in groupedPartners" :key="groupIndex">
-          <div class="grid grid-cols-5 gap-4 w-full mx-auto">
+          <div :class="`grid ${isMobile ? 'grid-cols-3' : 'grid-cols-5'} gap-4 w-full mx-auto`">
             <div v-for="(partner, index) in group" :key="index"
-              class="w-10 lg:w-52 flex items-center justify-center lg:mb-10">
+              class="w-16 lg:w-40 flex items-center justify-center lg:mb-10">
               <img :src="partner?.image || ''" :alt="partner?.name"
                 class="w-full h-full object-contain" loading="lazy" />
             </div>
@@ -67,7 +81,7 @@ const groupedPartners = computed(() => {
     </div>
     <div class="w-full flex justify-center items-center px-[30px] md:px-[60px] lg:px-[120px] mt-6 lg:mt-0">
       <TextSection class="mb-12 md:mb-16 lg:mb-20 lg:max-w-xl text-center">
-        Highlighting our successful collaborations with top-tier clients and their transformative projects.
+        Menyoroti kolaborasi sukses kami dengan klien-klien terkemuka dan proyek transformatif mereka.
       </TextSection>
     </div>
   </div>

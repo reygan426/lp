@@ -25,16 +25,16 @@ import TitleSection from '../TitleSection.vue';
 
         <div class="w-full h-full grid grid-cols-1 md:grid-cols-3 items-end gap-4 md:gap-6 lg:gap-8">
             <div
-                class="w-full h-full md:h-fit bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
+                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
                 <div class="space-y-4 md:space-y-5 lg:space-y-6">
                     <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Starter</h6>
-                    <TextBody>Create quality visual assets with quality, speed, and style consistency.</TextBody>
+                    <!-- <TextBody>Jatidiri Sekolah</TextBody> -->
                     <p class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                        $3.99 <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / Month</span></p>
+                        35k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
                 </div>
 
                 <div class="w-full flex justify-center items-center">
-                    <a href="https://cek.jatidiri.app/login" target="_blank">
+                    <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
                         <ButtonSection :class="'w-full flex justify-center items-center'">Check Now</ButtonSection>
                     </a>
                 </div>
@@ -48,7 +48,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Cek Gaya Belajar</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -59,7 +59,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Cek Kecanduan Gadget</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -70,40 +70,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Akun Siswa</TextBody>
                     </div>
                 </div>
             </div>
@@ -131,15 +98,15 @@ import TitleSection from '../TitleSection.vue';
 
                         <div class="space-y-4 md:space-y-5 lg:space-y-6 mt-4 md:mt-10">
                             <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Ultimate</h6>
-                            <TextBody>Create quality visual assets with quality, speed, and style consistency.
-                            </TextBody>
+                            <!-- <TextBody>Create quality visual assets with quality, speed, and style consistency.
+                            </TextBody> -->
                             <p
                                 class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                                $7.99 <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / Month</span></p>
+                                245k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
                         </div>
 
                         <div class="w-full flex justify-center items-center">
-                            <a href="https://cek.jatidiri.app/login" target="_blank">
+                            <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
                                 <ButtonSection :class="'w-full flex justify-center items-center'">Check Now
                                 </ButtonSection>
                             </a>
@@ -154,7 +121,7 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Tes pemetaan talent dan karakter</TextBody>
                             </div>
 
                             <div class="w-full flex gap-3 items-center">
@@ -165,7 +132,7 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Tes IQ</TextBody>
                             </div>
 
                             <div class="w-full flex gap-3 items-center">
@@ -176,7 +143,7 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Tes Gaya Belajar</TextBody>
                             </div>
 
                             <div class="w-full flex gap-3 items-center">
@@ -187,7 +154,7 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Tes kecanduan gadget</TextBody>
                             </div>
 
                             <div class="w-full flex gap-3 items-center">
@@ -198,7 +165,7 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Tes Kebahagiaan</TextBody>
                             </div>
 
                             <div class="w-full flex gap-3 items-center">
@@ -209,7 +176,29 @@ import TitleSection from '../TitleSection.vue';
                                             d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                                     </svg>
                                 </div>
-                                <TextBody>599 credits/month Fast Mode</TextBody>
+                                <TextBody>Akun Private per Siswa</TextBody>
+                            </div>
+                            
+                            <div class="w-full flex gap-3 items-center">
+                                <div
+                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
+                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
+                                        <path fill="currentColor"
+                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                    </svg>
+                                </div>
+                                <TextBody>Executive Dashboard khusus bagi BK dan Kepala Sekolah</TextBody>
+                            </div>
+                            
+                            <div class="w-full flex gap-3 items-center">
+                                <div
+                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
+                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
+                                        <path fill="currentColor"
+                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                    </svg>
+                                </div>
+                                <TextBody>Akses layanan HalloPsy 10 sesi (minimal tes 200 siswa)</TextBody>
                             </div>
                         </div>
                     </div>
@@ -217,16 +206,16 @@ import TitleSection from '../TitleSection.vue';
             </div>
 
             <div
-                class="w-full h-full md:h-fit bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
+                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
                 <div class="space-y-4 md:space-y-5 lg:space-y-6">
-                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Advance</h6>
-                    <TextBody>Create quality visual assets with quality, speed, and style consistency.</TextBody>
+                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Advances</h6>
+                    <!-- <TextBody>Create quality visual assets with quality, speed, and style consistency.</TextBody> -->
                     <p class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                        $5.99 <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / Month</span></p>
+                        140k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
                 </div>
 
                 <div class="w-full flex justify-center items-center">
-                    <a href="https://cek.jatidiri.app/login" target="_blank">
+                    <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
                         <ButtonSection :class="'w-full flex justify-center items-center'">Check Now</ButtonSection>
                     </a>
                 </div>
@@ -240,7 +229,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Tes pemetaan talent dan karakter</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -251,7 +240,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Tes IQ</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -262,7 +251,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Tes Gaya Belajar</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -273,7 +262,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Tes kecanduan gadget</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -284,7 +273,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Akun Siswa</TextBody>
                     </div>
 
                     <div class="w-full flex gap-3 items-center">
@@ -295,7 +284,7 @@ import TitleSection from '../TitleSection.vue';
                                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                             </svg>
                         </div>
-                        <TextBody>599 credits/month Fast Mode</TextBody>
+                        <TextBody>Akses layanan HalloPsy 10 sesi (minimal tes 200 siswa)</TextBody>
                     </div>
                 </div>
             </div>

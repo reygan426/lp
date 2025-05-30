@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import IconLogo from '@/assets/logo/logo-icon.png'
 import TitleSection from '../TitleSection.vue';
-import TextSection from '../TextSection.vue';
+// import TextSection from '../TextSection.vue';
 import ButtonSection from '../ButtonSection.vue';
 </script>
 
@@ -24,9 +24,9 @@ import ButtonSection from '../ButtonSection.vue';
             </div>
             <div class="space-y-2 lg:space-y-4">
                 <TitleSection text="Kenali Dirimu Raih Masa Depan Gemilang"></TitleSection>
-                <TextSection class="text-[#333333]/75 md:max-w-2/3 mx-auto">Start trading with powerful tools, real-time
+                <!-- <TextSection class="text-[#333333]/75 md:max-w-2/3 mx-auto">Start trading with powerful tools, real-time
                     insights, and a secure
-                    platform for better profits</TextSection>
+                    platform for better profits</TextSection> -->
             </div>
             <div class="w-full flex justify-center items-center">
                 <a href="https://cek.jatidiri.app/login" target="_blank">

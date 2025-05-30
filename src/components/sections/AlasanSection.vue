@@ -79,13 +79,16 @@ const toggleMobileDropdown = () => {
             <!-- Tab Dekstop-->
             <div class="w-full md:w-1/2 hidden md:block">
                 <div v-for="(tab, index) in tabs" :key="index"
-                    class="py-3 md:py-6 flex gap-5 items-center cursor-pointer border-beam-container transition-all duration-300 ease-in-out"
+                    class="py-3 md:py-6 flex gap-5 items-center cursor-pointer border-b-2 border-black/10 transition-all duration-500 ease-in-out relative overflow-hidden group"
                     @click="setActiveTab(index)">
-                    <a class="font-sora text-[22px] md:text-[34px] lg:text-[46px] font-bold transition-all duration-300 ease-in-out"
+                    <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 ease-in-out group-hover:w-full"></div>
+                    <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 ease-in-out" :class="{'w-full': activeTab === index}"></div>
+                    
+                    <a class="font-sora text-[22px] md:text-[34px] lg:text-[46px] font-bold transition-all duration-500 ease-in-out"
                         :class="activeTab === index ? 'text-black' : 'text-black/25 hover:text-black/50'">
                         {{ tab.title }}
                     </a>
-                    <TextSection class="transition-all duration-300 ease-in-out"
+                    <TextSection class="transition-all duration-500 ease-in-out"
                         :class="activeTab === index ? 'opacity-100 text-primary' : 'opacity-50 text-black/25'">
                         {{ tab.number }}
                     </TextSection>
@@ -94,12 +97,13 @@ const toggleMobileDropdown = () => {
 
             <!-- Tab Mobile -->
             <div class="w-full md:w-1/2 md:hidden relative">
-                <div class="py-3 md:py-6 flex gap-5 items-center border-beam-container cursor-pointer transition-all duration-300 ease-in-out"
+                <div class="py-3 md:py-6 flex gap-5 items-center border-b-2 border-black/10 cursor-pointer transition-all duration-500 ease-in-out relative overflow-hidden group"
                     @click="toggleMobileDropdown">
-                    <a class="font-sora text-[22px] md:text-[34px] lg:text-[46px] font-bold transition-all duration-300 ease-in-out text-black">
+                    <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 ease-in-out group-hover:w-full"></div>
+                    <a class="font-sora text-[22px] md:text-[34px] lg:text-[46px] font-bold transition-all duration-500 ease-in-out text-black">
                         {{ tabs[activeTab].title }}
                     </a>
-                    <svg class="w-6 h-6 transition-transform duration-300" 
+                    <svg class="w-6 h-6 transition-transform duration-500" 
                          :class="{ 'rotate-180': isMobileDropdownOpen }" 
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -109,9 +113,12 @@ const toggleMobileDropdown = () => {
                 <Transition name="dropdown">
                     <div v-if="isMobileDropdownOpen" class="absolute left-0 right-0 bg-white z-10 shadow-lg rounded-lg">
                         <div v-for="(tab, index) in tabs" :key="index"
-                            class="py-4 px-4 border-b border-gray-200 cursor-pointer transition-all duration-300 ease-in-out"
+                            class="py-4 px-4 border-b border-gray-200 cursor-pointer transition-all duration-500 ease-in-out relative overflow-hidden group"
                             @click="setActiveTab(index)">
-                            <a class="font-sora text-[18px] font-bold transition-all duration-300 ease-in-out"
+                            <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 ease-in-out group-hover:w-full"></div>
+                            <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 ease-in-out" :class="{'w-full': activeTab === index}"></div>
+                            
+                            <a class="font-sora text-[18px] font-bold transition-all duration-500 ease-in-out"
                                 :class="activeTab === index ? 'text-primary' : 'text-black/75 hover:text-black'">
                                 {{ tab.title }}
                             </a>
@@ -143,95 +150,31 @@ const toggleMobileDropdown = () => {
 </template>
 
 <style scoped>
-
-.border-beam-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.border-beam-container::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: -30%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, transparent 25%, #6464FA 50%, transparent 75%, transparent);
-  width: 80%;
-  animation: borderWalkBottom 2.0s infinite linear;
-}
-
-@keyframes borderWalkBottom {
-  0% {
-    transform: translateX(0%);
-  }
-
-  100% {
-    transform: translateX(600%);
-  }
-}
-
-/* Animasi untuk perpindahan konten tab */
-.tab-content-enter-active,
-.tab-content-leave-active {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tab-content-enter-from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-}
-
-.tab-content-leave-to {
-    opacity: 0;
-    transform: translateY(-20px) scale(1.05);
-}
-
-.tab-content-enter-to,
-.tab-content-leave-from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-/* Animasi tambahan untuk elemen dalam konten */
-.tab-content-wrapper>* {
-    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    opacity: 0;
-    transform: translateY(15px);
-}
-
-.tab-content-wrapper>*:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.tab-content-wrapper>*:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.tab-content-wrapper>*:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-/* Animasi dropdown mobile */
+/* Animasi untuk dropdown mobile */
 .dropdown-enter-active,
 .dropdown-leave-active {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .dropdown-enter-from,
 .dropdown-leave-to {
-    opacity: 0;
-    transform: translateY(-10px);
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
-@keyframes slideInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Animasi untuk konten tab */
+.tab-content-enter-active,
+.tab-content-leave-active {
+  transition: all 0.5s ease;
 }
 
-/* Animasi hover untuk tab items */
-.cursor-pointer:hover {
-    transform: translateX(4px);
+.tab-content-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.tab-content-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
 }
 </style>

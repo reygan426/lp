@@ -9,7 +9,7 @@ import Dini from '@/assets/team/dini.png'
 import Pandith from '@/assets/team/pandith.jpg'
 import Taufik from '@/assets/team/taufik.jpg'
 import Endar from '@/assets/team/endar.jpg'
-import Miryam from '@/assets/team/miryam.jpg'
+import Miryam from '@/assets/team/miryam2.png'
 import Arifnaldo from '@/assets/team/arfinaldo.jpg'
 
 const section1Visible = ref(false)

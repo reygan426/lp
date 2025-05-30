@@ -6,7 +6,7 @@ import Bg4 from '@/assets/bg4.jpg'
 import Bg5Mbl from '@/assets/bg5-mbl.jpg'
 import Bg5 from '@/assets/bg5.jpg'
 import Bg6 from '@/assets/bg6.jpg'
-import Bg6Mbl from '@/assets/bg6-mbl.jpg'
+// import Bg6Mbl from '@/assets/bg6-mbl.jpg'
 import Bg7 from '@/assets/bg7.jpg'
 import Bg8 from '@/assets/bg8.jpg'
 import Bg9 from '@/assets/bg9.jpg'
@@ -53,7 +53,7 @@ export const slides: HeroSlider[] = [
         title: "Petakan Potensi & Karakter dengan Praktis untuk Tumbuh Bersama",
         description: "Temukan cara praktis untuk memetakan potensi dan karakter — baik untuk individu, keluarga, tim sekolah, maupun perusahaan.",
         image: Bg6,
-        image2: Bg6Mbl
+        image2: Bg6
     },
     {
         id: 7,

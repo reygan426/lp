@@ -1,14 +1,20 @@
-<script >
+<script>
 import ButtonSection from '@/components/ButtonSection.vue'
 import TextBody from '@/components/TextBody.vue'
 import TitleSection from '@/components/TitleSection.vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import Store from '@/assets/icon/store.png'
+import Sparkles from '@/assets/sp.png'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
 export default {
     components: {
         TitleSection,
         TextBody,
-        ButtonSection
+        ButtonSection,
+        Swiper,
+        SwiperSlide,
     },
     setup() {
         const macWindow = ref(null)
@@ -20,27 +26,31 @@ export default {
         const tabs = [
             {
                 title: "Jatidiri Sekolah",
-                image: 'https://static.promediateknologi.id/crop/220x0:1292x935/0x0/webp/photo/p2/238/2024/07/08/excited-primary-school-kids-wearing-uniforms-carrying-backpack-running-cheerfully_603656-3668-1906711789.jpg',
+                image: 'https://cms.jatidiri.app/storage/programs/w3MAlfzsnaiUrdOH1qHAgfcotz031yMIBvuj0RNS.jpg',
                 content: "Jatidiri.app adalah platform revolusioner yang menggabungkan teknologi mutakhir dengan layanan psikologi profesional untuk membantu individu, keluarga, institusi pendidikan, dan perusahaan memahami potensi diri, meningkatkan kualitas hidup, dan membangun sumber daya manusia yang berdaya saing. <br> Jatidiri.app sejalan dengan misi ini, menyediakan tes dan konseling online yang membantu sekolah menerapkan pendidikan berdiferensiasi sesuai Kurikulum Merdeka. Dengan fitur -fitur yang disesuaikan dengan kebutuhan sekolah, Jatidiri.app adalah mitra tepat untuk mendukung kebutuhan konseling, karakter siswa, dan prestasi akademik sekolah.",
-                features: ["Test Bakat & Karakter", "Test Gaya Belajar", "Test Kecanduan Gadget", 'Test Kemampuan Kognitif']
+                features: ["Test Bakat & Karakter", "Test Gaya Belajar", "Test Kecanduan Gadget", 'Test Kemampuan Kognitif'],
+                link: '/jatidiri-sekolah'
             },
             {
                 title: "Jatidiri Corporate",
-                image: 'https://static.promediateknologi.id/crop/220x0:1292x935/0x0/webp/photo/p2/238/2024/07/08/excited-primary-school-kids-wearing-uniforms-carrying-backpack-running-cheerfully_603656-3668-1906711789.jpg',
+                image: 'https://media.istockphoto.com/id/2156295565/photo/asian-young-entrepreneur-applause-congratulating-colleague-achievement-in-office-meeting-room.webp?a=1&b=1&s=612x612&w=0&k=20&c=qABgavnNJDlXa2Bh5TmcOmZy6ygwunvGuUGtb_7TlJc=',
                 content: "Jatidiri Corporate adalah solusi inovatif yang menggabungkan teknologi psikometri dan layanan psikologi profesional untuk perusahaan. Kami membantu organisasi memahami potensi karyawan, meningkatkan produktivitas, serta menciptakan lingkungan kerja yang sehat dan berdaya saing tinggi. <br> Dengan fitur tes dan konseling berbasis data, Jatidiri Corporate menjadi mitra strategis untuk pengembangan SDM, rekrutmen yang lebih tepat, hingga peningkatan loyalitas dan kinerja karyawan.",
-                features: ["Tes Potensi dan Karakter", "Tes Kecocokan Karier", "Tes Kepemimpinan dan Kolaborasi", 'Tes Kemampuan Kognitif']
+                features: ["Tes Potensi dan Karakter", "Tes Kecocokan Karier", "Tes Kepemimpinan dan Kolaborasi", 'Tes Kemampuan Kognitif'],
+                link: '/jatidiri-corporate'
             },
             {
                 title: "Jatidiri Keluarga",
-                image: 'https://static.promediateknologi.id/crop/220x0:1292x935/0x0/webp/photo/p2/238/2024/07/08/excited-primary-school-kids-wearing-uniforms-carrying-backpack-running-cheerfully_603656-3668-1906711789.jpg',
+                image: 'https://media.istockphoto.com/id/1964317182/photo/happy-big-family-grandfather-grandmother-mother-father-and-granddaughter-having-fun-living.webp?a=1&b=1&s=612x612&w=0&k=20&c=k4sbBHZrBoqJtfeVUq0AanjPKRPjyzjnCBMr_1NitYA=',
                 content: "Jatidiri Keluarga adalah platform yang dirancang untuk membantu keluarga membangun hubungan yang harmonis, memahami dinamika emosi, dan mendukung tumbuh kembang anak secara optimal. Kami hadir dengan layanan tes dan konseling berbasis psikologi profesional yang bisa diakses secara fleksibel dan personal. <br> Dengan pendekatan yang disesuaikan untuk tiap anggota keluarga, Jatidiri Keluarga menjadi mitra terpercaya dalam menciptakan rumah yang penuh empati, komunikasi efektif, dan kesejahteraan mental.",
-                features: ["Tes Potensi dan Karakter", "Konseling Keluarga", "Konseling Pengembangan Diri", 'Tes Kesehatan Mental Keluarga']
+                features: ["Tes Potensi dan Karakter", "Konseling Keluarga", "Konseling Pengembangan Diri", 'Tes Kesehatan Mental Keluarga'],
+                link: '/jatidiri-keluarga'
             },
             {
                 title: "Jatidiri Ku",
-                image: 'https://static.promediateknologi.id/crop/220x0:1292x935/0x0/webp/photo/p2/238/2024/07/08/excited-primary-school-kids-wearing-uniforms-carrying-backpack-running-cheerfully_603656-3668-1906711789.jpg',
+                image: 'https://media.istockphoto.com/id/2158569735/photo/confident-asian-young-man-outdoors-with-water-bottle.webp?a=1&b=1&s=612x612&w=0&k=20&c=7NnvYgtb8kVH69fZ7X1pYMQ1PZ7ZAGtzQcmSNx_sZiE=',
                 content: "Jatidiriku adalah layanan personalisasi psikologis untuk kamu yang ingin mengenal diri lebih dalam. Melalui pendekatan berbasis data dan profesional, kami bantu kamu memahami kekuatan pribadi, pola pikir, dan arah kehidupan yang paling sesuai. <br> Dapatkan panduan untuk mengambil keputusan lebih tepat dalam studi, karier, relasi, dan pengembangan diri melalui tes dan konseling yang dirancang khusus untuk kebutuhanmu.",
-                features: ["Tes Potensi dan Karakter", "Tes Minat dan Bakat", "Konseling Pengembangan Diri", 'Tes Kemampuan Kognitif']
+                features: ["Tes Potensi dan Karakter", "Tes Minat dan Bakat", "Konseling Pengembangan Diri", 'Tes Kemampuan Kognitif'],
+                link: '/jatidiri-ku'
             },
         ]
 
@@ -49,8 +59,17 @@ export default {
 
             const elementTop = macWindow.value.getBoundingClientRect().top
             const windowHeight = window.innerHeight
+            const triggerPoint = windowHeight * 0.4
 
-            isScrolled.value = elementTop < windowHeight * 0.6
+            const scrollProgress = 1 - Math.min(Math.max(elementTop / triggerPoint, 0), 1)
+
+            const minWidth = 90
+            const maxWidth = 100
+            const newWidth = minWidth + (maxWidth - minWidth) * scrollProgress
+
+            macWindow.value.style.maxWidth = `${newWidth}%`
+
+            isScrolled.value = elementTop < triggerPoint
         }
 
         const setActiveTab = async (index) => {
@@ -96,17 +115,20 @@ export default {
             isTransitioning,
             contentKey,
             isLastTab,
-            isFirstTab
+            isFirstTab,
+            Sparkles,
+            Store
         }
     }
 }
 </script>
 
 <template>
-    <div class="w-full h-full py-[80px]">
+    <div class="w-full h-full md:py-[80px]">
+        <!-- tablet & dekstop -->
         <div ref="macWindow"
-            class="max-w-[90%] bg-white mx-auto transition-all duration-500 ease-in-out space-y-4 md:space-y-6 lg:space-y-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px]"
-            :class="{ 'max-w-full': isScrolled }">
+            class="bg-white mx-auto transition-all duration-500 ease-in-out space-y-4 md:space-y-6 lg:space-y-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] hidden md:block"
+            :style="{ maxWidth: isScrolled ? '100%' : '90%' }">
             <div class="w-full flex flex-col items-center justify-center p-10 gap-4">
                 <div class=" bg-[#835EFF] w-fit py-2 px-5 rounded-full">
                     <h6 class="text-[10px] md:text-[12px] lg:text-[16px] text-white">About Us</h6>
@@ -126,8 +148,8 @@ export default {
                                 }" @click="setActiveTab(index)">
                                 <span class="relative z-10 text-[8px] md:text-[12px] lg:text-[20px] font-sora">{{
                                     tab.title }}</span>
-                            <div class="absolute inset-0 bg-[#9898FC] transition-transform duration-300 ease-in-out rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px]"
-                                :class="activeTab === index ? 'translate-y-0' : 'translate-y-full'"></div>
+                                <div class="absolute inset-0 bg-[#9898FC] transition-transform duration-300 ease-in-out rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px]"
+                                    :class="activeTab === index ? 'translate-y-0' : 'translate-y-full'"></div>
                             </div>
                         </div>
                     </div>
@@ -149,11 +171,11 @@ export default {
                             <div class="w-full md:w-[60%] text-white space-y-4 lg:space-y-4">
                                 <h4 class="text-[18px] md:text-[24px] lg:text-[32px] animate-slide-in-top">{{
                                     tabs[activeTab].title }}</h4>
-                                <TextBody class="font-light animate-slide-in-left"><span class="font-light" v-html="tabs[activeTab].content"></span></TextBody>
+                                <TextBody class="font-light animate-slide-in-left"><span class="font-light"
+                                        v-html="tabs[activeTab].content"></span></TextBody>
                                 <div class="grid grid-cols-2 gap-4 md:gap-5 lg:gap-6 animate-slide-in-left">
                                     <div v-for="(feature, index) in tabs[activeTab].features" :key="index"
-                                        class="flex gap-2 items-center"
-                                        :style="{ animationDelay: `${index * 100}ms` }">
+                                        class="flex gap-2 items-center" :style="{ animationDelay: `${index * 100}ms` }">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="w-6 h-6 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -164,12 +186,57 @@ export default {
                                     </div>
                                 </div>
                                 <div class="pt-4 md:pt-6 lg:pt-8 animate-slide-in-bottom">
-                                    <ButtonSection>Know More</ButtonSection>
+                                    <a :href="tabs[activeTab].link">
+                                        <ButtonSection>Know More
+                                        </ButtonSection>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="py-6 space-y-4 md:hidden">
+            <div class="px-6">
+                <TitleSection class="text-primary" :text="'Our Package'"></TitleSection>
+            </div>
+
+            <div class="pl-6">
+                <swiper class="w-full" :slides-per-view="1.2" :space-between="16" :centered-slides="false"
+                    :grab-cursor="true" :watch-slides-progress="true">
+                    <swiper-slide v-for="(tab, index) in tabs" :key="index">
+                        <div class="rounded-[16px] p-4 space-y-4 relative border-2 border-white/50 h-full">
+                            <div class="absolute inset-0">
+                                <img :src="Sparkles" alt=""
+                                    class="w-full h-full object-cover object-center rounded-[16px] border-2 border-white/50">
+                            </div>
+                            <div class="flex gap-4 relative z-2">
+                                <div class="w-12 h-12 rounded-full">
+                                    <img :src="tab.image" alt="" class="w-full h-full object-cover rounded-full">
+                                </div>
+                                <div>
+                                    <h6 class="text-[16px] font-bold text-white">{{ tab.title }}</h6>
+                                    <p class="text-[12px] text-white">Package</p>
+                                </div>
+                            </div>
+                            <div class="w-full flex gap-4 items-center relative z-2">
+                                <div class="w-full border-2 border-white/50 rounded-full">
+                                    <a :href="'https://cek.jatidiri.app/'">
+                                        <ButtonSection class="w-full flex justify-center items-center">Check Now
+                                        </ButtonSection>
+                                    </a>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-white rounded-full p-2 border-2 border-primary/50 flex justify-center items-center">
+                                    <img :src="Store" alt="" class="w-6 object-cover">
+                                </div>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                </swiper>
             </div>
         </div>
     </div>
@@ -195,7 +262,7 @@ export default {
 /* Content animations */
 @keyframes slideInRight {
     from {
-        transform: translateX(-50px);
+        transform: translateX(-10px);
         opacity: 0;
     }
 
@@ -207,7 +274,7 @@ export default {
 
 @keyframes slideInTop {
     from {
-        transform: translateY(-50px);
+        transform: translateY(-10px);
         opacity: 0;
     }
 
@@ -219,7 +286,7 @@ export default {
 
 @keyframes slideInLeft {
     from {
-        transform: translateX(50px);
+        transform: translateX(10px);
         opacity: 0;
     }
 
@@ -231,7 +298,7 @@ export default {
 
 @keyframes slideInBottom {
     from {
-        transform: translateY(50px);
+        transform: translateY(10px);
         opacity: 0;
     }
 
@@ -272,5 +339,24 @@ export default {
 
 .animate-fade-in-feature {
     animation: fadeInFeature 0.6s ease-out both;
+}
+
+/* Swiper slide styling */
+.swiper-slide {
+    height: auto;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+    opacity: 0.7;
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
 }
 </style>

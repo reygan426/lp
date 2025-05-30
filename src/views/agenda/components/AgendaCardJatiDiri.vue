@@ -5,7 +5,7 @@ import TextBody from '@/components/TextBody.vue'
 import ButtonSection from '@/components/ButtonSection.vue'
 
 // Dummy Props / Data
-const gambar = ref('https://placehold.co/600x400')
+const gambar = ref('https://plus.unsplash.com/premium_photo-1665990294269-f1d6c35ab9d1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHNpY29sb2d5fGVufDB8fDB8fHww')
 const judul = ref('Workshop UI/UX Design untuk Pemula')
 const tanggal = ref('24 Mei 2025')
 const lokasi = ref('Ruang Multimedia, Gedung B')

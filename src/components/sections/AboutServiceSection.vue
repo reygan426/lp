@@ -7,15 +7,15 @@ import People from '@/assets/people.png'
 import Org3 from '@/assets/org3.png'
 
 defineProps({
-  category: {
-    type: String,
-  },
-  title : {
-    type: String,
-  },
-  description: {
-    type: String,
-  }
+    category: {
+        type: String,
+    },
+    title: {
+        type: String,
+    },
+    description: {
+        type: String,
+    }
 });
 </script>
 
@@ -40,15 +40,17 @@ defineProps({
             </div>
 
 
-            <div
-                class="absolute bottom-3 right-3 w-[200px] p-3 lg:bottom-6 lg:right-6 lg:w-[280px] lg:p-8 bg-primary/20 backdrop-blur-sm rounded-[4px] md:rounded-[8px] lg:rounded-[16px] path-box hidden md:block">
-                <div class="font-sora space-y-3">
-                    <NumberTicker class="text-[28px] md:text-[32px] lg:text-[36px] font-bold text-white" :value="4320"
-                        :duration="5000" />
-                    <TextBody class="text-white" weight-text="font-light">highly rated Chatbot by millions of users!
-                    </TextBody>
-                    <div>
-                        <img :src="People" alt="Happy users">
+            <div class="w-full h-full">
+                <div
+                    class="absolute bottom-3 right-3 w-[200px] p-3 lg:bottom-6 lg:right-6 lg:w-[280px] lg:p-8 bg-primary/20 backdrop-blur-sm rounded-[4px] md:rounded-[8px] lg:rounded-[16px] path-box hidden md:block">
+                    <div class="font-sora space-y-3">
+                        <NumberTicker class="text-[28px] md:text-[32px] lg:text-[36px] font-bold text-white"
+                            :value="4320" :duration="5000" />
+                        <TextBody class="text-white" weight-text="font-light">highly rated Chatbot by millions of users!
+                        </TextBody>
+                        <div>
+                            <img :src="People" alt="Happy users">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,16 +68,18 @@ defineProps({
                 </TextBody>
             </div>
 
-            <a href="https://cek.jatidiri.app/login" target="_blank">
-                <ButtonSection>Check Now</ButtonSection>
-            </a>
+            <div>
+                <a href="https://cek.jatidiri.app/login" target="_blank">
+                    <ButtonSection>Check Now</ButtonSection>
+                </a>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 .about-container {
-  filter: url("#goo") drop-shadow(0px -2px 0px transparent)
+    filter: url("#goo") drop-shadow(0px -2px 0px transparent)
 }
 
 .path-box {
@@ -83,24 +87,24 @@ defineProps({
 }
 
 .about-box {
-    clip-path: polygon(100% 86%, 90% 100%, 0% 100%, 0% 0%, 100% 0%);
+    clip-path: polygon(100% 80%, 86% 100%, 0% 100%, 0% 0%, 100% 0%);
 }
 
 @media (min-width: 320px) {
     .about-box {
-        clip-path: polygon(100% 86%, 90% 100%, 0% 100%, 0% 0%, 100% 0%);
+        clip-path: polygon(100% 80%, 86% 100%, 0% 100%, 0% 0%, 100% 0%);
     }
 }
 
 @media (min-width: 390px) {
     .about-box {
-        clip-path: polygon(100% 86%, 92% 100%, 0% 100%, 0% 0%, 100% 0%);
+        clip-path: polygon(100% 80%, 88% 100%, 0% 100%, 0% 0%, 100% 0%);
     }
 }
 
 @media (min-width: 560px) {
     .about-box {
-        clip-path: polygon(100% 86%, 94% 100%, 0% 100%, 0% 0%, 100% 0%);
+        clip-path: polygon(100% 80%, 90% 100%, 0% 100%, 0% 0%, 100% 0%);
     }
 }
 

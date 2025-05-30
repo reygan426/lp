@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <div class="p-3 md:p-5 lg:p-8 h-[80vh] lg:h-[96vh]">
+    <div class="p-3 md:p-5 lg:p-8 h-[50vh] lg:h-[96vh]">
         <div class="w-full h-full relative">
             <div class="w-full h-full relative flex items-center">
                 <div class="absolute inset-0 w-full h-full hero3-container overflow-hidden">
@@ -103,42 +103,42 @@ const props = defineProps<Props>();
 }
 
 .hero3-box {
-    clip-path: polygon(40% 100%, 40% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(40% 100%, 40% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
 }
 
 @media (min-width: 320px) {
     .hero3-box {
-        clip-path: polygon(40% 100%, 40% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(40% 100%, 40% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 360px) {
     .hero3-box {
-        clip-path: polygon(46% 100%, 46% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(46% 100%, 46% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 440px) {
     .hero3-box {
-        clip-path: polygon(52% 100%, 52% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(52% 100%, 52% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 460px) {
     .hero3-box {
-        clip-path: polygon(58% 100%, 58% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(58% 100%, 58% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 560px) {
     .hero3-box {
-        clip-path: polygon(64% 100%, 64% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(64% 100%, 64% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 680px) {
     .hero3-box {
-        clip-path: polygon(69% 100%, 69% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(69% 100%, 69% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 

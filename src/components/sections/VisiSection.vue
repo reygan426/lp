@@ -6,28 +6,50 @@ import Phone from '@/assets/icon/phone.png'
 import Brain from '@/assets/icon/brain.png'
 import Pack from '@/assets/icon/pack.png'
 import Community from '@/assets/icon/comunity.png'
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import SpinningText from '../ui/spinning-text/SpinningText.vue';
 
-// Add proper type annotation for the ref
 const macWindow = ref<HTMLElement | null>(null)
-const isScrolled = ref(false)
+const scrollProgress = ref(0)
 
 const handleScroll = () => {
     if (!macWindow.value) return
 
     const elementTop = macWindow.value.getBoundingClientRect().top
+    const elementBottom = macWindow.value.getBoundingClientRect().bottom
     const windowHeight = window.innerHeight
-
-    isScrolled.value = elementTop < windowHeight * 0.6
+    
+    const startTrigger = windowHeight * 0.4
+    const endTrigger = windowHeight * 0.2
+    
+    if (elementTop <= startTrigger && elementBottom >= endTrigger) {
+        const totalRange = startTrigger - endTrigger
+        const currentPosition = Math.max(0, startTrigger - elementTop)
+        let progress = Math.min(1, currentPosition / totalRange)
+        
+        progress = 1 - Math.pow(1 - progress, 3)
+        
+        scrollProgress.value = progress
+    } else if (elementTop > startTrigger) {
+        scrollProgress.value = 0
+    } else {
+        scrollProgress.value = 1
+    }
 }
+
+const dynamicWidth = computed(() => {
+    const baseWidth = 90
+    const maxWidth = 100
+    const widthDiff = maxWidth - baseWidth
+    
+    return baseWidth + (widthDiff * scrollProgress.value)
+})
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll)
     handleScroll()
 })
 
-// Don't forget to clean up the event listener
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
 })
@@ -36,8 +58,11 @@ onUnmounted(() => {
 <template>
     <div class="md:py-[64px] md:px-[40px] lg:px-0 lg:py-[120px]">
         <div ref="macWindow" class="visi-container">
-            <div class="w-[90%] mx-auto lg:py-[120px] lg:px-[40px] bg-white rounded-[8px] md:rounded-[16px] lg:rounded-[24px] transition-all duration-500 visi-box"
-                :class="{ '!w-[100%]': isScrolled }">
+            <div class="mx-auto lg:py-[120px] lg:px-[40px] bg-white rounded-[8px] md:rounded-[16px] lg:rounded-[24px] visi-box"
+                :style="{ 
+                    width: `${dynamicWidth}%`,
+                    transition: 'width 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }">
                 <div class="w-[75vw] md:w-[80vw] py-10 md:py-0 mx-auto space-y-6 md:space-y-8 lg:space-y-12">
                     <div class="w-full h-full flex flex-col md:flex-row justify-between items-start gap-8 md:gap-0">
                         <h6 class="w-fit text-[14px] md:text-[16px] lg:text-[20px] font-medium">Visi Jatidiri</h6>
@@ -51,9 +76,9 @@ onUnmounted(() => {
                         class="w-full flex flex-col md:flex-row gap-20 md:gap-20 lg:gap-20 md:justify-center md:items-center">
                         <div class="w-full md:w-1/2 relative h-[50vh] lg:h-[70vh]">
                             <div class="absolute inset-0">
-                                <img src="https://images.unsplash.com/photo-1714646793444-0f80fd0e1047?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                <img src="https://cms.jatidiri.app/storage/identities/7RgsjisHfvEf9pJeSVEuIH9e6S4HD0mALGz6XGJS.jpg"
                                     alt=""
-                                    class="w-full h-full rounded-[8px] md:rounded-[16px] lg:rounded-[24px] object-cover">
+                                    class="w-full h-full rounded-[8px] md:rounded-[16px] lg:rounded-[24px] object-cover object-right">
                             </div>
 
                             <div

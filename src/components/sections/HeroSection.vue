@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-3 md:p-5 lg:p-8 h-[80vh] lg:h-[96vh]">
+  <div class="p-3 md:p-5 lg:p-8 h-[50vh] lg:h-[96vh]">
     <swiper :modules="[Autoplay, Pagination, EffectFade]" :space-between="0" :slides-per-view="1" :effect="'fade'"
       :autoplay="{
         delay: 5000,
@@ -77,9 +77,6 @@ onMounted(() => {
       <swiper-slide v-for="(slide, index) in sliders" :key="index" :class="`slide-${index}`">
         <div class="w-full h-full relative flex items-center">
           <div class="absolute inset-0 w-full h-full hero-container overflow-hidden">
-            <img :src="slide.image" :alt="slide.title"
-              class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero-box">
-
             <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
               xmlns="http://www.w3.org/2000/svg" version="1.1">
               <defs>
@@ -91,6 +88,8 @@ onMounted(() => {
                 </filter>
               </defs>
             </svg>
+            <img :src="slide.image" :alt="slide.title"
+              class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero-box">
           </div>
 
           <div class="relative z-10 md:px-[40px] lg:px-[88px] space-y-4 lg:space-y-6 hidden md:block">
@@ -149,42 +148,42 @@ onMounted(() => {
 }
 
 .hero-box {
-  clip-path: polygon(44% 100%, 44% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+  clip-path: polygon(44% 100%, 44% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
 }
 
 @media (min-width: 320px) {
   .hero-box {
-    clip-path: polygon(58% 100%, 58% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(58% 100%, 58% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 
 @media (min-width: 360px) {
   .hero-box {
-    clip-path: polygon(64% 100%, 64% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(64% 100%, 64% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 
 @media (min-width: 440px) {
   .hero-box {
-    clip-path: polygon(64% 100%, 64% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(64% 100%, 64% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 
 @media (min-width: 460px) {
   .hero-box {
-    clip-path: polygon(70% 100%, 70% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(70% 100%, 70% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 
 @media (min-width: 560px) {
   .hero-box {
-    clip-path: polygon(74% 100%, 74% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(74% 100%, 74% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 
 @media (min-width: 680px) {
   .hero-box {
-    clip-path: polygon(78% 100%, 78% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(78% 100%, 78% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
   }
 }
 

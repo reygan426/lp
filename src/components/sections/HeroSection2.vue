@@ -13,7 +13,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <div class="p-3 md:p-5 lg:p-8 h-[80vh] lg:h-[96vh]">
+    <div class="p-3 md:p-5 lg:p-8 h-[50vh] lg:h-[96vh]">
         <div class="w-full h-full relative">
             <div class="w-full h-full relative flex items-center">
                 <div class="absolute inset-0 w-full h-full hero2-container overflow-hidden">
@@ -21,7 +21,7 @@ const props = defineProps<Props>();
                         class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box hidden md:block">
 
                     <img :src="sliders[0].image2" :alt="sliders[0].title"
-                        class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box md:hidden">
+                        class="w-full h-full object-cover object-[75%_75%] obejct-top md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box md:hidden">
 
                     <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
                         xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -104,42 +104,42 @@ const props = defineProps<Props>();
 }
 
 .hero2-box {
-    clip-path: polygon(40% 100%, 40% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+    clip-path: polygon(40% 100%, 40% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
 }
 
 @media (min-width: 320px) {
     .hero2-box {
-        clip-path: polygon(50% 100%, 50% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(50% 100%, 50% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 360px) {
     .hero2-box {
-        clip-path: polygon(56% 100%, 56% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(56% 100%, 56% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 440px) {
     .hero2-box {
-        clip-path: polygon(56% 100%, 56% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(56% 100%, 56% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 460px) {
     .hero2-box {
-        clip-path: polygon(62% 100%, 62% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(62% 100%, 62% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 560px) {
     .hero2-box {
-        clip-path: polygon(70% 100%, 70% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(70% 100%, 70% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
 @media (min-width: 680px) {
     .hero2-box {
-        clip-path: polygon(75% 100%, 75% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 100%);
+        clip-path: polygon(75% 100%, 75% 84%, 100% 84%, 100% 0%, 0% 0%, 0% 100%);
     }
 }
 
