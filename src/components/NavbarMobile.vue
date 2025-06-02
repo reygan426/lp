@@ -1,7 +1,7 @@
 <template>
-  <nav ref="navRef" class="mx-auto px-6">
+  <nav ref="navRef" class="custom-nav">
     <ul>
-      <li v-for="(icon, index) in icons" :key="index" :class="{ active: activeIndex === index }" @click="handleClick(index, $event)">
+      <li v-for="(icon, index) in icons" :key="index" :class="{ active: activeIndex === index, animating: isAnimating }" :style="getItemAnimationStyle(index)" @click="handleClick(index)">
         <router-link :to="links[index]" class="nav-link" @click.prevent>
           <span class="icon" v-html="icon"></span>
           <span class="label">{{ labels[index] }}</span>
@@ -9,22 +9,25 @@
       </li>
     </ul>
     <div class="effect">
-      <div class="circle"></div>
+      <div class="circle" :class="{ animating: isAnimating }"></div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch } from 'vue';
+import { ref, onMounted, nextTick, watch, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const navRef = ref<HTMLElement | null>(null);
 const activeIndex = ref(2);
+const previousIndex = ref(2);
 const route = useRoute();
 const router = useRouter();
 const isNavigating = ref(false);
+const isAnimating = ref(false);
 
 const links = ['/', '/package', '/berita', '/about-us', '/our-team'];
+const labels = ['Home', 'Service', 'Blog', 'About', 'Team'];
 
 const icons = [
   `<svg viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,107 +64,313 @@ const icons = [
 </svg>`,
 ];
 
-const labels = ['Home', 'Service', 'Blog', 'About', 'Team'];
+// 🎯 Unified Size System - Semua ukuran berdasarkan breakpoint
+const sizeConfig = {
+  xs: {
+    // <= 360px
+    nav: { height: 90, borderRadius: 16, padding: 12 },
+    item: { size: 58, marginTop: 16 },
+    icon: { size: 19, scale: 0.73, translateY: -20 },
+    circle: { size: 38, topOffset: 15 },
+    animation: { duration: 400, delay: 50 },
+    curve: {
+      beforeLeft: -4,
+      beforeRight: -4,
+      beforeHeight: 110,
+      beforeBottom: -0.1,
+      beforeShadowY: 0.5,
+      beforeShadowBlur: 0.2,
+      afterHeight: 30,
+      afterBottom: -45,
+      afterLeft: -5,
+      afterRight: -5,
+      afterWidth: 10,
+    },
+    effect: { rightOffset: -3 },
+    label: { offsetY: 16 }, // Tambahan untuk posisi label
+  },
+  sm: {
+    // 361px - 428px
+    nav: { height: 100, borderRadius: 18, padding: 15 },
+    item: { size: 67, marginTop: 20 },
+    icon: { size: 21, scale: 0.81, translateY: -25 },
+    circle: { size: 45, topOffset: 15 },
+    animation: { duration: 500, delay: 60 },
+    curve: {
+      beforeLeft: -5,
+      beforeRight: -5,
+      beforeHeight: 115,
+      beforeBottom: -0.12,
+      beforeShadowY: 0.55,
+      beforeShadowBlur: 0.22,
+      afterHeight: 35,
+      afterBottom: -50,
+      afterLeft: -6,
+      afterRight: -6,
+      afterWidth: 12,
+    },
+    effect: { rightOffset: -4 },
+    label: { offsetY: 17 }, // Tambahan untuk posisi label
+  },
+  md: {
+    // 429px - 480px
+    nav: { height: 105, borderRadius: 20, padding: 15 },
+    item: { size: 70, marginTop: 24 },
+    icon: { size: 23, scale: 0.88, translateY: -27 },
+    circle: { size: 47, topOffset: 15 },
+    animation: { duration: 600, delay: 70 },
+    curve: {
+      beforeLeft: -6,
+      beforeRight: -6,
+      beforeHeight: 118,
+      beforeBottom: -0.13,
+      beforeShadowY: 0.57,
+      beforeShadowBlur: 0.23,
+      afterHeight: 40,
+      afterBottom: -55,
+      afterLeft: -7,
+      afterRight: -7,
+      afterWidth: 14,
+    },
+    effect: { rightOffset: -6 },
+    label: { offsetY: 18 }, // Tambahan untuk posisi label
+  },
+  lg: {
+    // >= 769px
+    nav: { height: 120, borderRadius: 24, padding: 15 },
+    item: { size: 80, marginTop: 30 },
+    icon: { size: 26, scale: 1.0, translateY: -32 },
+    circle: { size: 60, topOffset: 15 },
+    animation: { duration: 700, delay: 80 },
+    curve: {
+      beforeLeft: -10,
+      beforeRight: -10,
+      beforeHeight: 125,
+      beforeBottom: -0.18,
+      beforeShadowY: 0.65,
+      beforeShadowBlur: 0.3,
+      afterHeight: 50,
+      afterBottom: -65,
+      afterLeft: -10,
+      afterRight: -10,
+      afterWidth: 20,
+    },
+    effect: { rightOffset: -8 },
+    label: { offsetY: 20 }, // Tambahan untuk posisi label
+  },
+};
 
-// Fungsi untuk mendapatkan index berdasarkan current route
+// Get current breakpoint
+const getBreakpoint = () => {
+  const vw = window.innerWidth;
+  if (vw <= 360) return 'xs';
+  if (vw <= 428) return 'sm';
+  if (vw <= 480) return 'md';
+  return 'lg';
+};
+
+// Apply unified size system
+const applyUnifiedSizes = () => {
+  if (!navRef.value) return;
+
+  const breakpoint = getBreakpoint();
+  const config = sizeConfig[breakpoint];
+
+  // Set all CSS custom properties at once
+  const properties = {
+    '--nav-height': `${config.nav.height}px`,
+    '--nav-border-radius': `${config.nav.borderRadius}px`,
+    '--nav-padding': `${config.nav.padding}px`,
+    '--w-h-item': `${config.item.size}px`,
+    '--item-margin-top': `${config.item.marginTop}px`,
+    '--icon-size': `${config.icon.size}px`,
+    '--icon-scale': config.icon.scale.toString(),
+    '--translate-y': `${config.icon.translateY}px`,
+    '--circle-size': `${config.circle.size}px`,
+    '--circle-top-offset': `${config.circle.topOffset}px`,
+    '--base-animation-duration': `${config.animation.duration}ms`,
+    '--animation-base-delay': `${config.animation.delay}ms`,
+    '--curve-before-left': `${config.curve.beforeLeft}px`,
+    '--curve-before-right': `${config.curve.beforeRight}px`,
+    '--curve-before-height': `${config.curve.beforeHeight}%`,
+    '--curve-before-bottom': config.curve.beforeBottom.toString(),
+    '--curve-before-shadow-y': config.curve.beforeShadowY.toString(),
+    '--curve-before-shadow-blur': config.curve.beforeShadowBlur.toString(),
+    '--curve-after-height': `${config.curve.afterHeight}px`,
+    '--curve-after-bottom': `${config.curve.afterBottom}px`,
+    '--curve-after-left': `${config.curve.afterLeft}px`,
+    '--curve-after-right': `${config.curve.afterRight}px`,
+    '--curve-after-width': `${config.curve.afterWidth}px`,
+    '--effect-right-offset': `${config.effect.rightOffset}px`,
+    '--label-offset-y': `${config.label.offsetY}px`, // Tambahan untuk posisi label
+  };
+
+  Object.entries(properties).forEach(([property, value]) => {
+    navRef.value!.style.setProperty(property, value);
+  });
+};
+
+const getItemAnimationStyle = (index: number) => {
+  if (!isAnimating.value) return {};
+
+  const distance = Math.abs(index - previousIndex.value);
+  const direction = index > previousIndex.value ? 1 : -1;
+  const baseDelay = 50;
+  const staggerDelay = distance * 30;
+
+  return {
+    '--animation-delay': `${baseDelay + staggerDelay}ms`,
+    '--stagger-direction': direction,
+  };
+};
+
 const getCurrentIndex = () => {
   const currentPath = route.path;
   const index = links.findIndex((link) => link === currentPath);
   return index !== -1 ? index : 2;
 };
 
-const handleClick = async (index: number, event: MouseEvent) => {
-  if (isNavigating.value) return;
+const handleClick = async (index: number) => {
+  if (isNavigating.value || isAnimating.value) return;
 
   isNavigating.value = true;
+  isAnimating.value = true;
+  previousIndex.value = activeIndex.value;
 
-  // Update posisi circle dan active index bersamaan
-  const target = event.currentTarget as HTMLElement;
-  activeIndex.value = index;
-  await updatePosition(target.offsetLeft);
+  const distance = Math.abs(index - previousIndex.value);
+  const baseDelay = 150;
+  const animationDuration = Math.max(400, distance * 100);
+  const totalDelay = baseDelay + animationDuration;
 
-  // Navigasi setelah animasi selesai
+  setTimeout(() => {
+    activeIndex.value = index;
+    updatePosition();
+  }, 80);
+
   setTimeout(() => {
     router.push(links[index]).finally(() => {
       setTimeout(() => {
         isNavigating.value = false;
-      }, 100);
+        isAnimating.value = false;
+        previousIndex.value = index;
+      }, 150);
     });
-  }, 300);
+  }, totalDelay);
 };
 
-const updatePosition = (offsetLeft: number, liWidth = 80, circleWidth = 60) => {
+const updatePosition = () => {
   return new Promise<void>((resolve) => {
-    const centerOffset = offsetLeft + liWidth / 2 - circleWidth / 2;
-    if (navRef.value) {
-      navRef.value.style.setProperty('--position-x-active', `${centerOffset}px`);
-      requestAnimationFrame(() => resolve());
-    } else {
+    if (!navRef.value) {
       resolve();
+      return;
     }
+
+    const lis = navRef.value.querySelectorAll('li');
+    const activeItem = lis[activeIndex.value];
+
+    if (activeItem) {
+      const navRect = navRef.value.getBoundingClientRect();
+      const itemRect = activeItem.getBoundingClientRect();
+      const breakpoint = getBreakpoint();
+      const circleSize = sizeConfig[breakpoint].circle.size;
+
+      const itemCenter = itemRect.left + itemRect.width / 2 - navRect.left;
+      const circlePosition = itemCenter - circleSize / 2;
+
+      navRef.value.style.setProperty('--position-x-active', `${circlePosition}px`);
+    }
+
+    requestAnimationFrame(() => resolve());
   });
 };
 
-// Watch untuk perubahan route
+let resizeTimeout: ReturnType<typeof setTimeout>;
+const handleResize = () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    applyUnifiedSizes();
+    updatePosition();
+  }, 150);
+};
+
 watch(
   () => route.path,
   async () => {
     if (isNavigating.value) return;
-
     const newIndex = getCurrentIndex();
     if (newIndex !== activeIndex.value) {
+      previousIndex.value = activeIndex.value;
       activeIndex.value = newIndex;
       await nextTick();
-      const lis = navRef.value?.querySelectorAll('li');
-      const activeItem = lis?.[activeIndex.value] as HTMLElement;
-      if (activeItem) {
-        await updatePosition(activeItem.offsetLeft);
-      }
+      await updatePosition();
     }
   },
   { immediate: true }
 );
 
 onMounted(async () => {
-  activeIndex.value = getCurrentIndex();
+  const initialIndex = getCurrentIndex();
+  activeIndex.value = initialIndex;
+  previousIndex.value = initialIndex;
+
   await nextTick();
-  const lis = navRef.value?.querySelectorAll('li');
-  const activeItem = lis?.[activeIndex.value] as HTMLElement;
-  if (activeItem) {
-    await updatePosition(activeItem.offsetLeft);
-  }
+  applyUnifiedSizes();
+  await updatePosition();
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+  clearTimeout(resizeTimeout);
 });
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600&display=swap');
-
-nav {
+/* 🎯 Unified Navigation System - All sizes controlled by CSS variables */
+.custom-nav {
   color: #000;
   position: fixed;
-  inset: auto 0 0 0;
-  width: min(500px, 100%);
+  inset: auto var(--nav-padding, 15px) 0 var(--nav-padding, 15px);
+  width: calc(100% - calc(var(--nav-padding, 15px) * 2));
+  max-width: calc(500px - calc(var(--nav-padding, 15px) * 2));
   left: 50%;
   transform: translateX(-50%);
-  --w-h-item: 80px;
-  --position-x-active: calc(var(--w-h-item) * 2 + 10px);
   z-index: 10;
-  border-radius: 24px;
-  margin-bottom: 10px;
-  height: 100px;
+  border-radius: var(--nav-border-radius, 24px);
+  height: var(--nav-height, 110px);
   background-color: transparent;
+  overflow: hidden;
+  padding-left: var(--nav-padding, 15px);
+  padding-right: var(--nav-padding, 15px);
+
+  /* Default CSS Variables - Will be overridden by JS */
+  --w-h-item: 75px;
+  --circle-size: 50px;
+  --position-x-active: calc(50% - var(--circle-size) / 2);
+  --base-animation-duration: 600ms;
+  --icon-size: 24px;
+  --icon-scale: 1;
+  --translate-y: -25px;
+  --circle-top-offset: 15px;
+  --item-margin-top: 25px;
+  --animation-delay: 0ms;
+  --stagger-direction: 1;
+  --label-offset-y: 20px; /* Nilai default untuk posisi label */
 }
 
-nav ul {
+.custom-nav ul {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(5, var(--w-h-item));
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: var(--w-h-item);
   justify-content: space-between;
   width: 100%;
+  gap: 0;
+  padding: 0;
+  list-style: none;
 }
 
-nav ul li {
+.custom-nav ul li {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -171,142 +380,227 @@ nav ul li {
   color: #000;
   cursor: pointer;
   text-align: center;
-  margin-top: 20px;
-  width: var(--w-h-item);
+  width: 100%;
   height: var(--w-h-item);
-  /* Smoother transition with better easing */
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center bottom;
+  margin-top: calc((var(--nav-height, 110px) - var(--w-h-item)) / 2 + var(--item-margin-top, 25px));
 }
 
-nav ul li.active {
-  transform: translateY(-30px) scale(1.1);
+.custom-nav ul li.animating {
+  animation: itemPulse var(--base-animation-duration) ease-out;
+  animation-delay: var(--animation-delay);
 }
 
-nav .nav-link {
+@keyframes itemPulse {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.05) translateY(-2px);
+  }
+  60% {
+    transform: scale(0.98) translateY(1px);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.custom-nav ul li.active {
+  transform: translateY(var(--translate-y)) scale(1.1);
+  color: #2563eb;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.custom-nav ul li .icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  transform: scale(var(--icon-scale));
+  transform-origin: center;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.custom-nav ul li .icon svg {
   width: 100%;
   height: 100%;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Improved icon animation */
-nav ul li .icon {
-  width: 26px;
-  height: 26px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transform-origin: center;
-  /* Smoother icon transition */
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-nav ul li .icon svg {
-  width: 100%;
-  height: 100%;
-  transform-origin: center;
-  /* Smooth SVG scaling */
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Active state for icons */
-nav ul li.active .icon svg {
+.custom-nav ul li.active .icon svg {
   transform: scale(1.2);
+  color: #424242;
 }
 
-/* Smooth label animation */
-nav ul li .label {
+.custom-nav ul li .label {
   opacity: 0;
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 4px;
   position: absolute;
   bottom: 0;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
-  color: #000;
-  font-weight: 500;
+  color: #424242;
+  font-weight: 600;
   transform: translateY(10px) scale(0.8);
   transform-origin: center;
+  letter-spacing: 0.3px;
 }
 
-nav ul li.active .label {
+.custom-nav ul li.active .label {
+  transition: 1ms;
   opacity: 1;
-  transform: translateY(25px) scale(1);
+  /* Perubahan di sini - menggunakan variabel untuk posisi label */
+  transform: translateY(var(--label-offset-y, 20px)) scale(1);
+  /* Menambahkan bottom space */
+  padding-bottom: 8px;
 }
 
-nav .effect {
+/* 🎯 Unified Effect System */
+.custom-nav .effect {
   position: absolute;
+  overflow: hidden;
   width: 100%;
   left: 0;
   bottom: 0;
-  padding-top: 120px;
-  height: calc(var(--w-h-item) + 20px);
+  height: calc(var(--w-h-item) + 40px);
   z-index: -1;
-  overflow: hidden;
 }
 
-nav .effect::before {
+.custom-nav .effect::before {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   height: var(--w-h-item);
-  width: calc(var(--position-x-active) - 10px);
-  border-top-right-radius: 8px;
-  transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: calc(var(--position-x-active) - 4px);
   background: #fff;
-  border-top-left-radius: 24px;
+  border-top-right-radius: 8px;
   border-bottom-left-radius: 16px;
-  overflow: hidden;
+  border-top-left-radius: 24px;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-nav .effect::after {
+/* Media Query untuk tablet */
+@media (min-width: 429px) and (max-width: 800px) {
+  .custom-nav .effect::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--w-h-item);
+    width: calc(var(--position-x-active) - 6px);
+    background: #fff;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 16px;
+    border-top-left-radius: 24px;
+  }
+  .custom-nav .effect::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    height: var(--w-h-item);
+    width: calc(var(--position-x-active) - 10px);
+    border-top-left-radius: 8px;
+    transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: #fff;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+.custom-nav .effect::after {
   content: '';
   position: absolute;
   bottom: 0;
   right: 0px;
   height: var(--w-h-item);
-  width: calc(100% - var(--position-x-active) - var(--w-h-item) + 11px);
-  border-top-left-radius: 10px;
-  transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: calc(100% - var(--position-x-active) - var(--circle-size) + var(--effect-right-offset, -3px));
+  border-top-left-radius: 8px;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: #fff;
   border-top-right-radius: 24px;
   border-bottom-right-radius: 16px;
 }
 
-nav .effect .circle {
+/* 🎯 Unified Circle System */
+.custom-nav .effect .circle {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: var(--circle-size);
+  height: var(--circle-size);
   left: var(--position-x-active);
   border-radius: 50%;
   background: #fff;
-  transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  top: 20px;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  top: calc((var(--w-h-item) - var(--circle-size)) / 2 + var(--circle-top-offset, 15px));
   z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-nav .effect .circle::before {
+.custom-nav .effect .circle.animating {
+  animation: circleMove var(--base-animation-duration) ease-out;
+  animation-delay: 80ms;
+}
+
+@keyframes circleMove {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  25% {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+  75% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 🎯 Unified Curve System */
+.custom-nav .effect .circle::before {
   content: '';
   position: absolute;
-  left: -10px;
-  right: -10px;
-  height: 100%;
+  left: var(--curve-before-left, -8px);
+  right: var(--curve-before-right, -8px);
+  height: var(--curve-before-height, 120%);
+  bottom: calc(var(--circle-size) * var(--curve-before-bottom, -0.15));
   background: transparent;
   border-radius: 50%;
-  box-shadow: 0 45px 0 30px #fff;
-  bottom: -6px;
-  transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 calc(var(--circle-size) * var(--curve-before-shadow-y, 0.6)) 0 calc(var(--circle-size) * var(--curve-before-shadow-blur, 0.25)) #fff;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.custom-nav .effect .circle::after {
+  content: '';
+  position: absolute;
+  left: var(--curve-after-left, -2px);
+  right: var(--curve-after-right, -2px);
+  height: var(--curve-after-height, 20px);
+  width: calc(100% + var(--curve-after-width, 4px));
+  bottom: var(--curve-after-bottom, -65px);
+  background: #fff;
+  border-radius: 0;
+  transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Navigation Link */
 .nav-link {
   display: flex;
   flex-direction: column;
@@ -318,86 +612,43 @@ nav .effect .circle::before {
   color: inherit;
 }
 
-.nav-link.router-link-active {
-  color: inherit;
-}
-
-/* Smooth hover effect */
-nav ul li:hover:not(.active) {
+/* 🎯 Hover Effects */
+.custom-nav ul li:hover:not(.active) {
   transform: translateY(-5px) scale(1.05);
+  color: #424242;
+  transition: all 0.2s ease-out;
 }
 
-nav ul li:hover:not(.active) .icon svg {
+.custom-nav ul li:hover:not(.active) .icon svg {
   transform: scale(1.1);
+  color: #424242;
 }
 
-nav ul li.active:hover {
-  transform: translateY(-30px) scale(1.1);
-}
-
-/* Performance optimizations */
-nav ul li,
-nav ul li .icon,
-nav ul li .icon svg,
-nav ul li .label,
-nav .effect,
-nav .effect::before,
-nav .effect::after,
-nav .effect .circle,
-nav .effect .circle::before {
+/* 🎯 Performance Optimizations */
+.custom-nav ul li,
+.custom-nav ul li .icon,
+.custom-nav ul li .icon svg,
+.custom-nav ul li .label,
+.custom-nav .effect,
+.custom-nav .effect::before,
+.custom-nav .effect::after,
+.custom-nav .effect .circle,
+.custom-nav .effect .circle::before,
+.custom-nav .effect .circle::after {
   backface-visibility: hidden;
-  perspective: 1000px;
   will-change: transform, opacity;
 }
 
-/* Reduce motion for accessibility */
+/* 🎯 Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  nav ul li,
-  nav ul li .icon,
-  nav ul li .icon svg,
-  nav ul li .label,
-  nav .effect,
-  nav .effect::before,
-  nav .effect::after,
-  nav .effect .circle,
-  nav .effect .circle::before {
-    transition-duration: 0.1s;
+  * {
+    transition-duration: 0.2s !important;
+    animation-duration: 0.2s !important;
   }
-}
-</style>
 
-<style scoped>
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  position: relative;
-  overflow-y: hidden;
-  touch-action: manipulation;
-  -webkit-overflow-scrolling: touch;
-}
-
-nav {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  max-width: 100vw;
-  overflow: hidden;
-  z-index: 999;
-}
-
-@media screen and (max-width: 600px) {
-  nav {
-    max-width: calc(100% - 48px);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 24px;
-    padding-right: 24px;
-    border-radius: 16px !important;
+  .custom-nav ul li.animating,
+  .custom-nav .effect .circle.animating {
+    animation: none !important;
   }
 }
 </style>

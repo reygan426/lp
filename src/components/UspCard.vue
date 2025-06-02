@@ -6,6 +6,13 @@ import CardMobile2 from '@/assets/card-mbl.png'
 import TextBody from "./TextBody.vue"
 import { ref, onMounted, onUnmounted } from 'vue'
 
+// const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+// const getImageUrl = (imagePath: string | null) => {
+//   if (!imagePath) return 'https://placehold.co/600x400';
+//   return `${baseUrl}/unggulans/${imagePath}`;
+// };
+
 defineProps({
     title: {
         type: String,
@@ -45,10 +52,10 @@ onUnmounted(() => {
         </div>
         <div class="space-y-2 relative z-10">
             <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-bold text-primary">{{ title }}</h6>
-            <TextBody weight-text="font-light md:font-normal">{{ description }}</TextBody>
+            <TextBody weight-text="font-light md:font-normal line-clamp-4"><span v-html="description"></span></TextBody>
         </div>
         <div class="absolute bottom-6 left-6">
-            <img :src="icon" alt="" class="w-12 h-12 lg:w-16 lg:h-16 svg-primary">
+            <img :src="icon" alt="" class="w-12 h-12 lg:w-16 lg:h-16 object-contain">
         </div>
         <div class="absolute bottom-0 right-0 md:-bottom-2 md:-right-2 lg:bottom-0 lg:right-0 bg-[#E6EFF7] border-2 border-white p-4 rounded-full overflow-hidden group">
             <img :src="Arrow" alt=""

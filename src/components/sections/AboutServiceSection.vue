@@ -45,8 +45,8 @@ defineProps({
                     class="absolute bottom-3 right-3 w-[200px] p-3 lg:bottom-6 lg:right-6 lg:w-[280px] lg:p-8 bg-primary/20 backdrop-blur-sm rounded-[4px] md:rounded-[8px] lg:rounded-[16px] path-box hidden md:block">
                     <div class="font-sora space-y-3">
                         <NumberTicker class="text-[28px] md:text-[32px] lg:text-[36px] font-bold text-white"
-                            :value="4320" :duration="5000" />
-                        <TextBody class="text-white" weight-text="font-light">highly rated Chatbot by millions of users!
+                            :value="5234" :duration="5000" />
+                        <TextBody class="text-white" weight-text="font-light">Pengguna Jatidiri.App Aktif
                         </TextBody>
                         <div>
                             <img :src="People" alt="Happy users">
@@ -64,7 +64,7 @@ defineProps({
 
             <div class="space-y-4 md:space-y-6 lg:space-y-8">
                 <TextBody>
-                    {{ description }}
+                    <span v-html="description"></span>
                 </TextBody>
             </div>
 

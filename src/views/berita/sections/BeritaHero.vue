@@ -83,7 +83,7 @@ const shareTo = (platform: string) => {
 </script>
 
 <template>
-  <div class="w-full px-[20px] py-[32px] md:px-[60px] md:py-[60px] lg:px-[120px] lg:py-[60px] space-y-12 md:space-y-16 lg:space-y-20">
+  <div class="w-full px-[20px] pt-[32px] md:px-[60px] md:py-[60px] lg:px-[120px] lg:py-[60px] space-y-12 md:space-y-16 lg:space-y-20">
     <div class="w-full min-h-full flex flex-col md:flex-row gap-12 md:gap-16 lg:gap-20">
       <template v-if="isLoading">
         <!-- Left Column Skeleton -->

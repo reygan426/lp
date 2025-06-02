@@ -47,7 +47,7 @@ import TextSection from '../TextSection.vue'
                 </div>
             </div>
             <div class="space-y-2 lg:space-y-2">
-                <NumberTicker class="text-[28px] md:text-[32px] lg:text-[36px] font-bold font-sora" :duration="5000" :value="10000" />
+                <NumberTicker class="text-[28px] md:text-[32px] lg:text-[36px] font-bold font-sora" :duration="5000" :value="30" />
                 <TextSection>Psikolog</TextSection>
             </div>
         </div>

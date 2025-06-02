@@ -3,13 +3,19 @@ import ButtonSection from '../ButtonSection.vue';
 import TextSection from '../TextSection.vue';
 import TitleSection from '../TitleSection.vue';
 import UspCard from '../UspCard.vue';
-import Usp from "@/assets/icon/usp.png"
-import Love from '@/assets/icon/love.png'
-import Doc from '@/assets/icon/doc.png'
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import { ref } from 'vue';
+import type { UnggulanItem } from '@/core/types/unggulan';
+import Usp from "@/assets/icon/usp.png"
+import Love from '@/assets/icon/love.png'
+import Doc from '@/assets/icon/doc.png'
+
+defineProps<{
+    unggulan: UnggulanItem[];
+}>();
+
 const uspItems = [
     {
         title: "Jatidiri.app",
@@ -62,21 +68,30 @@ const breakpoints = {
         spaceBetween: 24
     },
     1024: {
-        slidesPerView: 3,
+        slidesPerView: 2.8,
         spaceBetween: 28
     },
     1140: {
-        slidesPerView: 3.3,
+        slidesPerView: 3.2,
         spaceBetween: 32
     },
     1280: {
-        slidesPerView: 3.5,
+        slidesPerView: 3.3,
         spaceBetween: 32
     },
     1440: {
+        slidesPerView: 3.5,
+        spaceBetween: 32
+    },
+    1540: {
+        slidesPerView: 4.2,
+        spaceBetween: 32
+    },
+    1640: {
         slidesPerView: 4.5,
         spaceBetween: 32
     }
+
 };
 </script>
 
@@ -109,7 +124,7 @@ const breakpoints = {
                     </filter>
                 </defs>
             </svg>
-            <div class="h-fit py-10 bg-gradient-to-b from-primary via-[#4A4AF8] to-[#4B4BAF] -mt-10 box-usp">
+            <div class="h-fit py-10 bg-gradient-to-r from-primary to-secondary -mt-10 box-usp">
                 <Swiper v-if="uspItems && uspItems.length" :modules="modules" :breakpoints="breakpoints"
                     :centered-slides="true" :loop="true" :autoplay="{
                         delay: 2000,

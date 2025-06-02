@@ -3,29 +3,38 @@ import AgendaDetailJatiDiriHero from './Sections/AgendaDetailHero.vue'
 import AgendaDetailJatiDiriContent from './Sections/AgendaDetailBody.vue'
 import MainLayout from '@/layouts/MainLayout.vue';
 import { usePostStore } from '@/stores/post';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
+import { useAgendaStore } from '@/stores/agenda';
+import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
-const dummyAgenda = {
-  title: 'Seminar Jati Diri Bangsa',
-  description: 'Acara seminar tentang pentingnya jati diri dalam era digital.',
-  image:
-    'https://images.unsplash.com/photo-1747893540759-290a8a06a91f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-  start_date: '2025-06-15',
-  location: 'Aula Timur ITB, Bandung',
-  contact: '0812-3456-7890 (Budi)',
-  event: 'Seminar & Diskusi Publik',
-}
-
+const route = useRoute();
 const postStore = usePostStore();
+const agendaStore = useAgendaStore();
+const agendaStore2 = useAgendaStore();
+const { currentAgenda: agenda } = storeToRefs(agendaStore);
 
-onMounted(async () => {
-  await postStore.fetchPosts()
+const updateTitle = () => {
+  if (agendaStore.currentAgenda?.title) {
+    document.title = `${agendaStore.currentAgenda.title} - ${import.meta.env.VITE_APP_NAME}`;
+  }
+};
+
+onMounted(() => {
+  const slug = route.params.slug as string;
+  agendaStore.fetchAgendaBySlug(slug);
+  updateTitle();
+  agendaStore2.fetchAgendas()
+  postStore.fetchPosts()
 });
+
+watch(() => postStore.currentPost, updateTitle);
 </script>
 
 <template>
-    <MainLayout :white-section-visible="true">
-        <AgendaDetailJatiDiriHero :agenda="dummyAgenda" />
-        <AgendaDetailJatiDiriContent :posts="postStore.posts"/>
-    </MainLayout>
+  <MainLayout :white-section-visible="true">
+    <AgendaDetailJatiDiriHero :agenda="agendaStore.agendas" />
+    <AgendaDetailJatiDiriContent :posts="postStore.posts.slice(0, 3)" :current-agenda="agenda"
+      :agenda="agendaStore2.agendas.slice(0, 1)" />
+  </MainLayout>
 </template>

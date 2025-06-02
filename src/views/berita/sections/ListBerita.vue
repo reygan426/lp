@@ -3,6 +3,7 @@ import TitleSection from '@/components/TitleSection.vue'
 import TextSection from '@/components/TextSection.vue'
 import BeritaArtikelCard from './components/BeritaArtikelCard.vue'
 import type { Post } from '@/core/types/post';
+import ArtikelCardMobile from './components/ArtikelCardMobile.vue';
 
 defineProps<{
   berita: Post[];
@@ -11,7 +12,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class="py-[32px] px-[20px] md:py-[64px] md:px-[40px] lg:py-[60px] lg:px-[120px] space-y-6 md:space-y-12 lg:space-y-16">
+  <div
+    class="pt-[10px] pb-[32px] px-[20px] md:py-[64px] md:px-[40px] lg:py-[60px] lg:px-[120px] space-y-6 md:space-y-12 lg:space-y-16">
     <div class="grid gap-2 lg:gap-4 text-center w-full lg:w-1/3 mx-auto">
       <TitleSection text="Berita & Artikel" />
       <TextSection>
@@ -27,14 +29,12 @@ defineProps<{
       </div> -->
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mx-auto">
-      <!-- <ArticleCard v-for="artikel in filteredArtikel" :key="artikel.id" :title="artikel.title" :image="artikel.image" :author="''" /> -->
-      <BeritaArtikelCard
-        v-for="artikel in berita"
-        :key="artikel.id"
-        :title="artikel.title"
-        :image="artikel.image"
-      />
+    <div class="md:grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mx-auto hidden">
+      <BeritaArtikelCard v-for="artikel in berita" :key="artikel.id" :title="artikel.title" :slug="artikel.slug" :image="artikel.image" />
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:hidden">
+      <ArtikelCardMobile v-for="artikel in berita" :key="artikel.id" :title="artikel.title" :image="artikel.image" :date="artikel.pub_date"/>
     </div>
 
     <!-- <div v-if="totalPages > 1" class="w-full flex justify-end mt-8">

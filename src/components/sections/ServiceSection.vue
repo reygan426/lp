@@ -29,28 +29,35 @@ export default {
                 image: 'https://cms.jatidiri.app/storage/programs/w3MAlfzsnaiUrdOH1qHAgfcotz031yMIBvuj0RNS.jpg',
                 content: "Jatidiri.app adalah platform revolusioner yang menggabungkan teknologi mutakhir dengan layanan psikologi profesional untuk membantu individu, keluarga, institusi pendidikan, dan perusahaan memahami potensi diri, meningkatkan kualitas hidup, dan membangun sumber daya manusia yang berdaya saing. <br> Jatidiri.app sejalan dengan misi ini, menyediakan tes dan konseling online yang membantu sekolah menerapkan pendidikan berdiferensiasi sesuai Kurikulum Merdeka. Dengan fitur -fitur yang disesuaikan dengan kebutuhan sekolah, Jatidiri.app adalah mitra tepat untuk mendukung kebutuhan konseling, karakter siswa, dan prestasi akademik sekolah.",
                 features: ["Test Bakat & Karakter", "Test Gaya Belajar", "Test Kecanduan Gadget", 'Test Kemampuan Kognitif'],
-                link: '/jatidiri-sekolah'
+                link: '/program/jatidiri-sekolah'
             },
             {
                 title: "Jatidiri Corporate",
                 image: 'https://media.istockphoto.com/id/2156295565/photo/asian-young-entrepreneur-applause-congratulating-colleague-achievement-in-office-meeting-room.webp?a=1&b=1&s=612x612&w=0&k=20&c=qABgavnNJDlXa2Bh5TmcOmZy6ygwunvGuUGtb_7TlJc=',
                 content: "Jatidiri Corporate adalah solusi inovatif yang menggabungkan teknologi psikometri dan layanan psikologi profesional untuk perusahaan. Kami membantu organisasi memahami potensi karyawan, meningkatkan produktivitas, serta menciptakan lingkungan kerja yang sehat dan berdaya saing tinggi. <br> Dengan fitur tes dan konseling berbasis data, Jatidiri Corporate menjadi mitra strategis untuk pengembangan SDM, rekrutmen yang lebih tepat, hingga peningkatan loyalitas dan kinerja karyawan.",
                 features: ["Tes Potensi dan Karakter", "Tes Kecocokan Karier", "Tes Kepemimpinan dan Kolaborasi", 'Tes Kemampuan Kognitif'],
-                link: '/jatidiri-corporate'
+                link: '/program/jatidiri-corporate'
+            },
+            {
+                title: "Jatidiri University",
+                image: 'https://plus.unsplash.com/premium_photo-1691533145674-881e1c685d8a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kb25lc2lhJTIwdW5pdmVyc2l0eXxlbnwwfHwwfHx8MA%3D%3D',
+                content: "Jatidiri University adalah platform inovatif yang mengintegrasikan teknologi canggih dengan layanan psikologi profesional untuk mendukung mahasiswa, dosen, dan institusi pendidikan tinggi dalam menggali potensi diri, memperkuat karakter, serta meningkatkan kualitas pembelajaran dan kehidupan kampus. <br> Sejalan dengan misi peningkatan mutu pendidikan tinggi, Jatidiri University menyediakan tes psikologis dan layanan konseling berbasis data yang mendalam untuk mendukung pendidikan personalisasi, pengembangan soft skills, dan kesejahteraan mental mahasiswa. Dengan fitur yang disesuaikan untuk dunia kampus, Jatidiri University menjadi mitra strategis dalam menciptakan lulusan yang tangguh, adaptif, dan berdaya saing global",
+                features: ["Tes Potensi dan Karakter", "Tes Kecocokan Karier", "Tes Kepemimpinan dan Kolaborasi", 'Tes Kemampuan Kognitif'],
+                link: '/program/jatidiri-university'
             },
             {
                 title: "Jatidiri Keluarga",
                 image: 'https://media.istockphoto.com/id/1964317182/photo/happy-big-family-grandfather-grandmother-mother-father-and-granddaughter-having-fun-living.webp?a=1&b=1&s=612x612&w=0&k=20&c=k4sbBHZrBoqJtfeVUq0AanjPKRPjyzjnCBMr_1NitYA=',
                 content: "Jatidiri Keluarga adalah platform yang dirancang untuk membantu keluarga membangun hubungan yang harmonis, memahami dinamika emosi, dan mendukung tumbuh kembang anak secara optimal. Kami hadir dengan layanan tes dan konseling berbasis psikologi profesional yang bisa diakses secara fleksibel dan personal. <br> Dengan pendekatan yang disesuaikan untuk tiap anggota keluarga, Jatidiri Keluarga menjadi mitra terpercaya dalam menciptakan rumah yang penuh empati, komunikasi efektif, dan kesejahteraan mental.",
                 features: ["Tes Potensi dan Karakter", "Konseling Keluarga", "Konseling Pengembangan Diri", 'Tes Kesehatan Mental Keluarga'],
-                link: '/jatidiri-keluarga'
+                link: '/program/jatidiri-keluarga'
             },
             {
                 title: "Jatidiri Ku",
                 image: 'https://media.istockphoto.com/id/2158569735/photo/confident-asian-young-man-outdoors-with-water-bottle.webp?a=1&b=1&s=612x612&w=0&k=20&c=7NnvYgtb8kVH69fZ7X1pYMQ1PZ7ZAGtzQcmSNx_sZiE=',
                 content: "Jatidiriku adalah layanan personalisasi psikologis untuk kamu yang ingin mengenal diri lebih dalam. Melalui pendekatan berbasis data dan profesional, kami bantu kamu memahami kekuatan pribadi, pola pikir, dan arah kehidupan yang paling sesuai. <br> Dapatkan panduan untuk mengambil keputusan lebih tepat dalam studi, karier, relasi, dan pengembangan diri melalui tes dan konseling yang dirancang khusus untuk kebutuhanmu.",
                 features: ["Tes Potensi dan Karakter", "Tes Minat dan Bakat", "Konseling Pengembangan Diri", 'Tes Kemampuan Kognitif'],
-                link: '/jatidiri-ku'
+                link: '/program/jatidiri-ku'
             },
         ]
 
@@ -136,10 +143,10 @@ export default {
                 <TitleSection class="text-primary" :text="'Layanan Jatidiri.App'"></TitleSection>
             </div>
 
-            <div class="w-full md:w-[80%] h-full mx-auto p-2 md:pb-4 lg:pb-12">
+            <div class="w-full md:w-[80%] lg:w-[90%] xl:w-[80%] h-full mx-auto p-2 md:pb-4 lg:pb-12">
                 <div class="w-full h-full bg-primary rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
                     <div class="w-full px-1 pt-1">
-                        <div class="w-full grid grid-cols-4 text-center">
+                        <div class="w-full grid grid-cols-5 text-center">
                             <div v-for="(tab, index) in tabs" :key="index"
                                 class="p-1 lg:p-4 text-white cursor-pointer transition-all duration-300 ease-in-out transform relative overflow-hidden"
                                 :class="{
@@ -208,7 +215,22 @@ export default {
                 <swiper class="w-full" :slides-per-view="1.2" :space-between="16" :centered-slides="false"
                     :grab-cursor="true" :watch-slides-progress="true">
                     <swiper-slide v-for="(tab, index) in tabs" :key="index">
-                        <div class="rounded-[16px] p-4 space-y-4 relative border-2 border-white/50 h-full">
+                        <div class="w-full h-[35vh] relative rounded-[16px] bg-cover bg-center"
+                            :style="'background-image: url(' + tab.image + ');'">
+                            <div class="absolute bottom-0 w-full p-2 z-10 bg-white/20 backdrop-blur-sm rounded-b-[16px]">
+                                <div>
+                                    <h6 class="text-[16px] font-bold text-white">{{ tab.title }}</h6>
+                                    <p class="text-[12px] text-white">Package</p>
+                                </div>
+                                <div class="w-full border-2 border-white/50 rounded-full">
+                                    <a :href="'https://cek.jatidiri.app/'">
+                                        <ButtonSection class="w-full flex justify-center items-center">Check Now
+                                        </ButtonSection>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="rounded-[16px] p-4 space-y-4 relative border-2 border-white/50 h-full">
                             <div class="absolute inset-0">
                                 <img :src="Sparkles" alt=""
                                     class="w-full h-full object-cover object-center rounded-[16px] border-2 border-white/50">
@@ -234,7 +256,7 @@ export default {
                                     <img :src="Store" alt="" class="w-6 object-cover">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </swiper-slide>
                 </swiper>
             </div>

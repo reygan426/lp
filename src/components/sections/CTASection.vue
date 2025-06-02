@@ -6,7 +6,7 @@ import ButtonSection from '../ButtonSection.vue';
 </script>
 
 <template>
-    <div class="px-5 py-[140px] flex flex-col justify-center items-center relative overflow-hidden bg-[#F0F7FD]">
+    <div class="px-5 pt-[140px] pb-[40px] md:py-[140px] flex flex-col justify-center items-center relative overflow-hidden bg-[#F0F7FD]">
         <div class="absolute inset-0 mx-auto overflow-visible">
             <!-- globe with blue glow effect -->
             <div class="relative w-[1000px] h-[1000px] md:h-[1500px] md:w-[1500px] lg:h-[2000px] lg:w-[2000px] bg-[#F0F7FD] rounded-full left-1/2 -translate-x-1/2 top-24

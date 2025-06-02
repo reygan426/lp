@@ -5,6 +5,11 @@ import TextBody from '../TextBody.vue';
 import TitleSection from '../TitleSection.vue';
 import HeroVideoDialog from './HeroVideoDialog.vue';
 import { Play, X } from 'lucide-vue-next';
+import type { Identity } from '@/core/types/identity';
+
+defineProps<{
+  identity: Identity[]
+}>();
 
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
@@ -43,12 +48,12 @@ onUnmounted(() => {
         class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[64px] lg:px-[128px] flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-12 mb-0 md:mb-20 xl:mb-20">
         <!-- tablet & dekstop -->
         <div class="w-full h-[490px] md:w-[75%] xl:w-1/2 relative hidden md:block">
-            <div :class="['absolute top-0 z-10 w-[60%] h-[460px]', { 'img-reveal-1': isVisible }]">
+            <div :class="['absolute top-0 z-10 w-[70%] xl:w-[60%] h-[460px] img-reveal-container', { 'img-reveal-1': isVisible }]">
                 <img src="https://cms.jatidiri.app/storage/identities/5tMLmahOWkwV4HlIkru01k9PEmkJDJ8UTubKWA70.jpg" alt=""
                     class="w-full h-full object-cover rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
             </div>
             <div
-                :class="['absolute play-box top-20 right-10 z-10 w-[60%] h-full rounded-[8px] md:rounded-[16px] lg:rounded-[24px] p-4 bg-[#F0F7FD]', { 'img-reveal-2': isVisible }]">
+                :class="['absolute img-reveal-container top-20 right-10 z-10 w-[70%] xl:w-[60%] h-full rounded-[8px] md:rounded-[16px] lg:rounded-[24px] p-4 bg-[#F0F7FD]', { 'img-reveal-2': isVisible }]">
                 <div :class="['w-full h-[460px]', { 'img-reveal-2': isVisible }]">
                     <div class="relative w-full h-full">
                         <div class="group relative cursor-pointer" @click="isVideoOpen = true">
@@ -88,16 +93,12 @@ onUnmounted(() => {
 
         <div class="w-full md:w-1/2 space-y-4 md:space-y-5 lg:space-y-6">
             <div class=" bg-primary/10 w-fit py-2 px-5 rounded-full">
-                <h6 class="text-[10px] md:text-[12px] lg:text-[16px] text-primary">About Us</h6>
+                <h6 class="text-[10px] md:text-[12px] lg:text-[16px] text-primary">{{ identity[0].name }}</h6>
             </div>
             <TitleSection class="text-primary" :text="'Jatidiri.App'"></TitleSection>
 
             <div class="space-y-4 md:space-y-6 lg:space-y-8">
-                <TextBody>Jatidiri.app adalah platform revolusioner yang menggabungkan teknologi mutakhir dengan layanan
-                    psikologi profesional untuk membantu individu, keluarga, institusi pendidikan, dan perusahaan
-                    memahami potensi diri, meningkatkan kualitas hidup, dan membangun sumber daya manusia yang berdaya
-                    saing.
-                </TextBody>
+                <TextBody><span v-html="identity[0].description"></span></TextBody>
                 <p class="text-[14px] md:text-[18px] lg:text-[20px] font-bold font-sora pb-4 md:pb-5 lg:pb-6">Your real personality identity
                     is not an
                     option, it is the foundation for your happiness and health.</p>
@@ -140,7 +141,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.play-box {
+.img-reveal-container.absolute {
     clip-path: inset(50% 0% 50% 0%);
     transform: scale(0.8);
 }

@@ -74,7 +74,7 @@ onUnmounted(() => {
 
                     <div
                         class="w-full flex flex-col md:flex-row gap-20 md:gap-20 lg:gap-20 md:justify-center md:items-center">
-                        <div class="w-full md:w-1/2 relative h-[50vh] lg:h-[70vh]">
+                        <div class="w-full md:w-1/2 relative h-[30vh] lg:h-[70vh]">
                             <div class="absolute inset-0">
                                 <img src="https://cms.jatidiri.app/storage/identities/7RgsjisHfvEf9pJeSVEuIH9e6S4HD0mALGz6XGJS.jpg"
                                     alt=""
@@ -83,9 +83,11 @@ onUnmounted(() => {
 
                             <div
                                 class="absolute bottom-0 right-1/2 translate-x-1/2 translate-y-1/2 md:right-0 md:bottom-1/2 md:translate-y-1/2 md:translate-x-1/2">
-                                <div class="bg-white/20 w-full p-8 rounded-full backdrop-blur-sm">
+                                <div class="w-full p-8 rounded-full bg-white/20 backdrop-blur-sm">
+                                    <div class="w-full p-8 rounded-full backdrop-blur-sm">
                                     <SpinningText text="Misi Jatidiri - Misi Jatidiri - Misi Jatidiri -"
                                         :duration="20" />
+                                </div>
                                 </div>
                             </div>
                         </div>

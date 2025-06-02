@@ -2,10 +2,16 @@
 import FacebookIcon from '@/assets/icon/fb.png';
 import InstagramIcon from '@/assets/icon/instagram.png';
 import TiktokIcon from '@/assets/icon/tik-tok.png';
-import YoutubeIcon from '@/assets/icon/youtube.png';
 import Arrowr from '@/assets/icon/share.png'
 import { ref } from 'vue';
 import TextBody from '@/components/TextBody.vue';
+
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+const getImageUrl = (imagePath: string | null) => {
+  if (!imagePath) return 'https://placehold.co/600x400';
+  return `${baseUrl}ourteams/${imagePath}`;
+};
 
 defineProps<{
   name?: string;
@@ -25,7 +31,7 @@ const isHovered = ref(false);
     <div class="w-full h-full relative overflow-hidden group" @mouseenter="isHovered = true"
       @mouseleave="isHovered = false">
       <div class="w-full h-[200px] md:h-[280px] dosen-container">
-        <img :src="image || 'https://via.placeholder.com/300'" :alt="name || 'Dosen'"
+        <img :src="getImageUrl(image || '')" :alt="name || 'Dosen'"
           class="w-full h-full object-cover object-top group-hover:scale-101 transition duration-500 dosen-box rounded-[16px] md:rounded-[24px] lg:rounded-[32px]">
 
         <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
@@ -44,7 +50,7 @@ const isHovered = ref(false);
       <!-- Sosmed dosen -->
       <div class="absolute bottom-14 lg:bottom-20 right-2 flex flex-col gap-1 md:gap-2 transition-all duration-500"
         :class="isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-        v-if="facebook || instagram || youtube || tiktok">
+        v-if="facebook || instagram || tiktok">
         <a v-if="facebook" :href="facebook" target="_blank"
           class="w-8 h-8 lg:w-10 lg:h-10 bg-white hover:bg-primary group p-2 rounded-full transition-all duration-500"
           :class="isHovered ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition-delay: 0.4s;">
@@ -55,11 +61,11 @@ const isHovered = ref(false);
           :class="isHovered ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition-delay: 0.3s;">
           <img :src="InstagramIcon" alt="Instagram" class="w-full h-full object-contain">
         </a>
-        <a v-if="youtube" :href="youtube" target="_blank"
+        <!-- <a v-if="youtube" :href="youtube" target="_blank"
           class="w-8 h-8 lg:w-10 lg:h-10 bg-white hover:bg-primary group p-2 rounded-full transition-all duration-500"
           :class="isHovered ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition-delay: 0.2s;">
           <img :src="YoutubeIcon" alt="YouTube" class="w-full h-full object-contain">
-        </a>
+        </a> -->
         <a v-if="tiktok" :href="tiktok" target="_blank"
           class="w-8 h-8 lg:w-10 lg:h-10 bg-white hover:bg-primary group p-2 rounded-full transition-all duration-500"
           :class="isHovered ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition-delay: 0.1s;">

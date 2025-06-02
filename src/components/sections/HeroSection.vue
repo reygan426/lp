@@ -4,15 +4,21 @@ import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import ButtonSection from '../ButtonSection.vue';
 import TextBody from '../TextBody.vue';
 import { ref, onMounted } from 'vue';
-
+import type { SliderItem } from '@/core/types/slider';
 import 'swiper/swiper-bundle.css';
-import type { HeroSlider } from '@/core/types/slider';
 
 interface Props {
-  sliders: HeroSlider[];
+  sliders: SliderItem[];
 }
 
 defineProps<Props>();
+
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+const getImageUrl = (imagePath: string | null) => {
+  if (!imagePath) return 'https://placehold.co/600x400';
+  return `${baseUrl}/sliders/${imagePath}`;
+};
 
 const swiperInstance = ref<any>(null);
 const activeSlideIndex = ref(0);
@@ -88,8 +94,9 @@ onMounted(() => {
                 </filter>
               </defs>
             </svg>
-            <img :src="slide.image" :alt="slide.title"
+            <img :src="getImageUrl(slide.image)" :alt="slide.title"
               class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero-box">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/50 via-transparent to-transparent hero-box"></div>
           </div>
 
           <div class="relative z-10 md:px-[40px] lg:px-[88px] space-y-4 lg:space-y-6 hidden md:block">
@@ -103,7 +110,7 @@ onMounted(() => {
               </h1>
               <div
                 class="max-w-[70%] lg:max-w-[60%] px-4 py-5 bg-white/10 backdrop-blur-sm rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
-                <TextBody class="text-white">{{ slide.description }}</TextBody>
+                <TextBody class="text-white"><span v-html="slide.description"></span></TextBody>
               </div>
             </div>
 

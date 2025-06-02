@@ -1,198 +1,35 @@
 <script lang="ts" setup>
-import Miryam from '@/assets/team/miryam2.png'
-import Dita from '@/assets/team/dyah.jpg'
-import Amir from '@/assets/team/amir.jpg'
-import Ulfa from '@/assets/team/ulfa.jpg'
-import chandra from '@/assets/team/chandra.jpg'
 import TeamCard2 from '../components/TeamCard2.vue'
 import TeamCard from '../components/TeamCard.vue'
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import type { TeamItem } from '@/core/types/team'
 
-// Team data
-const teamMembers = [
-  {
-    id: 1,
-    name: "Miryam Ariadne Sigarlaki, M.Psi., Psikolog",
-    title: "Psikolog Klinis",
-    image: Miryam,
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 2,
-    name: "Dyah Titi.,M.Psi., Psikolog",
-    title: "Psikolog Pendidikan",
-    image: 'https://cms.jatidiri.app/storage/ourteams/DBtCybM694uNQd0CkxZhdoWfYABFoGizCIftPE1O.jpg',
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 3,
-    name: "Dita Mediasari, M.Psi., Psikolog",
-    title: "Psikolog Anak",
-    image: Dita,
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 4,
-    name: "Litra Amanda,M.Psi",
-    title: "Psikolog Sosial",
-    image: 'https://cms.jatidiri.app/storage/ourteams/s7zCM9MZ1XjHGnmNVohn3lFoQjULl2PpO3idzE3s.jpg',
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 5,
-    name: "Amir Nyuman., M.Psi., Psikolog",
-    title: "Psikolog Sosial",
-    image: Amir,
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 6,
-    name: "Ulfa Trijayanti., M.Psi., Psikolog",
-    title: "Psikolog Industri dan Org.",
-    image: Ulfa,
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 7,
-    name: "Chandra Melati., M.Psi., Psikolog",
-    title: "Psikolog Pendidikan",
-    image: chandra,
-    category: "psikolog",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 8,
-    name: "Deviana Putri Rahmah Sidik., S.Psi",
-    title: "Konselor",
-    image: 'https://cms.jatidiri.app/storage/ourteams/VaNCZj29o5LL72WGF2CZPZqrIvGWW3fZWYIpRuN2.jpg',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 9,
-    name: "Widia Dewi.,S.Psi",
-    title: "Konselor",
-    image: 'https://cms.jatidiri.app/storage/ourteams/h4oTuHA9Ku986QHrKHpzslM8KPFhaH5VI2RQZ4to.jpg',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 10,
-    name: "Fadila Zahra.,S.Psi",
-    title: "Konselor",
-    image: 'https://cms.jatidiri.app/storage/ourteams/4fsDvh6jgh5Brsb1ssDm9MhupkvdL3BTCEEcAh9U.jpg',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 11,
-    name: "Aghniya Fatwa., S.Psi",
-    title: "Konselor",
-    image: 'https://media.gettyimages.com/id/964176160/photo/portrait-of-a-confident-muslim-business-woman-on-the-street.jpg?s=612x612&w=0&k=20&c=OjsqZtTrQf-Y6eO4OG2-zQ8YUeU8LjqK5fmwpojhI6I=',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 12,
-    name: "Utari Mahesty., S.Psi",
-    title: "Konselor",
-    image: 'https://media.gettyimages.com/id/1343167893/photo/indonesia-happy-women-hijab.jpg?s=612x612&w=0&k=20&c=vtoVQ4XqnvB53VXfjEflZdq_VUQj0sGbSzcD3BlhmGU=',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 13,
-    name: "Restu Julyani., S.Psi",
-    title: "Konselor",
-    image: 'https://media.gettyimages.com/id/1085518668/photo/teenage-girl.jpg?s=612x612&w=0&k=20&c=ONT48P0iiQAW2vEn46haUpiVSwZHjPnuZRz1iCOWa4g=',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-  {
-    id: 14,
-    name: "Windy Rahmada., S.Psi",
-    title: "Konselor",
-    image: 'https://t4.ftcdn.net/jpg/03/57/24/13/240_F_357241356_fsGNwIrM2QtrKcgDYGv4NRApJOoKMT0s.jpg',
-    category: "konselor",
-    social: {
-      facebook: "dawokd",
-      tiktok: "awmdaw",
-      youtube: "awoko",
-      instagram: "adowk"
-    }
-  },
-]
+const props = defineProps<{
+  team: TeamItem[];
+}>();
+
+const filteredApiTeams = computed(() => {
+  return props.team.filter(member => 
+    member.ot_id !== 1 && member.ot_id !== 2 && member.ot_id !== 6
+  );
+});
+
+const teamMembers = computed(() => {
+  return filteredApiTeams.value.map(member => {
+    return {
+      id: member.id,
+      name: member.name,
+      title: member.title,
+      image: member.image,
+      category: member.title.toLowerCase().includes('konselor') ? 'konselor' : 'psikolog',
+      social: {
+        facebook: member.fb || '',
+        instagram: member.ig || '',
+        tiktok: member.tt || '',
+      }
+    };
+  });
+});
 
 const activeFilter = ref('all')
 const itemsPerPage = 8
@@ -201,7 +38,6 @@ const animationKey = ref(0)
 const sectionRef = ref<HTMLElement | null>(null)
 const isSectionVisible = ref(false)
 
-// Intersection Observer setup
 let observer: IntersectionObserver | null = null
 
 onMounted(() => {
@@ -231,9 +67,9 @@ onUnmounted(() => {
 
 const filteredMembers = computed(() => {
   if (activeFilter.value === 'all') {
-    return teamMembers
+    return teamMembers.value
   }
-  return teamMembers.filter(member => {
+  return teamMembers.value.filter(member => {
     if (activeFilter.value === 'psikolog') return member.category === 'psikolog'
     if (activeFilter.value === 'konselor') return member.category === 'konselor'
     return true
@@ -288,7 +124,6 @@ function triggerAnimation() {
   animationKey.value++
 }
 
-// Watch for changes to trigger animation on initial load
 watch(() => paginatedMembers.value, () => {
   if (isSectionVisible.value) {
     nextTick(() => {
@@ -322,10 +157,10 @@ watch(() => paginatedMembers.value, () => {
         <div class="team-card-animate" :class="{ 'animate-on-visible': isSectionVisible }"
           :style="{ 'animation-delay': `${index * 100}ms` }">
           <TeamCard2 v-if="index % 2 === 0" :name="member.name" :title="member.title" :image="member.image"
-            :facebook="member.social.facebook" :tiktok="member.social.tiktok" :youtube="member.social.youtube"
+            :facebook="member.social.facebook" :tiktok="member.social.tiktok"
             :instagram="member.social.instagram" />
           <TeamCard v-else :name="member.name" :title="member.title" :image="member.image"
-            :facebook="member.social.facebook" :tiktok="member.social.tiktok" :youtube="member.social.youtube"
+            :facebook="member.social.facebook" :tiktok="member.social.tiktok"
             :instagram="member.social.instagram" />
         </div>
       </template>

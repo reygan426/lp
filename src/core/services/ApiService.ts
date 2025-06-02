@@ -36,8 +36,26 @@ const ApiService = {
     axios.defaults.headers.common["Content-Type"] = "application/json";
   },
 
-  get(resource: string, slug = "") {
-    return axios.get(`${resource}/${slug}`);
+  get(resource: string, params: any = {}) {
+    if (typeof params === 'string') {
+      return axios.get(`${resource}/${params}`);
+    }
+
+    let url = resource;
+    const queryParams = new URLSearchParams();
+
+    for (const key in params) {
+      if (params[key] !== undefined && params[key] !== null) {
+        queryParams.append(key, params[key]);
+      }
+    }
+
+    const queryString = queryParams.toString();
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+
+    return axios.get(url);
   },
 
   query(resource: string, params: any) {

@@ -11,9 +11,20 @@ import Image6 from '@/assets/vector/fly.png'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css';
+import type { AssesmentItem } from '@/core/types/assesment';
 
 const sectionRef = ref<HTMLElement | null>(null)
 const isSectionVisible = ref(false)
+// const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+// const getImageUrl = (imagePath: string | null) => {
+//     if (!imagePath) return 'https://placehold.co/600x400';
+//     return `${baseUrl}/facilities/${imagePath}`;
+// };
+
+defineProps<{
+    assesment: AssesmentItem[];
+}>();
 
 const dummyData = [
     {
@@ -83,7 +94,7 @@ onUnmounted(() => {
 
 <template>
     <div ref="sectionRef"
-        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[120px] lg:px-[120px] space-y-6 md:space-y-10 lg:space-y-16">
+        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[60px] lg:px-[120px] space-y-6 md:space-y-10 lg:space-y-16">
         <div
             class="w-full md:w-1/2 mx-auto flex flex-col justify-center items-center text-center gap-4 md:gap-5 lg:gap-6">
             <div class="bg-primary/10 w-fit py-2 px-5 rounded-full fade-up-animate"
@@ -116,17 +127,15 @@ onUnmounted(() => {
                     </div>
 
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Sejati</TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test kepribadian untuk menemukan
-                            karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.</p>
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[0]?.title }}</TextBody>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[0]?.description"></span></p>
                     </div>
                 </div>
                 <div class="w-full h-fit md:h-[60%] bg-gradient-to-b from-[#8352E8]/75 via-[#8352E8]/50 to-[#8352E8]/25 flex flex-col gap-4 p-2 md:p-4 relative rounded-[4px] md:rounded-[8px] lg:rounded-[16px] fade-up-animate"
                     :class="{ 'animate-on-visible': isSectionVisible }" style="animation-delay: 400ms">
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Belajar</TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test insturmen untuk mengetahui
-                            gaya belajar kamu agar guru dapat membuat metode pembeljaran yang sesuai dan efektif</p>
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[1]?.title }}</TextBody>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[1]?.description"></span></p>
                     </div>
                     <div class="w-full h-[444px]">
                         <img :src="Image2" alt=""
@@ -145,20 +154,16 @@ onUnmounted(() => {
                     </div>
 
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Bakat</TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test yang dirancang untuk
-                            mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai
-                            panduan karier</p>
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[2]?.title }}</TextBody>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[2]?.description"></span></p>
                     </div>
                 </div>
                 <div class="w-full h-fit md:h-[40%] bg-gradient-to-b from-[#8352E8]/75 via-[#8352E8]/50 to-[#8352E8]/25 flex flex-col gap-4 p-2 md:p-4 relative rounded-[4px] md:rounded-[8px] lg:rounded-[16px] fade-up-animate"
                     :class="{ 'animate-on-visible': isSectionVisible }" style="animation-delay: 600ms">
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Index Kebahagiaan
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[3]?.title }}
                         </TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test yang dirancang untuk
-                            mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai
-                            panduan karier</p>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[3]?.description"></span></p>
                     </div>
                     <div class="w-full h-[149px] relative">
                         <img :src="Image4" alt=""
@@ -180,18 +185,15 @@ onUnmounted(() => {
                     </div>
 
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Cerdas</TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test instrumen untuk mengetahui
-                            skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan
-                            kognitifmu.</p>
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[4]?.title }}</TextBody>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[4]?.description"></span></p>
                     </div>
                 </div>
                 <div class="w-full h-fit md:h-[60%] bg-gradient-to-b from-[#8352E8]/75 via-[#8352E8]/50 to-[#8352E8]/25 flex flex-col gap-4 p-2 md:p-4 relative rounded-[4px] md:rounded-[8px] lg:rounded-[16px] fade-up-animate"
                     :class="{ 'animate-on-visible': isSectionVisible }" style="animation-delay: 800ms">
                     <div class="w-full h-fit space-y-2">
-                        <TextBody class="font-sora text-white" weight-text="font-semibold">Jatidiri Kendali</TextBody>
-                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Test untuk mengukur tingkat
-                            ketergantungan kamu pada internet, serta memberikan saran untuk memperbaiki kebiasaan online
+                        <TextBody class="font-sora text-white" weight-text="font-semibold">{{ dummyData[5]?.title }}</TextBody>
+                        <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="dummyData[5]?.description"></span>
                         </p>
                     </div>
                     <div class="w-full h-[444px]">
@@ -207,18 +209,18 @@ onUnmounted(() => {
             <div class="">
                 <swiper class="w-full" :slides-per-view="1.2" :space-between="16" :centered-slides="false"
                     :grab-cursor="true" :watch-slides-progress="true">
-                    <swiper-slide v-for="(article, index) in dummyData" :key="index">
+                    <swiper-slide v-for="(assesment, index) in dummyData" :key="index">
                         <div class="w-full h-fit md:h-[40%] bg-gradient-to-b from-[#8352E8]/75 via-[#8352E8]/50 to-[#8352E8]/25 flex flex-col md:justify-between gap-4 p-2 md:p-4 relative rounded-[8px] fade-up-animate"
                             :class="{ 'animate-on-visible': isSectionVisible }" style="animation-delay: 300ms">
                             <div class="w-full h-[149px] relative">
-                                <img :src="article.image" alt=""
+                                <img :src="assesment.image" alt=""
                                     class="w-full h-full object-contain mx-auto hover:-translate-y-2 transition duration-500">
                             </div>
 
                             <div class="w-full h-fit space-y-2">
-                                <TextBody class="font-sora text-white" weight-text="font-semibold">{{ article.title }}
+                                <TextBody class="font-sora text-white" weight-text="font-semibold">{{ assesment.title }}
                                 </TextBody>
-                                <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">{{ article.description }}
+                                <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white"><span v-html="assesment.description"></span>
                                 </p>
                             </div>
                         </div>

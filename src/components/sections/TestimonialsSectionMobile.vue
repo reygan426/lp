@@ -3,21 +3,22 @@ import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { EffectFade, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import TextSection from '@/components/TextSection.vue';
-import type { Testimonial } from '@/core/types/testimoni';
+import type { TestimonialItem } from '@/core/types/testimoni';
 import { ref } from 'vue';
 
 defineProps<{
-  testimoni: Testimonial[];
+  testimoni: TestimonialItem[];
 }>();
 
-// const baseUrl = import.meta.env.VITE_APP_IMG_URL;
 const activeSlideIndex = ref(0);
 const swiperInstance = ref<any>(null);
 
-// const getImageUrl = (imagePath: string | null) => {
-//   if (!imagePath) return '';
-//   return `${baseUrl}/${imagePath}`;
-// };
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+const getImageUrl = (imagePath: string | null) => {
+    if (!imagePath) return 'https://placehold.co/600x400';
+    return `${baseUrl}/testimonies/${imagePath}`;
+};
 
 const modules = [EffectFade, Navigation, Pagination, Autoplay];
 
@@ -68,7 +69,7 @@ const prevSlide = () => {
               <div
                 class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent z-10 rounded-[16px] md:rounded-[24px] lg:rounded-[32px]">
               </div>
-              <img :src="item.image" :alt="item.name"
+              <img :src="getImageUrl(item.image)" :alt="item.name"
                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
               <div class="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 text-white z-20 space-y-2">
                 <TextSection :weight-text="'font-bold'">{{ item.name }}</TextSection>

@@ -7,9 +7,12 @@ import { usePostStore } from '@/stores/post';
 import MainLayout from '@/layouts/MainLayout.vue';
 import BeritaDetailHero from '@/views/beritaDetail/sections/BeritaDetailHero.vue';
 import BeritaDetailContent from './sections/BeritaDetailContent.vue';
+import { useAgendaStore } from '@/stores/agenda';
 
 const route = useRoute();
 const postStore = usePostStore();
+const postStore2 = usePostStore();
+const agendaStore = useAgendaStore();
 const { currentPost: post, loading, error } = storeToRefs(postStore);
 
 const updateTitle = () => {
@@ -22,6 +25,8 @@ onMounted(() => {
   const slug = route.params.slug as string;
   postStore.fetchPostBySlug(slug);
   updateTitle();
+  postStore2.fetchPosts()
+  agendaStore.fetchAgendas()
 });
 
 watch(() => postStore.currentPost, updateTitle);
@@ -46,7 +51,7 @@ watch(() => postStore.currentPost, updateTitle);
 
     <template v-else-if="post">
       <BeritaDetailHero :post="post" />
-      <BeritaDetailContent :post="post"/>
+      <BeritaDetailContent :post="post" :posts="postStore2.posts.slice(0,3)" :agenda="agendaStore.agendas.slice(0,1)"/>
     </template>
 
     <div v-else class="container mx-auto px-4 py-16 text-center">

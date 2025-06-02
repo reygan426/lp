@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/jatidiri-sekolah',
+    path: '/program/jatidiri-sekolah',
     name: 'Jatidiri Sekolah',
     component: () => import('@/views/jatidiriSekolah/JatidiriSekolah.vue'),
     meta: {
@@ -62,28 +62,35 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/jatidiri-corporate',
+    path: '/program/jatidiri-corporate',
     name: 'Jatidiri Corporate',
-    component: () => import('@/views/jatidiriCorporate/JatidiriCorporate.vue'),
+    component: () => import('@/views/soon/ComingSoon.vue'),
     meta: {
       pageTitle: 'Jatidiri Corporate'
     }
   },
   {
-    path: '/jatidiri-keluarga',
+    path: '/program/jatidiri-keluarga',
     name: 'Jatidiri Keluarga',
-    component: () => import('@/views/jatidiriKeluarga/JatidiriKeluarga.vue'),
+    component: () => import('@/views/soon/ComingSoon.vue'),
     meta: {
       pageTitle: 'Jatidiri Keluarga'
     }
   },
   {
-    path: '/jatidiri-ku',
+    path: '/program/jatidiri-ku',
     name: 'JatidiriKu',
-    component: () => import('@/views/jatidiriKu/JatidiriKu.vue'),
+    component: () => import('@/views/soon/ComingSoon.vue'),
     meta: {
-      pageTitle: 'JatidiriKu',
-      middleware: "auth"
+      pageTitle: 'JatidiriKu'
+    }
+  },
+  {
+    path: '/program/jatidiri-university',
+    name: 'Jatidiri University',
+    component: () => import('@/views/soon/ComingSoon.vue'),
+    meta: {
+      pageTitle: 'Jatidiri University'
     }
   },
   {
@@ -119,6 +126,14 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/pelatihan-konselor',
+    name: 'Pelatihan Konselor',
+    component: () => import('@/views/pelatihan/Pelatihan.vue'),
+    meta: {
+      pageTitle: 'Pelatihan Konselor'
+    }
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }
@@ -132,8 +147,8 @@ const router = createRouter({
 router.beforeEach(async (to, _) => {
   // Set page title
   const appName = import.meta.env.VITE_APP_NAME || 'Jatidiri.App';
-  document.title = to.meta.pageTitle 
-    ? `${to.meta.pageTitle} - ${appName}` 
+  document.title = to.meta.pageTitle
+    ? `${to.meta.pageTitle} - ${appName}`
     : appName;
 
   // Initialize API service headers

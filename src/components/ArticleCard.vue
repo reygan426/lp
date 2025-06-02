@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import Arrow from "@/assets/icon/arrow.svg"
-import Calendar from "@/assets/icon/calendar.png"
+// import Calendar from '@/assets/icon/calendar.png'
 import User from "@/assets/icon/user.png"
+import router from "@/router";
 
 const formatDate = (dateString: string | null) => {
   if (!dateString) return '11 Januari 2022';
@@ -21,9 +22,12 @@ const getImageUrl = (imagePath: string | null) => {
 };
 
 
-defineProps({
+const props = defineProps({
     title: {
         type: String,
+    },
+    slug: {
+        type: String
     },
     date: {
         type: String,
@@ -32,11 +36,18 @@ defineProps({
         type: String,
     }
 });
+
+const goToDetail = () => {
+    router.push({
+      name: 'Berita Detail',
+      params: { slug: props.slug }
+    });
+};
 </script>
 
 <template>
     <div
-        class="p-4 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] bg-white group hover:-translate-y-3 transition duration-500">
+        class="p-4 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] bg-white group hover:-translate-y-3 transition duration-500 cursoir-pointer" @click="goToDetail">
         <div class="w-full h-[160px] md:h-[200px] lg:h-[240px] relative mb-4 md:mb-5 lg:mb-6">
             <div class="absolute top-4 left-4 py-1 px-3 bg-white/25 rounded-full z-10">
                 <p class="text-[8px] md:text-[10px] lg:text-[12px] text-primary">Artikel</p>
@@ -67,7 +78,7 @@ defineProps({
 
         <div class="flex gap-4 md:gap-5 lg:gap-6 mb-2">
             <div class="flex gap-2">
-                <img :src="Calendar" alt="" class="w-4 h-4">
+                <!-- <img :src="Calendar" alt="" class="w-4 h-4"> -->
                 <p class="text-[8px] md:text-[10px] lg:text-[12px]">{{ formatDate(date || '') }}</p>
             </div>
             <div class="flex gap-2">

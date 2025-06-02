@@ -18,7 +18,7 @@ const services = [
         description: "Tingkatkan layanan konseling dan karakter siswa bersama Jatidiri.app! Solusi digital terpercaya untuk tes minat, bakat, dan konseling online yang mendukung Kurikulum Merdeka. Praktis, akurat, dan dirancang khusus untuk kebutuhan sekolah Anda.",
         chart: Chart1,
         reverse: false,
-        link: '/jatidiri-sekolah'
+        link: '/program/jatidiri-sekolah'
     }
     ,
     {
@@ -28,27 +28,37 @@ const services = [
         description: "Optimalkan potensi karyawan melalui solusi asesmen dan konseling berbasis data. Jatidiri Corporate membantu perusahaan memahami karakter, minat, dan kompetensi individu untuk meningkatkan kinerja dan kesejahteraan tim secara menyeluruh.",
         chart: Chart2,
         reverse: true,
-        link: '/jatidiri-corporate'
+        link: '/program/jatidiri-corporate'
     }
     ,
-    {
+        {
         id: 3,
         number: "03",
-        title: "Jatidiri Keluarga",
-        description: "Bangun keharmonisan keluarga lewat pemahaman yang lebih dalam. Jatidiri Keluarga hadir dengan tes psikologis dan layanan konseling yang membantu orang tua, anak, dan seluruh anggota keluarga tumbuh bersama dengan bahagia.",
+        title: "Jatidiri University",
+        description: "Jatidiri University adalah platform teknologi dan psikologi untuk pengembangan diri mahasiswa, dosen, dan institusi pendidikan tinggi. Platform ini menyediakan tes dan konseling untuk meningkatkan kualitas belajar, kesejahteraan mental, serta menghasilkan lulusan berdaya saing global.",
         chart: Chart1,
         reverse: false,
-        link: '/jatidiri-keluarga'
+        link: '/program/jatidiri-university'
     }
     ,
     {
         id: 4,
         number: "04",
-        title: "Jatidiriku",
-        description: "Kenali dirimu lebih dalam dan temukan arah hidup yang tepat. Dengan tes psikologis dan konseling personal dari Jatidiri, kamu bisa memahami potensi, minat, dan karakter untuk meraih versi terbaik dari dirimu.",
+        title: "Jatidiri Keluarga",
+        description: "Bangun keharmonisan keluarga lewat pemahaman yang lebih dalam. Jatidiri Keluarga hadir dengan tes psikologis dan layanan konseling yang membantu orang tua, anak, dan seluruh anggota keluarga tumbuh bersama dengan bahagia.",
         chart: Chart2,
         reverse: true,
-        link: '/jatidiri-ku'
+        link: '/program/jatidiri-keluarga'
+    }
+    ,
+    {
+        id: 5,
+        number: "05",
+        title: "Jatidiriku",
+        description: "Kenali dirimu lebih dalam dan temukan arah hidup yang tepat. Dengan tes psikologis dan konseling personal dari Jatidiri, kamu bisa memahami potensi, minat, dan karakter untuk meraih versi terbaik dari dirimu.",
+        chart: Chart1,
+        reverse: false,
+        link: '/program/jatidiri-ku'
     }
 ]
 </script>

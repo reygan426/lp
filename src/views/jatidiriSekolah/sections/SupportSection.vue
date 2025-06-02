@@ -2,8 +2,6 @@
 import ButtonSection from '@/components/ButtonSection.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import Glow from '@/assets/glow.png'
-import Org from '@/assets/org1.png'
-import Org2 from '@/assets/org2.png'
 import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
 </script>
 
@@ -21,8 +19,10 @@ import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
                 </div>
 
                 <div class="w-full h-[340px]">
-                    <img :src="Org" alt=""
-                        class="w-full h-full object-cover org-box rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
+                    <HeroVideoDialog
+                        :size="'w-full h-[340px] object-cover org2-box rounded-[8px] md:rounded-[16px] lg:rounded-[24px]'"
+                        :video-src="`https://www.youtube.com/embed/EMINa7bdz5Q?si=vVilTn-E7BQPteO1`"
+                        :thumbnail-src="'https://cms.jatidiri.app/storage/dukungans/ud8fzD4VYjeoc87ZdulYnxFAZikbSxy45TXfQZ7A.jpg'" :thumbnail-alt="`Jatidiri`" animation-style="from-center" />
                 </div>
             </div>
 
@@ -30,16 +30,16 @@ import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
             <div class="w-1/2 h-[580px]">
                 <HeroVideoDialog
                     :size="'w-full h-[580px] object-cover org2-box rounded-[8px] md:rounded-[16px] lg:rounded-[24px]'"
-                    :video-src="`https://www.youtube.com/embed/`" :thumbnail-src="Org2" :thumbnail-alt="`Jatidiri`"
-                    animation-style="from-center" />
+                    :video-src="`https://www.youtube.com/embed/rVO_uMOTaD0?si=s1BluG0Jafxb9TkD`" :thumbnail-src="'https://cms.jatidiri.app/storage/dukungans/UvHuOmMkU2QadvKcVHIM8gUuSr8iLjgxWeD4wI4w.jpg'"
+                    :thumbnail-alt="`Jatidiri`" animation-style="from-center" />
             </div>
         </div>
 
         <div class="w-full md:hidden">
             <HeroVideoDialog
                 :size="'w-full h-[20vh] org2-box object-cover object-top rounded-[8px] md:rounded-[16px] lg:rounded-[24px'"
-                :video-src="`https://www.youtube.com/embed/`" :thumbnail-src="Org2" :thumbnail-alt="`Jatidiri`"
-                animation-style="from-center" />
+                :video-src="`https://www.youtube.com/embed/rVO_uMOTaD0?si=s1BluG0Jafxb9TkD`" :thumbnail-src="'https://cms.jatidiri.app/storage/dukungans/UvHuOmMkU2QadvKcVHIM8gUuSr8iLjgxWeD4wI4w.jpg'"
+                :thumbnail-alt="`Jatidiri`" animation-style="from-center" />
         </div>
 
         <div class="w-full md:w-1/2 h-full space-y-4 md:space-y-5 lg:space-y-6">

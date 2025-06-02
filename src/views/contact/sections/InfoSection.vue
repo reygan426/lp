@@ -3,6 +3,11 @@ import Contact from '@/assets/contact.png'
 import Mail from '@/assets/icon/mail.png'
 import Location from '@/assets/icon/location.png'
 import Call from '@/assets/icon/call.png'
+import type { Identity } from '@/core/types/identity';
+
+defineProps<{
+    identity: Identity[]
+}>();
 </script>
 
 <template>
@@ -20,7 +25,7 @@ import Call from '@/assets/icon/call.png'
             <div
                 class="w-full h-full relative z-10 flex flex-col justify-center items-center text-center gap-2 lg:gap-4 mt-4">
                 <h5 class="text-[22px] md:text-[26px] lg:text-[30px] font-bold border-beam-container">Mail Us 24/7</h5>
-                <p class="text-[14px] lg:text-[16px] text-[#333333]">no-reply@pbminfo.com</p>
+                <p class="text-[14px] lg:text-[16px] text-[#333333]">{{ identity[0]?.email }}</p>
             </div>
         </div>
 
@@ -36,7 +41,7 @@ import Call from '@/assets/icon/call.png'
             <div
                 class="w-full h-full relative z-10 flex flex-col justify-center items-center text-center gap-2 lg:gap-4 mt-4">
                 <h5 class="text-[22px] md:text-[26px] lg:text-[30px] font-bold border-beam-container">Our Location</h5>
-                <p class="text-[14px] lg:text-[16px] text-[#333333] w-1/2">Jalan Abdul Halim No. 128, Cimahi, Jawa Barat</p>
+                <p class="text-[14px] lg:text-[16px] text-[#333333] w-1/2"><span v-html="identity[0]?.address"></span></p>
             </div>
         </div>
 
@@ -52,7 +57,7 @@ import Call from '@/assets/icon/call.png'
             <div
                 class="w-full h-full relative z-10 flex flex-col justify-center items-center text-center gap-2 lg:gap-4 mt-4">
                 <h5 class="text-[22px] md:text-[26px] lg:text-[30px] font-bold border-beam-container">Call Us</h5>
-                <p class="text-[14px] lg:text-[16px] text-[#333333]">+62 812- 2218- 1823</p>
+                <p class="text-[14px] lg:text-[16px] text-[#333333]">{{ identity[0]?.phone }}</p>
             </div>
         </div>
     </div>

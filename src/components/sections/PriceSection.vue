@@ -1,14 +1,30 @@
 <script setup lang="ts">
+import { usePricingState } from '@/stores/pricing';
 import ButtonSection from '../ButtonSection.vue';
 import TextBody from '../TextBody.vue';
 import TextSection from '../TextSection.vue';
 import TitleSection from '../TitleSection.vue';
+import { onMounted } from 'vue';
 
+const priceStore = usePricingState();
+
+onMounted(async () => {
+    await priceStore.fetchPricing()
+});
+
+const getDiscountedPrice = (index: number) => {
+    if (!priceStore.price[index]) return 0;
+
+    const price = parseFloat(priceStore.price[index].price);
+    const discount = parseFloat(priceStore.price[index].diskon);
+
+    return price * (1 - discount / 100);
+}
 </script>
 
 <template>
     <div
-        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[120px] lg:px-[120px] space-y-8 md:space-y-10 lg:space-y-12 w-full h-full">
+        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:pb-[60px] lg:px-[120px] space-y-8 md:space-y-10 lg:space-y-12 w-full h-full">
         <div
             class="w-full md:w-1/2 mx-auto flex flex-col justify-center items-center text-center gap-4 md:gap-5 lg:gap-6">
             <div class=" bg-primary/10 w-fit py-2 px-5 rounded-full">
@@ -25,57 +41,34 @@ import TitleSection from '../TitleSection.vue';
 
         <div class="w-full h-full grid grid-cols-1 md:grid-cols-3 items-end gap-4 md:gap-6 lg:gap-8">
             <div
-                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
+                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] group space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
                 <div class="space-y-4 md:space-y-5 lg:space-y-6">
-                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Starter</h6>
-                    <!-- <TextBody>Jatidiri Sekolah</TextBody> -->
-                    <p class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                        35k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
+                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">{{ priceStore.price[2]?.title }}
+                    </h6>
+                    <div>
+                        <p class=""><span class="text-red-500 line-through">Rp.{{ priceStore.price[2]?.price }}k</span>
+                            (Disc. {{ priceStore.price[2]?.diskon }}%)</p>
+                        <p
+                            class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
+                            Rp.{{ getDiscountedPrice(2).toFixed(0) }}k <span
+                                class="text-[10px] md:text-[12px] lg:text-[16px]"> /
+                                siswa</span></p>
+                    </div>
                 </div>
 
                 <div class="w-full flex justify-center items-center">
-                    <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
+                    <a href="https://cek.jatidiri.app" target="_blank" class="w-full">
                         <ButtonSection :class="'w-full flex justify-center items-center'">Check Now</ButtonSection>
                     </a>
                 </div>
 
-                <div class="space-y-2 md:space-y-4">
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Cek Gaya Belajar</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Cek Kecanduan Gadget</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Akun Siswa</TextBody>
-                    </div>
-                </div>
+                <TextBody>
+                    <span
+                        class="mt-5 [&_ol]:list-decimal [&_ul]:list-none [&_li]:pl-8 [&_li]:mb-3 [&_li]:relative [&_li]:before:content-['✓'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-black [&_li]:before:font-bold"
+                        v-html="priceStore.price[2]?.description"></span>
+                </TextBody>
             </div>
 
-            <!-- Full -->
             <div class="w-full h-full relative group">
                 <div
                     class="absolute top-0 right-0 z-10 py-[10px] px-3 bg-primary rounded-full group-hover:-translate-y-2 transition duration-500">
@@ -97,196 +90,61 @@ import TitleSection from '../TitleSection.vue';
                         class="w-full h-full bg-white p-4 lg:p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 group-hover:-translate-y-2 transition duration-500 price-box">
 
                         <div class="space-y-4 md:space-y-5 lg:space-y-6 mt-4 md:mt-10">
-                            <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Ultimate</h6>
-                            <!-- <TextBody>Create quality visual assets with quality, speed, and style consistency.
-                            </TextBody> -->
-                            <p
-                                class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                                245k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
+                            <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">{{
+                                priceStore.price[0]?.title }}</h6>
+                            <div>
+                                <p class=""><span class="text-red-500 line-through">Rp.{{ priceStore.price[0]?.price
+                                }}k</span> (Disc. {{ priceStore.price[0]?.diskon }}%)</p>
+                                <p
+                                    class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
+                                    Rp.{{ getDiscountedPrice(0).toFixed(0) }}k <span
+                                        class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
+                            </div>
                         </div>
 
                         <div class="w-full flex justify-center items-center">
-                            <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
+                            <a href="https://cek.jatidiri.app" target="_blank" class="w-full">
                                 <ButtonSection :class="'w-full flex justify-center items-center'">Check Now
                                 </ButtonSection>
                             </a>
                         </div>
 
-                        <div class="space-y-2 md:space-y-4">
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Tes pemetaan talent dan karakter</TextBody>
-                            </div>
-
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Tes IQ</TextBody>
-                            </div>
-
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Tes Gaya Belajar</TextBody>
-                            </div>
-
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Tes kecanduan gadget</TextBody>
-                            </div>
-
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Tes Kebahagiaan</TextBody>
-                            </div>
-
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Akun Private per Siswa</TextBody>
-                            </div>
-                            
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Executive Dashboard khusus bagi BK dan Kepala Sekolah</TextBody>
-                            </div>
-                            
-                            <div class="w-full flex gap-3 items-center">
-                                <div
-                                    class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                        <path fill="currentColor"
-                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <TextBody>Akses layanan HalloPsy 10 sesi (minimal tes 200 siswa)</TextBody>
-                            </div>
-                        </div>
+                        <TextBody>
+                            <span
+                                class="mt-5 [&_ol]:list-decimal [&_ul]:list-none [&_li]:pl-8 [&_li]:mb-3 [&_li]:relative [&_li]:before:content-['✓'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-black [&_li]:before:font-bold"
+                                v-html="priceStore.price[0]?.description"></span>
+                        </TextBody>
                     </div>
                 </div>
             </div>
 
             <div
-                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 hover:-translate-y-2 transition duration-500">
+                class="w-full h-full md:h-[85%] bg-white p-8 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] space-y-8 md:space-y-10 lg:space-y-12 group hover:-translate-y-2 transition duration-500">
                 <div class="space-y-4 md:space-y-5 lg:space-y-6">
-                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">School Advances</h6>
-                    <!-- <TextBody>Create quality visual assets with quality, speed, and style consistency.</TextBody> -->
-                    <p class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
-                        140k <span class="text-[10px] md:text-[12px] lg:text-[16px]"> / siswa</span></p>
+                    <h6 class="text-[18px] md:text-[20px] lg:text-[24px] font-medium">{{ priceStore.price[1]?.title }}
+                    </h6>
+                    <div>
+                        <p class=""><span class="text-red-500 line-through">Rp.{{ priceStore.price[1]?.price }}k</span>
+                            (Disc. {{ priceStore.price[1]?.diskon }}%)</p>
+                        <p
+                            class="font-medium font-sora text-[28px] md:text-[32px] lg:text-[36px] flex items-center gap-1">
+                            Rp.{{ getDiscountedPrice(1).toFixed(0) }}k <span
+                                class="text-[10px] md:text-[12px] lg:text-[16px]"> /
+                                siswa</span></p>
+                    </div>
                 </div>
 
                 <div class="w-full flex justify-center items-center">
-                    <a href="https://cek.jatidiri.app/login" target="_blank" class="w-full">
+                    <a href="https://cek.jatidiri.app" target="_blank" class="w-full">
                         <ButtonSection :class="'w-full flex justify-center items-center'">Check Now</ButtonSection>
                     </a>
                 </div>
 
-                <div class="space-y-2 md:space-y-4">
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Tes pemetaan talent dan karakter</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Tes IQ</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Tes Gaya Belajar</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Tes kecanduan gadget</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Akun Siswa</TextBody>
-                    </div>
-
-                    <div class="w-full flex gap-3 items-center">
-                        <div
-                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F6F6F6] p-1 flex justify-center items-center">
-                            <svg viewBox="0 0 24 24" class="w-4 h-4 text-black">
-                                <path fill="currentColor"
-                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
-                        </div>
-                        <TextBody>Akses layanan HalloPsy 10 sesi (minimal tes 200 siswa)</TextBody>
-                    </div>
-                </div>
+                <TextBody>
+                    <span
+                        class="mt-5 [&_ol]:list-decimal [&_ul]:list-none [&_li]:pl-8 [&_li]:mb-3 [&_li]:relative [&_li]:before:content-['✓'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-black [&_li]:before:font-bold"
+                        v-html="priceStore.price[1]?.description"></span>
+                </TextBody>
             </div>
         </div>
     </div>

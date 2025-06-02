@@ -1,19 +1,41 @@
 <script setup lang="ts">
+import ButtonSection from '@/components/ButtonSection.vue';
 import TextBody from '@/components/TextBody.vue';
+import type { AgendaItem } from '@/core/types/agenda';
 import type { Post } from '@/core/types/post';
 import SectionLayout from '@/layouts/SectionLayout.vue';
+import router from '@/router';
+import ArtikelCardMobile from '@/views/berita/sections/components/ArtikelCardMobile.vue';
 
-// const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+const getImageUrl = (imagePath: string | null) => {
+  if (!imagePath) return '';
+  return `${baseUrl}/agendas/${imagePath}`;
+};
 
-// const getImageUrl = (imagePath: string | null) => {
-//   if (!imagePath) return '';
-//   return `${baseUrl}/posts/${imagePath}`;
-// };
+const formatDate = (dateString: string | null) => {
+  if (!dateString) return '11 Januari 2022';
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  return new Date(dateString).toLocaleDateString('id-ID', options);
+};
 
 defineProps<{
   post?: Post,
+  posts: Post[],
+  agenda: AgendaItem[]
   loading?: boolean
 }>()
+
+const goToDetail = (slug: string) => {
+    router.push({
+      name: 'Agenda Detail',
+      params: { slug: slug }
+    });
+};
 </script>
 
 <template>
@@ -53,9 +75,34 @@ defineProps<{
           <TextBody><span v-html="post.content"></span></TextBody>
         </div>
 
-        <!-- <div class="w-full md:w-[30%] h-[50vh]" v-if="sidebanner?.image1">
-          <img :src="getImageUrl(sidebanner?.image1)" :alt="sidebanner.title" class="w-full h-full object-cover rounded-[16px] md:rounded-[24px] lg:rounded-[32px]">
-        </div> -->
+
+        <div class="w-full md:w-[30%] space-y-4 md:space-y-6">
+          <div class="space-y-4 md:space-y-6">
+            <h6 class="text-[16px] md:text-[22px] font-bold">Agenda Terkait</h6>
+            <div class="w-full h-full space-y-4" @click="goToDetail(agenda[0]?.slug)">
+              <img :src="getImageUrl(agenda[0]?.image || '')" alt="" class="w-full h-[20vh] rounded-[16px] object-cover">
+              <div class="w-full flex justify-between items-center gap-4">
+                <div>
+                  <p class="text-[12px] md:text-[14px] lg:text-[16px]">{{ agenda[0]?.title }}</p>
+                  <div>
+                    <p class="text-[10px] md:text-[12px] lg:text-[14px]">{{ formatDate(agenda[0]?.end_date) }} • <span>{{ agenda[0]?.location }}</span></p>
+                  </div>
+                </div>
+                <a :href="agenda[0]?.register_link" class="w-fit">
+                  <ButtonSection>Daftar</ButtonSection>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4 md:space-y-6">
+            <h6 class="text-[16px] md:text-[22px] font-bold">Artikel & Berita Terkait</h6>
+            <div class="grid grid-cols-1 gap-4 md:gap-6">
+              <ArtikelCardMobile v-for="artikel in posts" :key="artikel.id" :title="artikel.title" :slug="artikel.slug"
+                :image="artikel.image" :date="artikel.pub_date" />
+            </div>
+          </div>
+        </div>
       </div>
     </template>
   </SectionLayout>

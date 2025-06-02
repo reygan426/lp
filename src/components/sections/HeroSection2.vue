@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { SliderItem } from '@/core/types/slider';
 import ButtonSection from '../ButtonSection.vue';
 import TextBody from '../TextBody.vue';
-import type { HeroSlider } from '@/core/types/slider';
 
-interface Props {
-    sliders: HeroSlider[];
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+const getImageUrl = (imagePath: string | null) => {
+    if (!imagePath) return 'https://placehold.co/600x400';
+    return `${baseUrl}/sliders/${imagePath}`;
+};
+
+const props = defineProps<{
+    sliders: SliderItem[];
     pageName: string;
     linkPage: string;
-}
-
-const props = defineProps<Props>();
+}>();
 </script>
 
 <template>
@@ -17,11 +22,11 @@ const props = defineProps<Props>();
         <div class="w-full h-full relative">
             <div class="w-full h-full relative flex items-center">
                 <div class="absolute inset-0 w-full h-full hero2-container overflow-hidden">
-                    <img :src="sliders[0].image" :alt="sliders[0].title"
-                        class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box hidden md:block">
+                    <img :src="getImageUrl(sliders[0]?.image || '')" :alt="sliders[0]?.title"
+                        class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box">
 
-                    <img :src="sliders[0].image2" :alt="sliders[0].title"
-                        class="w-full h-full object-cover object-[75%_75%] obejct-top md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box md:hidden">
+                    <!-- <img :src="sliders[0].image2" :alt="sliders[0].title"
+                        class="w-full h-full object-cover object-[75%_75%] obejct-top md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero2-box md:hidden"> -->
 
                     <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
                         xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -44,11 +49,11 @@ const props = defineProps<Props>();
                     <div class="w-full space-y-2">
                         <h1
                             class="max-w-[75%] lg:max-w-[65%] text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
-                            {{ sliders[0].title }}
+                            {{ sliders[0]?.title }}
                         </h1>
                         <div
                             class="max-w-[70%] lg:max-w-[50%] px-4 py-5 bg-white/10 backdrop-blur-sm rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
-                            <TextBody class="text-white">{{ sliders[0].description }}</TextBody>
+                            <TextBody class="text-white"><span v-html="sliders[0]?.description"></span></TextBody>
                         </div>
                     </div>
 
@@ -68,7 +73,7 @@ const props = defineProps<Props>();
                     <div class=" space-y-2 ">
                         <h1
                             class="max-w-[75%] lg:max-w-2/3 text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
-                            {{ sliders[0].title }}
+                            {{ sliders[0]?.title }}
                         </h1>
                     </div>
 

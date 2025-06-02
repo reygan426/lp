@@ -21,7 +21,7 @@ defineProps<{
 
         <!-- Tablet & Dekstop -->
         <div class="md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 hidden">
-            <ArticleCard v-for="(article, index) in berita" :key="index" :title="article.title" :date="article.pub_date"
+            <ArticleCard v-for="(article, index) in berita" :key="index" :title="article.title" :slug="article.slug" :date="article.pub_date"
                 :image="article.image" />
         </div>
 
@@ -31,7 +31,7 @@ defineProps<{
                 <swiper class="w-full" :slides-per-view="1.2" :space-between="16" :centered-slides="false"
                     :grab-cursor="true" :watch-slides-progress="true">
                     <swiper-slide v-for="(article, index) in berita" :key="index">
-                        <ArticleCard :title="article.title"
+                        <ArticleCard :title="article.title" :slug="article.slug"
                             :date="article.pub_date" :image="article.image" />
                     </swiper-slide>
                 </swiper>

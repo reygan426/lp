@@ -80,11 +80,12 @@ const profileItems = [
 ]
 
 const packageItems = [
-  { name: 'Package', link: '/package' },
-  { name: 'Jatidiri Sekolah', link: '/jatidiri-sekolah' },
-  { name: 'Jatidiri Corporate', link: '/jatidiri-corporate' },
-  { name: 'Jatidiri Keluarga', link: '/jatidiri-keluarga' },
-  { name: 'Jatidiri Ku', link: '/jatidiri-ku' },
+  { name: 'Pelatihan', link: '/pelatihan-konselor' },
+  { name: 'Jatidiri Sekolah', link: '/program/jatidiri-sekolah' },
+  { name: 'Jatidiri University', link: '/program/jatidiri-university' },
+  { name: 'Jatidiri Corporate', link: '/program/jatidiri-corporate' },
+  { name: 'Jatidiri Keluarga', link: '/program/jatidiri-keluarga' },
+  { name: 'Jatidiri Ku', link: '/program/jatidiri-ku' },
 ]
 
 const beritaItems = [

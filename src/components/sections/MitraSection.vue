@@ -5,10 +5,16 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
-import type { Partner } from '@/core/types/partner';
+import type { PartnerItem } from '@/core/types/partner';
 
 const modules = ref([Autoplay, Pagination]);
 const isMobile = ref(false);
+const baseUrl = import.meta.env.VITE_APP_IMG_URL;
+
+const getImageUrl = (imagePath: string | null) => {
+  if (!imagePath) return 'https://placehold.co/600x400';
+  return `${baseUrl}/partners/${imagePath}`;
+};
 
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 768;
@@ -24,27 +30,33 @@ onUnmounted(() => {
 });
 
 const props = defineProps<{
-  partners: Partner[]
+  partners: PartnerItem[]
 }>();
 
-const titleHTML = 'Mitra <span class="text-primary">Kerjasama</span>';
+const titleHTML = `Lebih Dari <span class="text-primary">${props.partners.length}</span> Mitra Kerjasama`;
 
 const groupedPartners = computed(() => {
-  const partnersToShow = props.partners?.slice(0, 15) || [];
+  const partnersToShow = props.partners || [];
   const itemsPerGroup = isMobile.value ? 3 : 5;
+  
+  const totalGroups = Math.ceil(partnersToShow.length / itemsPerGroup);
 
-  const desiredGroupCount = Math.min(
-    Math.max(1, Math.ceil(partnersToShow.length / itemsPerGroup)),
-    3
-  );
-
-  const partnersPerGroup = Math.ceil(partnersToShow.length / desiredGroupCount);
-
-  const groups = [];
-  for (let i = 0; i < partnersToShow.length; i += partnersPerGroup) {
-    groups.push(partnersToShow.slice(i, i + partnersPerGroup));
+  if (totalGroups <= 3) {
+    const groups = [];
+    for (let i = 0; i < partnersToShow.length; i += itemsPerGroup) {
+      groups.push(partnersToShow.slice(i, i + itemsPerGroup));
+    }
+    return groups;
   }
-
+  
+  const groups = [];
+  
+  for (let i = 0; i < 3; i++) {
+    const start = Math.floor((i / 3) * partnersToShow.length);
+    const end = Math.floor(((i + 1) / 3) * partnersToShow.length);
+    groups.push(partnersToShow.slice(start, end));
+  }
+  
   return groups;
 });
 </script>
@@ -54,10 +66,10 @@ const groupedPartners = computed(() => {
     <div
       class="w-full px-[20px] py-[32px] md:px-[60px] md:py-[60px] lg:px-[120px] lg:py-[60px] space-y-12 md:space-y-16 lg:space-y-20">
       <div class="w-full flex justify-center items-center">
-        <TitleSection :text="titleHTML" :html="true" :delay="60" />
+        <TitleSection v-if="props.partners.length" :text="titleHTML" :html="true" :delay="60" />
       </div>
     </div>
-    <div class="lg:pb-10 px-4">
+    <div class="lg:pb-10">
       <swiper v-if="groupedPartners.length > 0" :modules="modules" :slides-per-view="1" :space-between="30" :speed="650"
         :loop="true" :autoplay="{
           delay: 2800,
@@ -69,10 +81,10 @@ const groupedPartners = computed(() => {
           bulletActiveClass: 'custom-bullet-active'
         }">
         <swiper-slide v-for="(group, groupIndex) in groupedPartners" :key="groupIndex">
-          <div :class="`grid ${isMobile ? 'grid-cols-3' : 'grid-cols-5'} gap-4 w-full mx-auto`">
+          <div :class="`grid ${isMobile ? 'grid-cols-3' : 'grid-cols-5'} gap-4 w-full justify-items-center`">
             <div v-for="(partner, index) in group" :key="index"
-              class="w-16 lg:w-40 flex items-center justify-center lg:mb-10">
-              <img :src="partner?.image || ''" :alt="partner?.name"
+              class="w-32 lg:w-52 lg:mb-10">
+              <img :src="getImageUrl(partner?.image) || ''" :alt="partner?.name"
                 class="w-full h-full object-contain" loading="lazy" />
             </div>
           </div>
@@ -88,6 +100,7 @@ const groupedPartners = computed(() => {
 </template>
 
 <style>
+/* All existing styles remain exactly the same */
 .swiper-wrapper {
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
   align-items: center;
@@ -156,14 +169,6 @@ const groupedPartners = computed(() => {
     height: 8px;
   }
 }
-
-/*
-@media (max-width: 767px) {
-  .custom-bullet,
-  .custom-bullet-active {
-    display: none;
-  }
-} */
 
 @media (min-width: 1024px) {
   .swiper-pagination {
