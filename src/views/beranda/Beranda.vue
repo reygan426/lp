@@ -15,6 +15,9 @@ import { usePartnerStore } from '@/stores/partner';
 import { useIdentityStore } from '@/stores/identity';
 import { useProgramStore } from '@/stores/program';
 import { useTestimoniStore } from '@/stores/testimoni';
+import SeoMeta from '@/components/SeoMeta.vue';
+import Logo from '@/assets/logo/logo-text.png'
+import { useHead } from '@vueuse/head';
 
 const postStore = usePostStore();
 const sliderStore = useSliderStore();
@@ -33,16 +36,40 @@ onMounted(async () => {
   await programStore.fetchProgram()
   await testimoniStore.fetchTestimonial()
 });
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Jatidiri.App",
+  "url": "https://jatidiri.app",
+  "logo": "https://cms.jatidiri.app/storage/identities/KtufuVgVqXJ9Af5YHn0tWy0OPQWUBPx5LHHuF3pc.png",
+  "description": "Platform edukasi pengembangan diri"
+};
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
+});
 </script>
 
 <template>
+  <SeoMeta title="Beranda" description="Platform edukasi dan pengembangan diri untuk membangun jatidiri sejati"
+    keywords="jatidiri, pendidikan, pengembangan diri, sekolah, corporate" :og-image="Logo" :meta-tags="[
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:creator', content: '@jatidiriapp' }
+    ]" />
+
   <MainLayout position="fixed" :white-section-visible="false">
     <HeroSection v-if="sliderStore.sliders" :sliders="sliderStore.sliders.slice(0, 3)" />
-    <UspSection v-if="unggulanStore.unggulans" :unggulan="unggulanStore.unggulans"/>
+    <UspSection v-if="identityStore.identity" :unggulan="unggulanStore.unggulans" :identity="identityStore.identity" />
     <!-- <MitraSection v-if="partnerStore.partners.length" :partners="partnerStore.partners" /> -->
     <AboutSection v-if="identityStore.identity" :identity="identityStore.identity" />
     <ServiceSection v-if="programStore.programs" />
     <TestimonialsSection v-if="testimoniStore.testimonials" :testimoni="testimoniStore.testimonials" />
-    <ListBerita :berita="postStore.posts" />
+    <ListBerita :berita="postStore.posts.slice(0, 3)" />
   </MainLayout>
 </template>

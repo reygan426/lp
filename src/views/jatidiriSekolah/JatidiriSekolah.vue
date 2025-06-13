@@ -13,6 +13,7 @@ import { useUnggulanStore } from '@/stores/unggulan';
 import HeroImgSection from '@/components/sections/HeroImgSection.vue';
 import { useProgramStore } from '@/stores/program';
 import { usePortofolioState } from '@/stores/portofolio';
+import { useHead } from '@vueuse/head';
 // import PortoSection from './sections/PortoSection.vue';
 
 const testimoniStore = useTestimoniStore();
@@ -27,6 +28,24 @@ onMounted(async () => {
     await unggulanStore.fetchUnggulan()
     await programStore.fetchProgramBySlug('jatidiri-sekolah')
     await portoStore.fetchPortofolio()
+});
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Program Jatidiri Sekolah",
+  "url": "https://jatidiri.app/program/jatidiri-sekolah",
+  "logo": "https://cms.jatidiri.app/storage/identities/KtufuVgVqXJ9Af5YHn0tWy0OPQWUBPx5LHHuF3pc.png",
+  "description": "Program pengembangan karakter untuk institusi pendidikan"
+};
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
 });
 </script>
 

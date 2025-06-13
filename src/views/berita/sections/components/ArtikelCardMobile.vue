@@ -8,20 +8,20 @@ const getImageUrl = (imagePath: string | null) => {
 };
 
 const formatDate = (dateString: string | null) => {
-  if (!dateString) return '11 Januari 2022';
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
-  return new Date(dateString).toLocaleDateString('id-ID', options);
+    if (!dateString) return '11 Januari 2022';
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
 };
 
 const props = defineProps({
     title: {
         type: String,
     },
-        slug: {
+    slug: {
         type: String,
     },
     date: {
@@ -35,13 +35,17 @@ const props = defineProps({
     },
     image: {
         type: String,
+    },
+    category : {
+        type: String,
+        default: 'Artikel'
     }
 });
 
 const goToDetail = () => {
     router.push({
-      name: 'Berita Detail',
-      params: { slug: props.slug }
+        name: 'Berita Detail',
+        params: { slug: props.slug }
     });
 };
 </script>
@@ -53,7 +57,7 @@ const goToDetail = () => {
         </div>
         <div class="w-[65%] space-y-2">
             <div class="py-1 px-2 bg-[#F5F2FF] rounded-full w-fit">
-                <p class="text-primary text-[10px] md:text-[12px]">Artikel</p>
+                <p class="text-primary text-[10px] md:text-[12px]">{{ category }}</p>
             </div>
             <h6 class="text-[12px] md:text-[14px] font-bold line-clamp-3">{{ title }}</h6>
             <div class="w-full border border-black/25"></div>

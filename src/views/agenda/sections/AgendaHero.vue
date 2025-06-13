@@ -93,7 +93,7 @@ defineProps<{
 
           <div class="space-y-2">
             <div>
-              <h3 class="text-[18px] md:text-[20px] lg:text-[24px] font-bold">{{ agenda[0]?.title }}</h3>
+              <h1 class="text-[18px] md:text-[20px] lg:text-[24px] font-bold">{{ agenda[0]?.title }}</h1>
               <TextBody>{{ agenda[0]?.location }}</TextBody>
             </div>
 

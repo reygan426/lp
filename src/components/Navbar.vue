@@ -222,11 +222,9 @@ const beritaItems = [
 
       <div>
         <button
-          class="px-6 py-3 border-2 text-[10px] md:text-[12px] lg:text-[16px] font-semibold rounded-full transition-colors duration-300 hover:bg-primary hover:text-white cursor-pointer"
-          :class="{
-            'border-white text-white': !hasWhiteBackground,
-            'border-primary text-primary': hasWhiteBackground
-          }">Check
+          class="px-6 py-3 border-2 text-[10px] md:text-[12px] lg:text-[16px] font-semibold rounded-full transition-colors duration-300 border-primary text-primary hover:bg-primary hover:text-white cursor-pointer"
+          >
+          Check
           Now</button>
       </div>
     </nav>

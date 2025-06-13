@@ -25,6 +25,9 @@ const props = defineProps<{
                 <div class="absolute inset-0 w-full h-full hero3-container overflow-hidden">
                     <img :src="getImageUrl(image || '')" :alt="title"
                         class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero3-box">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-primary/50 via-transparent to-transparent hero3-box z-2">
+                    </div>
 
                     <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
                         xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -47,7 +50,8 @@ const props = defineProps<{
                         </h1>
                         <div
                             class="max-w-[70%] lg:max-w-[60%] px-4 py-5 bg-white/10 backdrop-blur-sm rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
-                            <TextBody class="text-white"><span class="line-clamp-2" v-html="description"></span></TextBody>
+                            <TextBody class="text-white"><span class="line-clamp-2" v-html="description"></span>
+                            </TextBody>
                         </div>
                     </div>
 
@@ -59,10 +63,10 @@ const props = defineProps<{
                 </div>
 
                 <!-- Mobile -->
-                <div class="absolute bottom-0 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
+                <div class="absolute bottom-1/2 translate-y-1/2 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
                     <div class=" space-y-2 ">
                         <h1
-                            class="max-w-[75%] lg:max-w-2/3 text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
+                            class="max-w-[60%] lg:max-w-2/3 text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
                             {{ title }}
                         </h1>
                     </div>

@@ -47,14 +47,14 @@ const goToDetail = () => {
 
 <template>
     <div
-        class="p-4 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] bg-white group hover:-translate-y-3 transition duration-500 cursoir-pointer" @click="goToDetail">
+        class="p-4 rounded-[8px] md:rounded-[16px] lg:rounded-[24px] bg-white group hover:-translate-y-3 transition duration-500 cursor-pointer" @click="goToDetail">
         <div class="w-full h-[160px] md:h-[200px] lg:h-[240px] relative mb-4 md:mb-5 lg:mb-6">
             <div class="absolute top-4 left-4 py-1 px-3 bg-white/25 rounded-full z-10">
                 <p class="text-[8px] md:text-[10px] lg:text-[12px] text-primary">Artikel</p>
             </div>
             <div class="w-full h-full article-container">
                 <img :src="getImageUrl(image || '')" alt=""
-                    class="h-full w-full object-cover rounded-[8px] md:rounded-[16px] lg:rounded-[24px] article-box">
+                    class="h-full w-full object-cover rounded-[4px] md:rounded-[8px] lg:rounded-[16px] article-box">
                 <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
                     xmlns="http://www.w3.org/2000/svg" version="1.1">
                     <defs>

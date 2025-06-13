@@ -52,6 +52,11 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        'radial-gradient': 'radial-gradient(circle, var(--tw-gradient-stops))',
+        'radial-gradient-at-center': 'radial-gradient(circle at center, var(--tw-gradient-stops))',
+        'radial-gradient-at-top': 'radial-gradient(circle at top, var(--tw-gradient-stops))',
+      }
     },
   },
 

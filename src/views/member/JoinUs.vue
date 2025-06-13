@@ -7,6 +7,7 @@ import { useSliderStore } from '@/stores/slider';
 import { useIdentityStore } from '@/stores/identity';
 import { onMounted } from 'vue';
 import HeroAboutSection from '../about/sections/HeroAboutSection.vue';
+import { useHead } from '@vueuse/head';
 
 const sliderStore = useSliderStore();
 const identityStore = useIdentityStore();
@@ -16,6 +17,23 @@ onMounted(async () => {
   await identityStore.fetchIdentity()
 });
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Bergabung Dengan Jatidiri.App",
+  "url": "https://jatidiri.app/join-us",
+  "logo": "https://cms.jatidiri.app/storage/identities/KtufuVgVqXJ9Af5YHn0tWy0OPQWUBPx5LHHuF3pc.png",
+  "description": "Bergabung menjadi bagian dari komunitas Jatidiri.App"
+};
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
+});
 </script>
 
 <template>

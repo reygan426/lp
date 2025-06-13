@@ -7,6 +7,7 @@ import { useIdentityStore } from '@/stores/identity';
 import { onMounted } from 'vue';
 import Bg4 from '@/assets/bg4.jpg'
 import HeroAboutSection from '../about/sections/HeroAboutSection.vue';
+import { useHead } from '@vueuse/head';
 
 const sliderStore = useSliderStore();
 const identityStore = useIdentityStore();
@@ -16,6 +17,23 @@ onMounted(async () => {
   await identityStore.fetchIdentity()
 });
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kontak Jatidiri.App",
+  "url": "https://jatidiri.app/contact",
+  "logo": "https://cms.jatidiri.app/storage/identities/KtufuVgVqXJ9Af5YHn0tWy0OPQWUBPx5LHHuF3pc.png",
+  "description": "Hubungi tim Jatidiri.App untuk informasi lebih lanjut"
+};
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
+});
 </script>
 
 <template>

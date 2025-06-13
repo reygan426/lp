@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import TextBody from '@/components/TextBody.vue'
-import TitleSection from '@/components/TitleSection.vue';
 import ButtonSection from '@/components/ButtonSection.vue';
 import type { AgendaItem } from '@/core/types/agenda';
+import TitleMain from '@/components/TitleMain.vue';
 
 defineProps<{
   agenda: AgendaItem[]
@@ -38,7 +38,7 @@ const formatDate = (dateStr: string): string => {
 
     <div class="w-full flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
       <div class="w-full flex flex-col gap-4 md:gap-6 lg:gap-8">
-        <TitleSection v-if="agenda[0]?.title" :text="agenda[0]?.title"></TitleSection>
+        <TitleMain v-if="agenda[0]?.title" :text="agenda[0]?.title"></TitleMain>
         <a v-if="agenda[0]?.register_link" :href="agenda[0].register_link" target="_blank">
           <ButtonSection>Register</ButtonSection>
         </a>

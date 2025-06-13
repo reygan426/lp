@@ -1,12 +1,18 @@
-import { defineStore } from "pinia";
-import type { Post } from "@/core/types/post";
 import PostService from "@/core/services/PostService";
+import type { PostApiResponse, PostItem } from "@/core/types/post";
+import { defineStore } from "pinia";
 
 interface PostState {
-  posts: Post[];
-  currentPost: Post | null;
+  posts: PostItem[];
+  currentPost: PostItem | null;
   loading: boolean;
   error: string | null;
+  pagination: {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+  };
 }
 
 export const usePostStore = defineStore("post", {
@@ -15,15 +21,27 @@ export const usePostStore = defineStore("post", {
     currentPost: null,
     loading: false,
     error: null,
+    pagination: {
+      currentPage: 1,
+      lastPage: 1,
+      perPage: 10,
+      total: 0,
+    },
   }),
 
   actions: {
-    async fetchPosts() {
+    async fetchPosts(page = 1) {
       this.loading = true;
       this.error = null;
       try {
-        const response = await PostService.getAll();
-        this.posts = response.data.data;
+        const response: PostApiResponse = await PostService.getAll(page);
+        this.posts = response.data;
+        this.pagination = {
+          currentPage: response.current_page,
+          lastPage: response.last_page,
+          perPage: response.per_page,
+          total: response.total,
+        };
       } catch (error: any) {
         this.error = error.message || "Failed to fetch posts";
         console.error("Error fetching posts:", error);

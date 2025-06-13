@@ -44,9 +44,9 @@ const goToDetail = () => {
     <div class="w-full h-[160px] md:h-[200px] lg:h-[240px] relative mb-4 md:mb-5 lg:mb-6">
       <div class="absolute top-4 left-4 z-10 flex gap-4 items-center">
         <div class="py-1 px-3 bg-white/25 rounded-full">
-          <p class="text-[8px] md:text-[10px] lg:text-[12px] text-primary">Artikel</p>
+          <p class="text-[8px] md:text-[10px] lg:text-[12px] text-white">Artikel</p>
         </div>
-        <p class="text-[10px] md:text-[12px]">5 Menit Baca</p>
+        <p class="text-[10px] md:text-[12px] text-white">5 Menit Baca</p>
       </div>
       <div class="w-full h-full article-container">
         <img :src="getImageUrl(image || '')" alt=""

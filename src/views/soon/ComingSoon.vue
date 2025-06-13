@@ -60,8 +60,7 @@ onMounted(() => {
                 </div>
 
                 <h2 class="text-[120px] font-bold leading-none transition-all duration-1000 ease-out delay-400"
-                    :class="{ 'translate-y-[50px] opacity-0': !isLoaded, 'translate-y-0 opacity-100': isLoaded }">IS ON
-                    THE WAY</h2>
+                    :class="{ 'translate-y-[50px] opacity-0': !isLoaded, 'translate-y-0 opacity-100': isLoaded }">COMING SOON</h2>
             </div>
 
             <div class="w-full flex flex-col items-center md:hidden">
@@ -79,8 +78,7 @@ onMounted(() => {
 
                     <h2 class="text-[54px] font-bold leading-none transition-all duration-1000 ease-out delay-200"
                         :class="{ 'translate-x-[-30px] opacity-0': !isLoaded, 'translate-x-0 opacity-100': isLoaded }">
-                        IS
-                        ON</h2>
+                        COMING</h2>
 
 
                     <p class="max-w-[40%] text-[10px] md:text-[14px] lg:text-[18px] font-normal transition-all duration-1000 ease-out delay-300"
@@ -92,8 +90,7 @@ onMounted(() => {
 
 
                 <h2 class="text-[54px] font-bold leading-none w-full text-right transition-all duration-1000 ease-out delay-400"
-                    :class="{ 'translate-y-[30px] opacity-0': !isLoaded, 'translate-y-0 opacity-100': isLoaded }">THE
-                    WAY
+                    :class="{ 'translate-y-[30px] opacity-0': !isLoaded, 'translate-y-0 opacity-100': isLoaded }">SOON
                 </h2>
             </div>
 

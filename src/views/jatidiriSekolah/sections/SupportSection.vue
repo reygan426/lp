@@ -3,6 +3,21 @@ import ButtonSection from '@/components/ButtonSection.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import Glow from '@/assets/glow.png'
 import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
+import { onMounted } from 'vue';
+import { useIdentityStore } from '@/stores/identity';
+
+const identityStore = useIdentityStore()
+
+onMounted(async () => {
+  await identityStore.fetchIdentity()
+});
+
+const handleWhatsAppClick = () => {
+    const phoneNumber = identityStore.identity?.[0]?.phone ?? '6281222181823';
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`;
+    window.open(whatsappUrl, '_blank');
+};
+
 </script>
 
 <template>
@@ -29,7 +44,7 @@ import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
 
             <div class="w-1/2 h-[580px]">
                 <HeroVideoDialog
-                    :size="'w-full h-[580px] object-cover org2-box rounded-[8px] md:rounded-[16px] lg:rounded-[24px]'"
+                    :size="'w-full h-[580px] object-[24%_24%] org2-box rounded-[8px] md:rounded-[16px] lg:rounded-[24px]'"
                     :video-src="`https://www.youtube.com/embed/rVO_uMOTaD0?si=s1BluG0Jafxb9TkD`" :thumbnail-src="'https://cms.jatidiri.app/storage/dukungans/UvHuOmMkU2QadvKcVHIM8gUuSr8iLjgxWeD4wI4w.jpg'"
                     :thumbnail-alt="`Jatidiri`" animation-style="from-center" />
             </div>
@@ -81,7 +96,7 @@ import HeroVideoDialog from '@/components/sections/HeroVideoDialog.vue';
                     <ButtonSection>Check Now</ButtonSection>
                 </a>
                 <ButtonSection bg-color="bg-transparent" bg-hover="bg-secondary" text-color="text-primary"
-                    text-hover="text-white" border-color="border-primary" arrow-color="primary" arrow-hover="white">
+                    text-hover="text-white" border-color="border-primary" arrow-color="primary" arrow-hover="white" @click="handleWhatsAppClick">
                     Contact Us</ButtonSection>
             </div>
         </div>

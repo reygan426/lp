@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import TextBody from '@/components/TextBody.vue'
-import type { Post } from '@/core/types/post'
+import type { PostItem } from '@/core/types/post'
 import type { AgendaItem } from '@/core/types/agenda';
 import router from '@/router';
 import ArtikelCardMobile from '@/views/berita/sections/components/ArtikelCardMobile.vue';
@@ -25,16 +24,16 @@ const formatDate = (dateStr: string): string => {
 }
 
 defineProps<{
-  posts?: Post[]
+  posts?: PostItem[]
   currentAgenda?: AgendaItem | null
   agenda: AgendaItem[]
 }>();
 
 const goToDetail = (slug: string) => {
-    router.push({
-      name: 'Agenda Detail',
-      params: { slug: slug }
-    });
+  router.push({
+    name: 'Agenda Detail',
+    params: { slug: slug }
+  });
 };
 </script>
 
@@ -43,38 +42,41 @@ const goToDetail = (slug: string) => {
     <div class="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10">
       <!-- Konten utama -->
       <div class="w-full md:w-[65%]">
-        <TextBody>
-          <span class="text-justify" v-html="currentAgenda?.content"></span>
-        </TextBody>
+        <p class="text-[12px] md:text-[14px] lg:text-[16px]"><span class="w-full prose-base max-w-none
+                [&_a]:text-blue-600 [&_a]:underline [&_a]:font-medium [&_a:hover]:text-blue-800
+                [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2
+                [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2
+                [&_li]:my-1" v-html="currentAgenda?.content"></span></p>
       </div>
 
       <div class="w-full md:w-[30%] space-y-4 md:space-y-6">
-          <div class="space-y-4 md:space-y-6">
-            <h6 class="text-[16px] md:text-[22px] font-bold">Agenda Terkait</h6>
-            <div class="w-full h-full space-y-4" @click="goToDetail(agenda[0]?.slug)">
-              <img :src="getImageUrl(agenda[0]?.image || '')" alt="" class="w-full h-[20vh] rounded-[16px] object-cover">
-              <div class="w-full flex justify-between items-center gap-4">
+        <div class="space-y-4 md:space-y-6">
+          <h6 class="text-[16px] md:text-[22px] font-bold">Agenda Terkait</h6>
+          <div class="w-full h-full space-y-4" @click="goToDetail(agenda[0]?.slug)">
+            <img :src="getImageUrl(agenda[0]?.image || '')" alt="" class="w-full h-[20vh] rounded-[16px] object-cover">
+            <div class="w-full flex justify-between items-center gap-4">
+              <div>
+                <p class="text-[12px] md:text-[14px] lg:text-[16px]">{{ agenda[0]?.title }}</p>
                 <div>
-                  <p class="text-[12px] md:text-[14px] lg:text-[16px]">{{ agenda[0]?.title }}</p>
-                  <div>
-                    <p class="text-[10px] md:text-[12px] lg:text-[14px]">{{ formatDate(agenda[0]?.end_date) }} • <span>{{ agenda[0]?.location }}</span></p>
-                  </div>
+                  <p class="text-[10px] md:text-[12px] lg:text-[14px]">{{ formatDate(agenda[0]?.end_date) }} • <span>{{
+                      agenda[0]?.location }}</span></p>
                 </div>
-                <a :href="agenda[0]?.register_link" class="w-fit">
-                  <ButtonSection>Daftar</ButtonSection>
-                </a>
               </div>
-            </div>
-          </div>
-
-          <div class="space-y-4 md:space-y-6">
-            <h6 class="text-[16px] md:text-[22px] font-bold">Artikel & Berita Terkait</h6>
-            <div class="grid grid-cols-1 gap-4 md:gap-6">
-              <ArtikelCardMobile v-for="artikel in posts" :key="artikel.id" :title="artikel.title" :slug="artikel.slug"
-                :image="artikel.image" :date="artikel.pub_date" />
+              <a :href="agenda[0]?.register_link" class="w-fit">
+                <ButtonSection>Daftar</ButtonSection>
+              </a>
             </div>
           </div>
         </div>
+
+        <div class="space-y-4 md:space-y-6">
+          <h6 class="text-[16px] md:text-[22px] font-bold">Artikel & Berita Terkait</h6>
+          <div class="grid grid-cols-1 gap-4 md:gap-6">
+            <ArtikelCardMobile v-for="artikel in posts" :key="artikel.id" :title="artikel.title" :slug="artikel.slug"
+              :image="artikel.image" :date="artikel.pub_date" />
+          </div>
+        </div>
+      </div>
 
       <!-- Sidebar -->
       <!-- <div class="w-full md:w-[35%] flex flex-col gap-6 md:gap-8 lg:gap-8">

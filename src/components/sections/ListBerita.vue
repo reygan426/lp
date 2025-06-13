@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Post } from '@/core/types/post';
+import type { PostItem } from '@/core/types/post';
 import ArticleCard from '../ArticleCard.vue';
 import TitleSection from '../TitleSection.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css';
 
 defineProps<{
-    berita: Post[];
+    berita: PostItem[];
 }>();
 </script>
 

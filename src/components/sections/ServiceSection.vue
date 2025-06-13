@@ -3,6 +3,7 @@ import ButtonSection from '@/components/ButtonSection.vue'
 import TextBody from '@/components/TextBody.vue'
 import TitleSection from '@/components/TitleSection.vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { motion } from 'motion-v'
 import Store from '@/assets/icon/store.png'
 import Sparkles from '@/assets/sp.png'
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -15,6 +16,7 @@ export default {
         ButtonSection,
         Swiper,
         SwiperSlide,
+        motion
     },
     setup() {
         const macWindow = ref(null)
@@ -41,7 +43,7 @@ export default {
             {
                 title: "Jatidiri University",
                 image: 'https://plus.unsplash.com/premium_photo-1691533145674-881e1c685d8a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kb25lc2lhJTIwdW5pdmVyc2l0eXxlbnwwfHwwfHx8MA%3D%3D',
-                content: "Jatidiri University adalah platform inovatif yang mengintegrasikan teknologi canggih dengan layanan psikologi profesional untuk mendukung mahasiswa, dosen, dan institusi pendidikan tinggi dalam menggali potensi diri, memperkuat karakter, serta meningkatkan kualitas pembelajaran dan kehidupan kampus. <br> Sejalan dengan misi peningkatan mutu pendidikan tinggi, Jatidiri University menyediakan tes psikologis dan layanan konseling berbasis data yang mendalam untuk mendukung pendidikan personalisasi, pengembangan soft skills, dan kesejahteraan mental mahasiswa. Dengan fitur yang disesuaikan untuk dunia kampus, Jatidiri University menjadi mitra strategis dalam menciptakan lulusan yang tangguh, adaptif, dan berdaya saing global",
+                content: "Jatidiri University adalah platform inovatif yang mengintegrasikan teknologi canggih dengan layanan psikologi profesional untuk mendukung mahasiswa, dosen, dan institusi pendidikan tinggi dalam menggali potensi diri, memperkuat karakter, serta meningkatkan kualitas pembelajaran dan kehidupan kampus. <br> Sejalan dengan misi peningkatan mutu pendidikan tinggi, Jatidiri University menyediakan tes psikologis dan layanan konseling berbasis data yang mendalam untuk mendukung pendidikan personalisasi, pengembangan soft skills, dan kesejahteraan mental mahasiswa. Dengan fitur yang disesuaikan untuk dunia kampus, Jatidiri University menjadi mitra strategis dalam menciptakan lulusan yang tangguh, adaptif, dan berdaya saing global",
                 features: ["Tes Potensi dan Karakter", "Tes Kecocokan Karier", "Tes Kepemimpinan dan Kolaborasi", 'Tes Kemampuan Kognitif'],
                 link: '/program/jatidiri-university'
             },
@@ -150,13 +152,30 @@ export default {
                             <div v-for="(tab, index) in tabs" :key="index"
                                 class="p-1 lg:p-4 text-white cursor-pointer transition-all duration-300 ease-in-out transform relative overflow-hidden"
                                 :class="{
-                                    'bg-[#9898FC] rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px] tab-active': activeTab === index,
+                                    'rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px]': activeTab === index,
                                     '': activeTab !== index
                                 }" @click="setActiveTab(index)">
                                 <span class="relative z-10 text-[8px] md:text-[12px] lg:text-[20px] font-sora">{{
                                     tab.title }}</span>
-                                <div class="absolute inset-0 bg-[#9898FC] transition-transform duration-300 ease-in-out rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px]"
-                                    :class="activeTab === index ? 'translate-y-0' : 'translate-y-full'"></div>
+                                
+                                <!-- Motion-v animated background -->
+                                <motion.div 
+                                    v-if="activeTab === index" 
+                                    layoutId="activeTabIndicator"
+                                    initial="{ scaleY: 0 }"
+                                    animate="{ scaleY: 1 }" 
+                                    exit="{ scaleY: 0 }"
+                                    class="absolute inset-0 bg-[#9898FC] rounded-t-[8px] md:rounded-t-[16px] lg:rounded-t-[24px] z-0"
+                                    :style="{
+                                        originY: 'bottom',
+                                        scaleY: 1
+                                    }" 
+                                    :transition="{
+                                        type: 'spring',
+                                        bounce: 0.2,
+                                        duration: 0.6
+                                    }" 
+                                />
                             </div>
                         </div>
                     </div>
@@ -170,7 +189,8 @@ export default {
                                 'rounded-tl-[8px] md:rounded-tl-[16px] lg:rounded-tl-[24px]': isLastTab(activeTab),
                                 'opacity-70': isTransitioning
                             }" :key="contentKey">
-                            <div class="w-full md:w-[40%] group overflow-hidden animate-slide-in-right">
+                            <div
+                                class="w-full md:w-[40%] group overflow-hidden rounded-[4px] md:rounded-[8px] lg:rounded-[16px] animate-slide-in-right">
                                 <img :src="tabs[activeTab].image" alt=""
                                     class="w-full h-[180px] md:h-[280px] lg:h-[450px] object-cover object-top group-hover:scale-105 transition duration-500 rounded-[4px] md:rounded-[8px] lg:rounded-[16px]">
                             </div>
@@ -217,7 +237,8 @@ export default {
                     <swiper-slide v-for="(tab, index) in tabs" :key="index">
                         <div class="w-full h-[35vh] relative rounded-[16px] bg-cover bg-center"
                             :style="'background-image: url(' + tab.image + ');'">
-                            <div class="absolute bottom-0 w-full p-2 z-10 bg-white/20 backdrop-blur-sm rounded-b-[16px]">
+                            <div
+                                class="absolute bottom-0 w-full p-2 z-10 bg-white/20 backdrop-blur-sm rounded-b-[16px]">
                                 <div>
                                     <h6 class="text-[16px] font-bold text-white">{{ tab.title }}</h6>
                                     <p class="text-[12px] text-white">Package</p>
@@ -230,33 +251,6 @@ export default {
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="rounded-[16px] p-4 space-y-4 relative border-2 border-white/50 h-full">
-                            <div class="absolute inset-0">
-                                <img :src="Sparkles" alt=""
-                                    class="w-full h-full object-cover object-center rounded-[16px] border-2 border-white/50">
-                            </div>
-                            <div class="flex gap-4 relative z-2">
-                                <div class="w-12 h-12 rounded-full">
-                                    <img :src="tab.image" alt="" class="w-full h-full object-cover rounded-full">
-                                </div>
-                                <div>
-                                    <h6 class="text-[16px] font-bold text-white">{{ tab.title }}</h6>
-                                    <p class="text-[12px] text-white">Package</p>
-                                </div>
-                            </div>
-                            <div class="w-full flex gap-4 items-center relative z-2">
-                                <div class="w-full border-2 border-white/50 rounded-full">
-                                    <a :href="'https://cek.jatidiri.app/'">
-                                        <ButtonSection class="w-full flex justify-center items-center">Check Now
-                                        </ButtonSection>
-                                    </a>
-                                </div>
-                                <div
-                                    class="w-10 h-10 bg-white rounded-full p-2 border-2 border-primary/50 flex justify-center items-center">
-                                    <img :src="Store" alt="" class="w-6 object-cover">
-                                </div>
-                            </div>
-                        </div> -->
                     </swiper-slide>
                 </swiper>
             </div>
@@ -265,22 +259,6 @@ export default {
 </template>
 
 <style scoped>
-.tab-active {
-    animation: tabSlideIn 0.8s ease-in-out;
-}
-
-@keyframes tabSlideIn {
-    from {
-        transform: translateY(0px);
-        opacity: 0.8;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 /* Content animations */
 @keyframes slideInRight {
     from {

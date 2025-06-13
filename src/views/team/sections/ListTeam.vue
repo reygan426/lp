@@ -135,7 +135,7 @@ watch(() => paginatedMembers.value, () => {
 
 <template>
   <div ref="sectionRef"
-    class="py-[32px] px-[20px] md:py-[64px] md:px-[40px] lg:p-[120px] space-y-4 md:space-y-6 lg:space-y-8">
+    class="py-[32px] px-[20px] md:py-[64px] md:px-[40px] lg:px-[120px] lg:pt-[60px] lg:pb-4 space-y-4 md:space-y-6 lg:space-y-8">
     <div class="flex justify-center items-center gap-2 lg:gap-4">
       <div class="w-fit p-3 lg:py-2 lg:px-5 rounded-full cursor-pointer" :class="{ 'bg-white': activeFilter === 'all' }"
         @click="changeFilter('all')">

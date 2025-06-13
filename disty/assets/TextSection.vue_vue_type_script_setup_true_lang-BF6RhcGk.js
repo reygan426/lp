@@ -1,0 +1,1 @@
+import{d as t,c as s,n as a,R as n,o}from"./index-BvLjLqMI.js";const x=t({__name:"TextSection",props:{alignText:{},weightText:{}},setup(p){return(e,r)=>(o(),s("p",{class:a(["text-[12px] md:text-[14px] lg:text-[18px]",e.alignText,e.weightText])},[n(e.$slots,"default")],2))}});export{x as _};

@@ -6,7 +6,7 @@ import ButtonSection from '../ButtonSection.vue';
 </script>
 
 <template>
-    <div class="px-5 pt-[140px] pb-[40px] md:py-[140px] flex flex-col justify-center items-center relative overflow-hidden bg-[#F0F7FD]">
+    <div class="px-5 pt-[140px] pb-[20px] md:pb-10 md:pt-[140px] flex flex-col justify-center items-center relative overflow-hidden bg-[#F0F7FD]">
         <div class="absolute inset-0 mx-auto overflow-visible">
             <!-- globe with blue glow effect -->
             <div class="relative w-[1000px] h-[1000px] md:h-[1500px] md:w-[1500px] lg:h-[2000px] lg:w-[2000px] bg-[#F0F7FD] rounded-full left-1/2 -translate-x-1/2 top-24
@@ -18,7 +18,7 @@ import ButtonSection from '../ButtonSection.vue';
             </div>
         </div>
         <div
-            class="w-full max-w-[80%] md:max-w-[40%] mx-auto text-center space-y-6 md:space-y-8 lg:space-y-10 relative z-10">
+            class="w-full max-w-[80%] md:max-w-[50%] mx-auto text-center space-y-6 md:space-y-8 lg:space-y-10 relative z-10">
             <div class="w-full flex justify-center items-center">
                 <img :src="IconLogo" alt="Logo Icon Jatidiri.app" class="w-16 md:w-20 lg:w-24 h-full">
             </div>

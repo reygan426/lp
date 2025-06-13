@@ -96,7 +96,8 @@ onMounted(() => {
             </svg>
             <img :src="getImageUrl(slide.image)" :alt="slide.title"
               class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero-box">
-            <div class="absolute inset-0 bg-gradient-to-r from-primary/50 via-transparent to-transparent hero-box"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/50 via-transparent to-transparent hero-box">
+            </div>
           </div>
 
           <div class="relative z-10 md:px-[40px] lg:px-[88px] space-y-4 lg:space-y-6 hidden md:block">
@@ -122,13 +123,13 @@ onMounted(() => {
           </div>
 
           <!-- Mobile -->
-          <div class="absolute bottom-0 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
+          <div class="absolute bottom-1/2 translate-y-1/2 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
             <div class="slide-content bg-[#5A28FF20] w-fit py-2 px-5 rounded-full ">
               <h6 class="text-[10px] md:text-[12px] lg:text-[16px] text-white">Jatidiri.App</h6>
             </div>
 
             <div class="slide-content space-y-2 ">
-              <h1 class="max-w-[75%] lg:max-w-[70%] text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
+              <h1 class="max-w-[60%] lg:max-w-[70%] text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
                 {{ slide.title }}
               </h1>
             </div>

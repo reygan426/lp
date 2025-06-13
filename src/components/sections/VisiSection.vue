@@ -56,17 +56,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="md:py-[64px] md:px-[40px] lg:px-0 lg:py-[120px]">
+    <div class="md:py-[64px] md:px-[0px] lg:px-0 lg:py-[30px]">
         <div ref="macWindow" class="visi-container">
             <div class="mx-auto lg:py-[120px] lg:px-[40px] bg-white rounded-[8px] md:rounded-[16px] lg:rounded-[24px] visi-box"
                 :style="{ 
                     width: `${dynamicWidth}%`,
                     transition: 'width 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }">
-                <div class="w-[75vw] md:w-[80vw] py-10 md:py-0 mx-auto space-y-6 md:space-y-8 lg:space-y-12">
-                    <div class="w-full h-full flex flex-col md:flex-row justify-between items-start gap-8 md:gap-0">
-                        <h6 class="w-fit text-[14px] md:text-[16px] lg:text-[20px] font-medium">Visi Jatidiri</h6>
-                        <div class="w-full md:w-1/2">
+                <div class="w-[75vw] md:w-[80vw] py-10 md:py-16 mx-auto space-y-6 md:space-y-8 lg:space-y-12">
+                    <div class="w-full h-full flex flex-col md:flex-row justify-between items-start gap-8">
+                        <div class="w-fit md:w-[20%] lg:w-[16%] xl:w-[14%]">
+                            <h6 class="w-full text-[14px] md:text-[16px] lg:text-[20px] font-medium">Visi Jatidiri</h6>
+                        </div>
+                        <div class="w-full md:w-full">
                             <TitleSection
                                 :text="'Mewujudkan masyarakat Indonesia yang berdaya melalui pemahaman diri yang mendalam.'" />
                         </div>

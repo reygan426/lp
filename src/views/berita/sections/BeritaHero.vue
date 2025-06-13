@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import TextSection from '@/components/TextSection.vue';
-import type { Post } from '@/core/types/post';
 import { computed } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { toast } from 'vue3-toastify';
@@ -12,6 +11,7 @@ import WhatsappIcon from '@/assets/icon/wa.png';
 import FacebookIcon from '@/assets/icon/fb.png';
 import TwitterIcon from '@/assets/icon/x.png';
 import ButtonSection from '@/components/ButtonSection.vue';
+import type { PostItem } from '@/core/types/post';
 
 const baseUrl = import.meta.env.VITE_APP_IMG_URL;
 const router = useRouter();
@@ -19,7 +19,7 @@ const router = useRouter();
 const { copy, isSupported: isCopySupported } = useClipboard();
 
 const props = defineProps<{
-  berita: Post[];
+  berita: PostItem[];
   isLoading?: boolean;
 }>();
 
@@ -119,7 +119,7 @@ const shareTo = (platform: string) => {
           <div class="space-y-4 lg:space-y-6">
             <router-link to="/" class="text-base">Beranda > <span><router-link to="/berita"> Berita</router-link></span></router-link>
             <h1 class="text-[16px] md:text-[24px] lg:text-[32px] font-bold" v-if="firstBerita"><span v-html="firstBerita?.title"></span></h1>
-            <TextSection class="hidden md:block"><span class="line-clamp-4" v-html="firstBerita?.content || firstBerita?.title"></span></TextSection>
+            <TextSection class="hidden md:block"><span class="" v-html="firstBerita?.description || firstBerita?.title"></span></TextSection>
             <p class="text-[12px] lg:text-[14px] md:hidden">{{ formatDate(firstBerita?.pub_date) }} • 4 Menit Baca</p>
             <div class="w-full h-full rounded-[16px] md:rounded-[24px] lg:rounded-[32px] group overflow-hidden" @click="goToDetail">
               <img

@@ -1,27 +1,41 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-// import { onMounted } from 'vue'
-// import { usePixelStore } from '@/stores/pixel'
-// import { useAnalyticStore } from '@/stores/analytic'
-// import { loadGoogleAnalytics, loadMetaPixel } from '@/utils/tracking'
+import { onMounted, watch } from 'vue'
+import { usePixelStore } from '@/stores/pixel'
+import { useAnalyticStore } from '@/stores/analytic'
+import { loadGoogleAnalytics, loadMetaPixel } from '@/utils/tracking'
 
-// const pixelStore = usePixelStore()
-// const analyticStore = useAnalyticStore()
+const pixelStore = usePixelStore()
+const analyticStore = useAnalyticStore()
 
-// onMounted(async () => {
-//   await Promise.all([
-//     pixelStore.fetchPixel(),
-//     analyticStore.fetchAnalytic()
-//   ])
-  
-//   if (analyticStore.analytic?.[0]?.ganalytics_code) {
-//     loadGoogleAnalytics(analyticStore.analytic[0].ganalytics_code)
-//   }
-  
-//   if (pixelStore.pixel?.[0]?.pixel_code) {
-//     loadMetaPixel(pixelStore.pixel[0].pixel_code)
-//   }
-// })
+watch(
+  () => [pixelStore.pixel, analyticStore.analytic],
+  () => {
+    if (analyticStore.analytic?.[0]?.ganalytics_code) {
+      const gaCode = analyticStore.analytic[0].ganalytics_code;
+      const gaMatch = gaCode.match(/gtag\('config',\s*'([^']+)'\)/);
+      if (gaMatch && gaMatch[1]) {
+        loadGoogleAnalytics(gaMatch[1]);
+      }
+    }
+    
+    if (pixelStore.pixel?.[0]?.pixel_code) {
+      const pixelCode = pixelStore.pixel[0].pixel_code;
+      const pixelMatch = pixelCode.match(/fbq\('init',\s*'([^']+)'\)/);
+      if (pixelMatch && pixelMatch[1]) {
+        loadMetaPixel(pixelMatch[1]);
+      }
+    }
+  },
+  { immediate: true }
+);
+
+onMounted(async () => {
+  await Promise.all([
+    pixelStore.fetchPixel(),
+    analyticStore.fetchAnalytic()
+  ]);
+});
 </script>
 
 <template>

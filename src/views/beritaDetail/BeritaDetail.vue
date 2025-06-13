@@ -8,6 +8,7 @@ import MainLayout from '@/layouts/MainLayout.vue';
 import BeritaDetailHero from '@/views/beritaDetail/sections/BeritaDetailHero.vue';
 import BeritaDetailContent from './sections/BeritaDetailContent.vue';
 import { useAgendaStore } from '@/stores/agenda';
+import { useHead } from '@vueuse/head';
 
 const route = useRoute();
 const postStore = usePostStore();
@@ -30,6 +31,23 @@ onMounted(() => {
 });
 
 watch(() => postStore.currentPost, updateTitle);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": `${post.value?.category.name}`,
+  "headline": `${post.value?.title}`,
+  "datePublished": `${post.value?.pub_date}`,
+  "author": { "@type": "Person", "name": `${post.value?.user.name}` }
+}
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
+});
 </script>
 
 <template>

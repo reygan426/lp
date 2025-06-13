@@ -1,8 +1,14 @@
 <template>
-  <nav ref="navRef" class="custom-nav">
+  <nav ref="navRef" class="custom-nav mb-3">
     <ul>
-      <li v-for="(icon, index) in icons" :key="index" :class="{ active: activeIndex === index, animating: isAnimating }" :style="getItemAnimationStyle(index)" @click="handleClick(index)">
-        <router-link :to="links[index]" class="nav-link" @click.prevent>
+      <li
+        v-for="(icon, index) in dynamicIcons"
+        :key="index"
+        :class="{ active: activeIndex === index, animating: isAnimating }"
+        :style="getItemAnimationStyle(index)"
+      >
+        <!-- Menghapus @click.prevent -->
+        <router-link :to="links[index]" class="nav-link">
           <span class="icon" v-html="icon"></span>
           <span class="label">{{ labels[index] }}</span>
         </router-link>
@@ -15,54 +21,66 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch, onUnmounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted, nextTick, watch, onUnmounted, computed } from "vue";
+import { useRoute } from "vue-router";
 
 const navRef = ref<HTMLElement | null>(null);
-const activeIndex = ref(2);
-const previousIndex = ref(2);
+const activeIndex = ref(0);
+const previousIndex = ref(0);
 const route = useRoute();
-const router = useRouter();
 const isNavigating = ref(false);
 const isAnimating = ref(false);
+let resizeTimeout: ReturnType<typeof setTimeout>; // Deklarasi resizeTimeout
 
-const links = ['/', '/package', '/berita', '/about-us', '/our-team'];
-const labels = ['Home', 'Service', 'Blog', 'About', 'Team'];
+const links = ["/", "/package", "/berita", "/about-us", "/our-team"];
+const labels = ["Home", "Service", "Blog", "About", "Team"];
 
-const icons = [
+// ✅ Base icons template (tanpa warna hardcode)
+const baseIcons = [
   `<svg viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="home-01">
-      <path id="Vector" d="M3.45958 14.592C3.06973 12.055 2.87481 10.7866 3.35443 9.66213C3.83404 8.53764 4.89812 7.76827 7.02628 6.22953L8.61634 5.07986C11.2637 3.1657 12.5874 2.20862 14.1148 2.20862C15.6421 2.20862 16.9658 3.1657 19.6132 5.07986L21.2033 6.22953C23.3315 7.76827 24.3955 8.53764 24.8751 9.66213C25.3547 10.7866 25.1598 12.055 24.77 14.592L24.4376 16.7552C23.8849 20.3515 23.6086 22.1496 22.3188 23.2224C21.0291 24.2951 19.1435 24.2951 15.3724 24.2951H12.8572C9.08607 24.2951 7.20051 24.2951 5.91075 23.2224C4.621 22.1496 4.34468 20.3515 3.79203 16.7552L3.45958 14.592Z" fill="#F5F5F5" stroke="#424242" stroke-width="1.75" stroke-linejoin="round"></path>
-      <path id="Vector_2" d="M17.4277 18.7736C16.5448 19.4609 15.385 19.8779 14.1148 19.8779C12.8445 19.8779 11.6847 19.4609 10.8018 18.7736" stroke="#424242" stroke-width="1.75" stroke-linecap="round"></path>
-    </g>
-  </svg>`,
-  `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="discover-circle">
-      <path id="Vector" d="M22.25 12C22.25 6.47715 17.7728 2 12.25 2C6.72715 2 2.25 6.47715 2.25 12C2.25 17.5228 6.72715 22 12.25 22C17.7728 22 22.25 17.5228 22.25 12Z" stroke="#424242" stroke-width="1.5"></path>
-        <path id="Vector_2" d="M12.6514 8.29796L15.5713 7.32465C16.4575 7.02924 16.9007 6.88153 17.1346 7.11544C17.3685 7.34935 17.2208 7.79247 16.9253 8.67871L15.952 11.5986C15.4486 13.1088 15.1969 13.8639 14.6554 14.4054C14.1139 14.9469 13.3588 15.1986 11.8486 15.702L8.92871 16.6753C8.04247 16.9708 7.59935 17.1185 7.36544 16.8846C7.13153 16.6507 7.27924 16.2075 7.57465 15.3213L8.54796 12.4014C9.05136 10.8912 9.30306 10.1361 9.84457 9.59457C10.3861 9.05306 11.1412 8.80136 12.6514 8.29796Z" stroke="#424242" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path id="Vector_3" d="M12.2501 12L12.2437 12.0064" stroke="#424242" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </g>
-  </svg>`,
-  `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="sent">
-        <path id="Vector" d="M21.7977 3.05293C19.6197 0.707361 3.23648 6.4532 3.25001 8.551C3.26535 10.9299 9.64809 11.6617 11.4172 12.1581C12.4811 12.4565 12.766 12.7625 13.0113 13.8781C14.1223 18.9305 14.6801 21.4435 15.9514 21.4996C17.9778 21.5892 23.9233 5.342 21.7977 3.05293Z" stroke="#424242" stroke-width="1.5"></path>
-        <path id="Vector_2" d="M12.25 12.5L15.75 9" stroke="#424242" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-    </g>
+<g id="home-01">
+  <path id="Vector" d="M3.45958 14.592C3.06973 12.055 2.87481 10.7866 3.35443 9.66213C3.83404 8.53764 4.89812 7.76827 7.02628 6.22953L8.61634 5.07986C11.2637 3.1657 12.5874 2.20862 14.1148 2.20862C15.6421 2.20862 16.9658 3.1657 19.6132 5.07986L21.2033 6.22953C23.3315 7.76827 24.3955 8.53764 24.8751 9.66213C25.3547 10.7866 25.1598 12.055 24.77 14.592L24.4376 16.7552C23.8849 20.3515 23.6086 22.1496 22.3188 23.2224C21.0291 24.2951 19.1435 24.2951 15.3724 24.2951H12.8572C9.08607 24.2951 7.20051 24.2951 5.91075 23.2224C4.621 22.1496 4.34468 20.3515 3.79203 16.7552L3.45958 14.592Z" fill="#F5F5F5" stroke="#727272" class="svg-item" stroke-width="1.75" stroke-linejoin="round"></path>
+  <path id="Vector_2" d="M17.4277 18.7736C16.5448 19.4609 15.385 19.8779 14.1148 19.8779C12.8445 19.8779 11.6847 19.4609 10.8018 18.7736" stroke="#727272" class="svg-item" stroke-width="1.75" stroke-linecap="round"></path>
+</g>
 </svg>`,
   `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="user">
-        <path id="Vector" d="M7.07757 15.4816C5.6628 16.324 1.95336 18.0441 4.21266 20.1966C5.31631 21.248 6.54549 22 8.09087 22H16.9091C18.4545 22 19.6837 21.248 20.7873 20.1966C23.0466 18.0441 19.3372 16.324 17.9224 15.4816C14.6048 13.5061 10.3952 13.5061 7.07757 15.4816Z" stroke="#424242" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        <path id="Vector_2" d="M17 6.5C17 8.98528 14.9853 11 12.5 11C10.0147 11 8 8.98528 8 6.5C8 4.01472 10.0147 2 12.5 2C14.9853 2 17 4.01472 17 6.5Z" stroke="#424242" stroke-width="1.5"></path>
-    </g>
+<g id="discover-circle">
+  <path id="Vector" d="M22.25 12C22.25 6.47715 17.7728 2 12.25 2C6.72715 2 2.25 6.47715 2.25 12C2.25 17.5228 6.72715 22 12.25 22C17.7728 22 22.25 17.5228 22.25 12Z" stroke="#727272" class="svg-item" stroke-width="1.5"></path>
+    <path id="Vector_2" d="M12.6514 8.29796L15.5713 7.32465C16.4575 7.02924 16.9007 6.88153 17.1346 7.11544C17.3685 7.34935 17.2208 7.79247 16.9253 8.67871L15.952 11.5986C15.4486 13.1088 15.1969 13.8639 14.6554 14.4054C14.1139 14.9469 13.3588 15.1986 11.8486 15.702L8.92871 16.6753C8.04247 16.9708 7.59935 17.1185 7.36544 16.8846C7.13153 16.6507 7.27924 16.2075 7.57465 15.3213L8.54796 12.4014C9.05136 10.8912 9.30306 10.1361 9.84457 9.59457C10.3861 9.05306 11.1412 8.80136 12.6514 8.29796Z" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path id="Vector_3" d="M12.2501 12L12.2437 12.0064" stroke="#727272" class="svg-item" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+</g>
 </svg>`,
   `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="search-02">
-        <path id="Vector" d="M14.5 14L17 16.5" stroke="#424242" stroke-width="1.5" stroke-linejoin="round"></path>
-        <path id="Vector_2" d="M16.9333 18.5252C16.3556 17.9475 16.3556 17.0109 16.9333 16.4333C17.5109 15.8556 18.4475 15.8556 19.0252 16.4333L22.0667 19.4748C22.6444 20.0525 22.6444 20.9891 22.0667 21.5667C21.4891 22.1444 20.5525 22.1444 19.9748 21.5667L16.9333 18.5252Z" stroke="#424242" stroke-width="1.5" stroke-linecap="round"></path>
-        <path id="Vector_3" d="M16.5 9C16.5 5.13401 13.366 2 9.5 2C5.63401 2 2.5 5.13401 2.5 9C2.5 12.866 5.63401 16 9.5 16C13.366 16 16.5 12.866 16.5 9Z" stroke="#424242" stroke-width="1.5" stroke-linejoin="round"></path>
-    </g>
+<g id="sent">
+    <path id="Vector" d="M21.7977 3.05293C19.6197 0.707361 3.23648 6.4532 3.25001 8.551C3.26535 10.9299 9.64809 11.6617 11.4172 12.1581C12.4811 12.4565 12.766 12.7625 13.0113 13.8781C14.1223 18.9305 14.6801 21.4435 15.9514 21.4996C17.9778 21.5892 23.9233 5.342 21.7977 3.05293Z" stroke="#727272" class="svg-item" stroke-width="1.5"></path>
+    <path id="Vector_2" d="M12.25 12.5L15.75 9" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</g>
+</svg>`,
+  `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="user">
+    <path id="Vector" d="M7.07757 15.4816C5.6628 16.324 1.95336 18.0441 4.21266 20.1966C5.31631 21.248 6.54549 22 8.09087 22H16.9091C18.4545 22 19.6837 21.248 20.7873 20.1966C23.0466 18.0441 19.3372 16.324 17.9224 15.4816C14.6048 13.5061 10.3952 13.5061 7.07757 15.4816Z" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path id="Vector_2" d="M17 6.5C17 8.98528 14.9853 11 12.5 11C10.0147 11 8 8.98528 8 6.5C8 4.01472 10.0147 2 12.5 2C14.9853 2 17 4.01472 17 6.5Z" stroke="#727272" class="svg-item" stroke-width="1.5"></path>
+</g>
+</svg>`,
+  `<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="search-02">
+    <path id="Vector" d="M14.5 14L17 16.5" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linejoin="round"></path>
+    <path id="Vector_2" d="M16.9333 18.5252C16.3556 17.9475 16.3556 17.0109 16.9333 16.4333C17.5109 15.8556 18.4475 15.8556 19.0252 16.4333L22.0667 19.4748C22.6444 20.0525 22.6444 20.9891 22.0667 21.5667C21.4891 22.1444 20.5525 22.1444 19.9748 21.5667L16.9333 18.5252Z" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linecap="round"></path>
+    <path id="Vector_3" d="M16.5 9C16.5 5.13401 13.366 2 9.5 2C5.63401 2 2.5 5.13401 2.5 9C2.5 12.866 5.63401 16 9.5 16C13.366 16 16.5 12.866 16.5 9Z" stroke="#727272" class="svg-item" stroke-width="1.5" stroke-linejoin="round"></path>
+</g>
 </svg>`,
 ];
+
+// ✅ Computed property untuk icons dengan warna dinamis
+const dynamicIcons = computed(() => {
+  return baseIcons.map((icon, index) => {
+    const isActive = activeIndex.value === index;
+    const strokeColor = isActive ? "#424242" : "#727272"; // ✅ Aktif = red (#ef4444), Tidak aktif = gray (#727272)
+
+    // Replace semua stroke="#727272" dengan warna yang sesuai
+    return icon.replace(/stroke="#727272"/g, `stroke="${strokeColor}"`);
+  });
+});
 
 // 🎯 Unified Size System - Semua ukuran berdasarkan breakpoint
 const sizeConfig = {
@@ -70,7 +88,7 @@ const sizeConfig = {
     // <= 360px
     nav: { height: 90, borderRadius: 16, padding: 12 },
     item: { size: 58, marginTop: 16 },
-    icon: { size: 19, scale: 0.73, translateY: -20 },
+    icon: { size: 19, scale: 0.73, translateY: -25 },
     circle: { size: 38, topOffset: 15 },
     animation: { duration: 400, delay: 50 },
     curve: {
@@ -87,13 +105,13 @@ const sizeConfig = {
       afterWidth: 10,
     },
     effect: { rightOffset: -3 },
-    label: { offsetY: 16 }, // Tambahan untuk posisi label
+    label: { offsetY: 23 },
   },
   sm: {
     // 361px - 428px
     nav: { height: 100, borderRadius: 18, padding: 15 },
     item: { size: 67, marginTop: 20 },
-    icon: { size: 21, scale: 0.81, translateY: -25 },
+    icon: { size: 21, scale: 0.81, translateY: -27 },
     circle: { size: 45, topOffset: 15 },
     animation: { duration: 500, delay: 60 },
     curve: {
@@ -110,13 +128,13 @@ const sizeConfig = {
       afterWidth: 12,
     },
     effect: { rightOffset: -4 },
-    label: { offsetY: 17 }, // Tambahan untuk posisi label
+    label: { offsetY: 23 },
   },
   md: {
     // 429px - 480px
     nav: { height: 105, borderRadius: 20, padding: 15 },
     item: { size: 70, marginTop: 24 },
-    icon: { size: 23, scale: 0.88, translateY: -27 },
+    icon: { size: 23, scale: 0.88, translateY: -30 },
     circle: { size: 47, topOffset: 15 },
     animation: { duration: 600, delay: 70 },
     curve: {
@@ -133,13 +151,13 @@ const sizeConfig = {
       afterWidth: 14,
     },
     effect: { rightOffset: -6 },
-    label: { offsetY: 18 }, // Tambahan untuk posisi label
+    label: { offsetY: 23 },
   },
   lg: {
     // >= 769px
     nav: { height: 120, borderRadius: 24, padding: 15 },
     item: { size: 80, marginTop: 30 },
-    icon: { size: 26, scale: 1.0, translateY: -32 },
+    icon: { size: 26, scale: 1.0, translateY: -37 },
     circle: { size: 60, topOffset: 15 },
     animation: { duration: 700, delay: 80 },
     curve: {
@@ -156,17 +174,17 @@ const sizeConfig = {
       afterWidth: 20,
     },
     effect: { rightOffset: -8 },
-    label: { offsetY: 20 }, // Tambahan untuk posisi label
+    label: { offsetY: 32 },
   },
 };
 
 // Get current breakpoint
 const getBreakpoint = () => {
   const vw = window.innerWidth;
-  if (vw <= 360) return 'xs';
-  if (vw <= 428) return 'sm';
-  if (vw <= 480) return 'md';
-  return 'lg';
+  if (vw <= 360) return "xs";
+  if (vw <= 428) return "sm";
+  if (vw <= 480) return "md";
+  return "lg";
 };
 
 // Apply unified size system
@@ -178,86 +196,91 @@ const applyUnifiedSizes = () => {
 
   // Set all CSS custom properties at once
   const properties = {
-    '--nav-height': `${config.nav.height}px`,
-    '--nav-border-radius': `${config.nav.borderRadius}px`,
-    '--nav-padding': `${config.nav.padding}px`,
-    '--w-h-item': `${config.item.size}px`,
-    '--item-margin-top': `${config.item.marginTop}px`,
-    '--icon-size': `${config.icon.size}px`,
-    '--icon-scale': config.icon.scale.toString(),
-    '--translate-y': `${config.icon.translateY}px`,
-    '--circle-size': `${config.circle.size}px`,
-    '--circle-top-offset': `${config.circle.topOffset}px`,
-    '--base-animation-duration': `${config.animation.duration}ms`,
-    '--animation-base-delay': `${config.animation.delay}ms`,
-    '--curve-before-left': `${config.curve.beforeLeft}px`,
-    '--curve-before-right': `${config.curve.beforeRight}px`,
-    '--curve-before-height': `${config.curve.beforeHeight}%`,
-    '--curve-before-bottom': config.curve.beforeBottom.toString(),
-    '--curve-before-shadow-y': config.curve.beforeShadowY.toString(),
-    '--curve-before-shadow-blur': config.curve.beforeShadowBlur.toString(),
-    '--curve-after-height': `${config.curve.afterHeight}px`,
-    '--curve-after-bottom': `${config.curve.afterBottom}px`,
-    '--curve-after-left': `${config.curve.afterLeft}px`,
-    '--curve-after-right': `${config.curve.afterRight}px`,
-    '--curve-after-width': `${config.curve.afterWidth}px`,
-    '--effect-right-offset': `${config.effect.rightOffset}px`,
-    '--label-offset-y': `${config.label.offsetY}px`, // Tambahan untuk posisi label
+    "--nav-height": `${config.nav.height}px`,
+    "--nav-border-radius": `${config.nav.borderRadius}px`,
+    "--nav-padding": `${config.nav.padding}px`,
+    "--w-h-item": `${config.item.size}px`,
+    "--item-margin-top": `${config.item.marginTop}px`,
+    "--icon-size": `${config.icon.size}px`,
+    "--icon-scale": config.icon.scale.toString(),
+    "--translate-y": `${config.icon.translateY}px`,
+    "--circle-size": `${config.circle.size}px`,
+    "--circle-top-offset": `${config.circle.topOffset}px`,
+    "--base-animation-duration": `${config.animation.duration}ms`,
+    "--animation-base-delay": `${config.animation.delay}ms`,
+    "--curve-before-left": `${config.curve.beforeLeft}px`,
+    "--curve-before-right": `${config.curve.beforeRight}px`,
+    "--curve-before-height": `${config.curve.beforeHeight}%`,
+    "--curve-before-bottom": config.curve.beforeBottom.toString(),
+    "--curve-before-shadow-y": config.curve.beforeShadowY.toString(),
+    "--curve-before-shadow-blur": config.curve.beforeShadowBlur.toString(),
+    "--curve-after-height": `${config.curve.afterHeight}px`,
+    "--curve-after-bottom": `${config.curve.afterBottom}px`,
+    "--curve-after-left": `${config.curve.afterLeft}px`,
+    "--curve-after-right": `${config.curve.afterRight}px`,
+    "--curve-after-width": `${config.curve.afterWidth}px`,
+    "--effect-right-offset": `${config.effect.rightOffset}px`,
+    "--label-offset-y": `${config.label.offsetY}px`,
   };
 
   Object.entries(properties).forEach(([property, value]) => {
     navRef.value!.style.setProperty(property, value);
   });
 };
-
 const getItemAnimationStyle = (index: number) => {
   if (!isAnimating.value) return {};
 
+  // Menentukan jarak antara indeks sebelumnya dan indeks yang baru
   const distance = Math.abs(index - previousIndex.value);
   const direction = index > previousIndex.value ? 1 : -1;
+
+  // Menambahkan delay yang lebih tinggi jika jarak lebih besar
   const baseDelay = 50;
   const staggerDelay = distance * 30;
 
   return {
-    '--animation-delay': `${baseDelay + staggerDelay}ms`,
-    '--stagger-direction': direction,
+    "--animation-delay": `${baseDelay + staggerDelay}ms`,
+    "--stagger-direction": direction,
   };
 };
 
+// Function to get current index based on the route
+// Function to get current index based on the route
 const getCurrentIndex = () => {
   const currentPath = route.path;
   const index = links.findIndex((link) => link === currentPath);
-  return index !== -1 ? index : 2;
+  return index !== -1 ? index : 0; // Default ke 0 jika path tidak ditemukan
 };
 
-const handleClick = async (index: number) => {
-  if (isNavigating.value || isAnimating.value) return;
+// const handleClick = async (index: number) => {
+//   // Prevent jika sedang navigasi atau animasi sedang berjalan
+//   if (isNavigating.value || isAnimating.value || activeIndex.value === index) return;
 
-  isNavigating.value = true;
-  isAnimating.value = true;
-  previousIndex.value = activeIndex.value;
+//   // Tandai navigasi dan animasi aktif
+//   isNavigating.value = true;
+//   isAnimating.value = true;
 
-  const distance = Math.abs(index - previousIndex.value);
-  const baseDelay = 150;
-  const animationDuration = Math.max(400, distance * 100);
-  const totalDelay = baseDelay + animationDuration;
+//   // Update previousIndex terlebih dahulu
+//   previousIndex.value = activeIndex.value;
 
-  setTimeout(() => {
-    activeIndex.value = index;
-    updatePosition();
-  }, 80);
+//   // Update activeIndex setelah previousIndex diubah
+//   activeIndex.value = index;
 
-  setTimeout(() => {
-    router.push(links[index]).finally(() => {
-      setTimeout(() => {
-        isNavigating.value = false;
-        isAnimating.value = false;
-        previousIndex.value = index;
-      }, 150);
-    });
-  }, totalDelay);
-};
+//   // Tunggu sampai perubahan reaktif selesai menggunakan nextTick()
+//   await nextTick();
 
+//   // Perbarui posisi lingkaran berdasarkan indeks baru
+//   await updatePosition();
+
+//   // Selesaikan navigasi dan animasi setelah posisi diperbarui
+//   isNavigating.value = false;
+//   isAnimating.value = false;
+
+//   // Update previousIndex setelah navigasi selesai
+//   previousIndex.value = index;
+// };
+
+// Update posisi lingkaran berdasarkan indeks aktif
 const updatePosition = () => {
   return new Promise<void>((resolve) => {
     if (!navRef.value) {
@@ -265,8 +288,8 @@ const updatePosition = () => {
       return;
     }
 
-    const lis = navRef.value.querySelectorAll('li');
-    const activeItem = lis[activeIndex.value];
+    const lis = navRef.value.querySelectorAll("li");
+    const activeItem = lis[activeIndex.value]; // Pastikan ini menggunakan activeIndex yang terbaru
 
     if (activeItem) {
       const navRect = navRef.value.getBoundingClientRect();
@@ -274,35 +297,39 @@ const updatePosition = () => {
       const breakpoint = getBreakpoint();
       const circleSize = sizeConfig[breakpoint].circle.size;
 
+      // Hitung posisi lingkaran berdasarkan posisi item
       const itemCenter = itemRect.left + itemRect.width / 2 - navRect.left;
       const circlePosition = itemCenter - circleSize / 2;
 
-      navRef.value.style.setProperty('--position-x-active', `${circlePosition}px`);
+      // Perbarui posisi variabel CSS untuk posisi lingkaran
+      navRef.value.style.setProperty("--position-x-active", `${circlePosition}px`);
     }
 
+    // Resolusi animasi setelah posisi diperbarui
     requestAnimationFrame(() => resolve());
   });
 };
 
-let resizeTimeout: ReturnType<typeof setTimeout>;
 const handleResize = () => {
-  clearTimeout(resizeTimeout);
+  clearTimeout(resizeTimeout); // Menghapus timeout sebelumnya jika ada
   resizeTimeout = setTimeout(() => {
-    applyUnifiedSizes();
-    updatePosition();
-  }, 150);
+    applyUnifiedSizes(); // Fungsi yang ingin dipanggil setelah resize selesai
+    updatePosition(); // Perbarui posisi sesuai ukuran baru
+  }, 150); // Tunggu 150ms setelah resize selesai untuk memanggil fungsi
 };
 
 watch(
   () => route.path,
   async () => {
     if (isNavigating.value) return;
+
     const newIndex = getCurrentIndex();
     if (newIndex !== activeIndex.value) {
       previousIndex.value = activeIndex.value;
       activeIndex.value = newIndex;
-      await nextTick();
-      await updatePosition();
+
+      await nextTick(); // Tunggu sampai Vue menyelesaikan reaksi
+      await updatePosition(); // Perbarui posisi lingkaran berdasarkan indeks baru
     }
   },
   { immediate: true }
@@ -316,16 +343,17 @@ onMounted(async () => {
   await nextTick();
   applyUnifiedSizes();
   await updatePosition();
-  window.addEventListener('resize', handleResize);
+  window.addEventListener("resize", handleResize);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
+  window.removeEventListener("resize", handleResize);
   clearTimeout(resizeTimeout);
 });
 </script>
 
 <style scoped>
+/* CSS tetap sama seperti sebelumnya */
 /* 🎯 Unified Navigation System - All sizes controlled by CSS variables */
 .custom-nav {
   color: #000;
@@ -355,7 +383,7 @@ onUnmounted(() => {
   --item-margin-top: 25px;
   --animation-delay: 0ms;
   --stagger-direction: 1;
-  --label-offset-y: 20px; /* Nilai default untuk posisi label */
+  --label-offset-y: 20px;
 }
 
 .custom-nav ul {
@@ -382,9 +410,13 @@ onUnmounted(() => {
   text-align: center;
   width: 100%;
   height: var(--w-h-item);
-  transition: transform var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--base-animation-duration)
+    cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center bottom;
-  margin-top: calc((var(--nav-height, 110px) - var(--w-h-item)) / 2 + var(--item-margin-top, 25px));
+  margin-top: calc(
+    (var(--nav-height, 110px) - var(--w-h-item)) / 2 + var(--item-margin-top, 25px)
+  );
+  transform: translateY(-16px);
 }
 
 .custom-nav ul li.animating {
@@ -408,7 +440,7 @@ onUnmounted(() => {
 }
 
 .custom-nav ul li.active {
-  transform: translateY(var(--translate-y)) scale(1.1);
+  transform: translateY(var(--translate-y)) scale(1);
   color: #2563eb;
   transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -433,20 +465,18 @@ onUnmounted(() => {
 
 .custom-nav ul li.active .icon svg {
   transform: scale(1.2);
-  color: #424242;
 }
 
 .custom-nav ul li .label {
-  opacity: 0;
-  font-size: 11px;
-  margin-top: 4px;
+  opacity: 1;
+  font-size: 12px;
   position: absolute;
   bottom: 0;
   transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
-  color: #424242;
+  color: #727272;
   font-weight: 600;
-  transform: translateY(10px) scale(0.8);
+  transform: translateY(1px) scale(0.8);
   transform-origin: center;
   letter-spacing: 0.3px;
 }
@@ -454,10 +484,9 @@ onUnmounted(() => {
 .custom-nav ul li.active .label {
   transition: 1ms;
   opacity: 1;
-  /* Perubahan di sini - menggunakan variabel untuk posisi label */
-  transform: translateY(var(--label-offset-y, 20px)) scale(1);
-  /* Menambahkan bottom space */
+  transform: translateY(var(--label-offset-y)) scale(1);
   padding-bottom: 8px;
+  color: #424242;
 }
 
 /* 🎯 Unified Effect System */
@@ -472,7 +501,7 @@ onUnmounted(() => {
 }
 
 .custom-nav .effect::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -486,9 +515,9 @@ onUnmounted(() => {
 }
 
 /* Media Query untuk tablet */
-@media (min-width: 429px) and (max-width: 800px) {
+@media (min-width: 429px) and (max-width: 500px) {
   .custom-nav .effect::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -500,7 +529,7 @@ onUnmounted(() => {
     border-top-left-radius: 24px;
   }
   .custom-nav .effect::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     right: 0px;
@@ -514,13 +543,31 @@ onUnmounted(() => {
   }
 }
 
+@media (min-width: 500px) and (max-width: 1000px) {
+  .custom-nav .effect::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--w-h-item);
+    width: calc(var(--position-x-active) - 10px);
+    background: #fff;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 16px;
+    border-top-left-radius: 24px;
+  }
+}
+
 .custom-nav .effect::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   right: 0px;
   height: var(--w-h-item);
-  width: calc(100% - var(--position-x-active) - var(--circle-size) + var(--effect-right-offset, -3px));
+  width: calc(
+    100% - var(--position-x-active) - var(--circle-size) +
+      var(--effect-right-offset, -3px)
+  );
   border-top-left-radius: 8px;
   transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: #fff;
@@ -575,20 +622,21 @@ onUnmounted(() => {
 
 /* 🎯 Unified Curve System */
 .custom-nav .effect .circle::before {
-  content: '';
+  content: "";
   position: absolute;
-  left: var(--curve-before-left, -8px);
+  left: var(--curve-before-left, -7px);
   right: var(--curve-before-right, -8px);
   height: var(--curve-before-height, 120%);
   bottom: calc(var(--circle-size) * var(--curve-before-bottom, -0.15));
   background: transparent;
   border-radius: 50%;
-  box-shadow: 0 calc(var(--circle-size) * var(--curve-before-shadow-y, 0.6)) 0 calc(var(--circle-size) * var(--curve-before-shadow-blur, 0.25)) #fff;
+  box-shadow: 0 calc(var(--circle-size) * var(--curve-before-shadow-y, 0.6)) 0
+    calc(var(--circle-size) * var(--curve-before-shadow-blur, 0.25)) #fff;
   transition: all var(--base-animation-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .custom-nav .effect .circle::after {
-  content: '';
+  content: "";
   position: absolute;
   left: var(--curve-after-left, -2px);
   right: var(--curve-after-right, -2px);

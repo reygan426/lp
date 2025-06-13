@@ -3,27 +3,31 @@ import ButtonSection from '@/components/ButtonSection.vue';
 import TextBody from '@/components/TextBody.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css';
+import Approach from '@/assets/icon/approach.png'
+import Relevancy from '@/assets/icon/logic.png'
+import Skils from '@/assets/icon/puzzle.png'
+import Support from '@/assets/icon/support.png'
 
 const benefit = [
     {
         title: 'Pendekatan Proaktif & Preventif',
         description: 'Mampu mendeteksi masalah lebih dini, mencegah eskalasi, dan membangun strategi pencegahan',
-        icon: ''
+        icon: Approach
     },
     {
         title: 'Relevansi dengan Kebutuhan Masa Kini',
         description: 'Konseling yang lebih menyentuh persoalan aktual masyarakat modern',
-        icon: ''
+        icon: Relevancy
     },
     {
         title: 'Keterampilan Praktis & Aplikatif',
         description: 'Langsung bisa diterapkan untuk kasus-kasus nyata dalam praktik',
-        icon: ''
+        icon: Skils
     },
     {
         title: 'Dukungan Profesional Berkelanjutan',
         description: 'Menjadi bagian dari komunitas pembelajar, bertukar pengalaman, dan membangun jejaring',
-        icon: ''
+        icon: Support
     },
 ]
 </script>
@@ -129,7 +133,7 @@ const benefit = [
                         class="p-6 bg-white flex flex-col justify-start items-start gap-4  rounded-[8px] md:rounded-[16px] lg:rounded-[24px]">
                         <h6 class="text-[20px] lg:text-[24px] font-bold">{{ benefit.title }}</h6>
                         <div class="p-2 md:p-4 rounded-[4px] md:rounded-[8px] lg:rounded-[16px] bg-primary">
-                            <img src="https://placehold.co/600x400" alt=""
+                            <img :src="benefit.icon" alt=""
                                 class="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 object-cover">
                         </div>
                         <p class="text-[12px] md:text-[12px] lg:text-[16px]">{{ benefit.description }}</p>

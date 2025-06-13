@@ -25,7 +25,7 @@ const setActiveTab = (index: number) => {
     <div
         class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[60px] lg:px-[120px] space-y-6 md:space-y-10 lg:space-y-16">
         <div
-            class="w-full md:w-1/2 mx-auto flex flex-col justify-center items-center text-center gap-4 md:gap-5 lg:gap-6">
+            class="w-full md:w-2/3 mx-auto flex flex-col justify-center items-center text-center gap-4 md:gap-5 lg:gap-6">
             <div class=" bg-primary/10 w-fit py-2 px-5 rounded-full">
                 <h6 class="text-[10px] md:text-[12px] lg:text-[16px] text-primary">Why</h6>
             </div>

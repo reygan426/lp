@@ -11,9 +11,11 @@ import type { UnggulanItem } from '@/core/types/unggulan';
 import Usp from "@/assets/icon/usp.png"
 import Love from '@/assets/icon/love.png'
 import Doc from '@/assets/icon/doc.png'
+import type { Identity } from '@/core/types/identity';
 
-defineProps<{
+const props = defineProps<{
     unggulan: UnggulanItem[];
+    identity: Identity[];
 }>();
 
 const uspItems = [
@@ -91,7 +93,12 @@ const breakpoints = {
         slidesPerView: 4.5,
         spaceBetween: 32
     }
+};
 
+const handleWhatsAppClick = () => {
+    const phoneNumber = props.identity[0]?.phone || '6281222181823';
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`;
+    window.open(whatsappUrl, '_blank');
 };
 </script>
 
@@ -105,9 +112,17 @@ const breakpoints = {
                 <a href="https://cek.jatidiri.app/login" target="_blank">
                     <ButtonSection>Check Now</ButtonSection>
                 </a>
-                <ButtonSection bg-color="bg-transparent" bg-hover="bg-secondary" text-color="text-primary"
-                    text-hover="text-white" border-color="border-primary" arrow-color="primary" arrow-hover="white">
-                    Contact Us</ButtonSection>
+                <ButtonSection 
+                    bg-color="bg-transparent" 
+                    bg-hover="bg-secondary" 
+                    text-color="text-primary"
+                    text-hover="text-white" 
+                    border-color="border-primary" 
+                    arrow-color="primary" 
+                    arrow-hover="white"
+                    @click="handleWhatsAppClick">
+                    Contact Us
+                </ButtonSection>
             </div>
         </div>
 
@@ -124,7 +139,7 @@ const breakpoints = {
                     </filter>
                 </defs>
             </svg>
-            <div class="h-fit py-10 bg-gradient-to-r from-primary to-secondary -mt-10 box-usp">
+            <div class="h-fit py-10 bg-[#E0ECFF] -mt-10 box-usp">
                 <Swiper v-if="uspItems && uspItems.length" :modules="modules" :breakpoints="breakpoints"
                     :centered-slides="true" :loop="true" :autoplay="{
                         delay: 2000,
@@ -135,7 +150,7 @@ const breakpoints = {
                     <SwiperSlide v-for="(item, index) in uspItems" :key="index">
                         <div class="transition-all duration-500 ease-in-out cursor-pointer w-full" :class="{
                             'py-10': activeIndex !== index,
-                            'pt-0 md:pt-8 lg:pt-16': activeIndex === index
+                            'pt-0 md:pt-16 lg:pt-16': activeIndex === index
                         }">
                             <UspCard :title="item.title" :description="item.description" :icon="item.icon"></UspCard>
                         </div>

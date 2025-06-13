@@ -19,6 +19,9 @@ const props = defineProps<{
                 <div class="absolute inset-0 w-full h-full hero3-container overflow-hidden">
                     <img :src="image" :alt="title"
                         class="w-full h-full object-cover object-[75%_75%] md:object-center rounded-[16px] md:rounded-[24px] lg:rounded-[32px] hero3-box">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-primary/50 via-transparent to-transparent hero3-box z-2">
+                    </div>
 
                     <svg :style="{ visibility: 'hidden', position: 'absolute' }" width="0" height="0"
                         xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -36,7 +39,7 @@ const props = defineProps<{
                 <div class="relative z-10 md:px-[40px] lg:px-[88px] space-y-4 lg:space-y-6 hidden md:block">
                     <div class=" space-y-2">
                         <h1
-                            class="max-w-[75%] lg:max-w-[70%] text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
+                            class="max-w-[80%] lg:max-w-[70%] text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
                             {{ title }}
                         </h1>
                         <div
@@ -53,10 +56,10 @@ const props = defineProps<{
                 </div>
 
                 <!-- Mobile -->
-                <div class="absolute bottom-0 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
+                <div class="absolute bottom-1/2 translate-y-1/2 left-0 z-10 p-4 space-y-4 lg:space-y-6 md:hidden">
                     <div class=" space-y-2 ">
                         <h1
-                            class="max-w-[75%] lg:max-w-2/3 text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
+                            class="max-w-[80%] lg:max-w-2/3 text-[22px] md:text-[34px] lg:text-[46px] font-bold text-white">
                             {{ title }}
                         </h1>
                     </div>

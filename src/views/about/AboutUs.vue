@@ -16,6 +16,7 @@ import { useTestimoniStore } from '@/stores/testimoni';
 import { useTeamStore } from '@/stores/team';
 import HeroAboutSection from './sections/HeroAboutSection.vue';
 import Bg2 from '@/assets/bg2.jpg'
+import { useHead } from '@vueuse/head';
 
 const sliderStore = useSliderStore();
 const unggulanStore = useUnggulanStore();
@@ -34,6 +35,24 @@ onMounted(async () => {
   await teamStore.fetchTeam(2)
   await teamStore.fetchTeam(3)
 });
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Tentang Jatidiri.App",
+  "url": "https://jatidiri.app/about-us",
+  "logo": "https://cms.jatidiri.app/storage/identities/KtufuVgVqXJ9Af5YHn0tWy0OPQWUBPx5LHHuF3pc.png",
+  "description": "Tentang Jatidiri.App - Visi, misi, dan nilai-nilai kami dalam membangun karakter bangsa"
+};
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData)
+    }
+  ]
+});
 </script>
 
 <template>
@@ -42,7 +61,7 @@ onMounted(async () => {
       :description="'Jatidiri.app adalah platform yang memadukan teknologi dan layanan psikologi untuk membantu individu dan institusi memahami potensi diri dan meningkatkan kualitas hidup.'"
       page-name="About Us" link-page="/about-us">
     </HeroAboutSection>
-    <UspSection :unggulan="unggulanStore.unggulans" />
+    <UspSection v-if="identityStore.identity" :unggulan="unggulanStore.unggulans" :identity="identityStore.identity"/>
     <!-- <MitraSection v-if="partnerStore.partners.length" :partners="partnerStore.partners" /> -->
     <AboutSection v-if="identityStore.identity" :identity="identityStore.identity" />
     <StatsSection />

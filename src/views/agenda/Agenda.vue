@@ -14,9 +14,10 @@ onMounted(async () => {
 
 <template>
     <MainLayout :white-section-visible="true">
-        <AgendaHero
+        <AgendaHero v-if="agendaStore.agendas[0]"
           :agenda="agendaStore.agendas"
         />
-        <AgendaList />
+        <AgendaList v-if="agendaStore.agendas[0]"/>
+        <h1 v-else="agendaStore.agendas[0]" class="text-[22px] md:text-[34px] lg:text-[46px] py-40 text-center font-bold">Tidak Ada Agenda</h1>
     </MainLayout>
 </template>

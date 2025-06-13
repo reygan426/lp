@@ -37,40 +37,40 @@ const breakpoints = {
 
 <template>
     <div
-        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[120px] lg:px-[80px] flex flex-col-reverse md:flex-row justify-between items-center gap-6 lg:gap-0">
-        <div class="w-full md:w-[40%] space-y-6 md:space-y-10 lg:space-y-14">
-            <div class="space-y-4 md:space-y-5 lg:space-y-6">
-                <!-- <h6 class="text-[16px] md:text-[20px] lg:text-[24px]">Lorem</h6> -->
-                <p class="text-[14px] md:text-[16px] lg:text-[20px] text-black/80">Raih pemahaman mendalam <br> dengan pendekatan yang terarah.</p>
+        class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[120px] lg:px-[80px] flex flex-col justify-between items-center gap-4 md:gap-12 lg:gap-16">
+        <h6 class="text-[22px] md:text-[34px] lg:text-[46px] font-bold max-w-[90%] md:max-w-[60%] text-center">Dibimbing Langsung oleh
+            Para
+            Ahli di Bidangnya</h6>
+
+        <div class="w-full flex flex-col md:flex-row justify-center items-center gap-10 md:gap-12 lg:gap-16">
+            <div
+                class="w-full md:w-[40%] h-full flex flex-col justify-center items-center text-center md:justify-start md:items-start md:text-left gap-6 md:gap-10 lg:gap-14 ">
+                <div class="space-y-4 md:space-y-5 lg:space-y-6">
+                    <p class="text-[14px] md:text-[16px] lg:text-[20px] text-black/80">Raih pemahaman mendalam <br>
+                        dengan pendekatan yang terarah.</p>
+                </div>
+
+                <div class="hidden md:block">
+                    <ButtonSection>Check Now</ButtonSection>
+                </div>
             </div>
 
-            <div>
-                <ButtonSection>Check Now</ButtonSection>
-            </div>
-        </div>
-        <div class="w-full md:w-[60%] space-y-10 md:space-y-12 lg:space-y-16">
-            <h6 class="text-[22px] md:text-[34px] lg:text-[46px] font-bold">Dibimbing Langsung oleh Para
-                Ahli di Bidangnya</h6>
-
-            <div class="w-full">
+            <div class="w-full md:w-[60%]">
                 <swiper class="w-full" :slides-per-view="3" :space-between="8" :centered-slides="false"
                     :grab-cursor="true" :watch-slides-progress="true" :loop="true" :breakpoints="breakpoints"
                     :modules="modules" :autoplay="{
                         delay: 3000,
                         disableOnInteraction: false,
                         pauseOnMouseEnter: true
-                    }" :speed="800" 
-                    :effect="'creative'"
-                    :creative-effect="{
-                    prev: {
-                    shadow: false,
-                    translate: ['-20%', 0, -1],
-                    },
-                    next: {
-                    translate: ['100%', 0, 0],
-                    },
-                    }"
-                    >
+                    }" :speed="800" :effect="'creative'" :creative-effect="{
+                        prev: {
+                            shadow: false,
+                            translate: ['-20%', 0, -1],
+                        },
+                        next: {
+                            translate: ['100%', 0, 0],
+                        },
+                    }">
                     <swiper-slide v-for="(team, index) in teamStore.teams.filter(item => item.ot_id === 3)"
                         :key="index">
                         <div class="w-full h-[30vh] bg-cover rounded-[16px] relative swiper-slide-content"
@@ -85,6 +85,10 @@ const breakpoints = {
                         </div>
                     </swiper-slide>
                 </swiper>
+            </div>
+
+            <div class="md:hidden">
+                <ButtonSection>Check Now</ButtonSection>
             </div>
         </div>
     </div>

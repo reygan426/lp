@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useDateFormat } from '@/composables/useDateFormat';
-import type { Post } from '@/core/types/post';
+import type { PostItem } from '@/core/types/post';
 import { useRouter } from 'vue-router';
 
 const { formatDate } = useDateFormat();
@@ -12,14 +12,14 @@ const getImageUrl = (imagePath: string | null) => {
   return `${baseUrl}/posts/${imagePath}`;
 };
 
-const handlePostClick = (post: Post) => {
+const handlePostClick = (post: PostItem) => {
   if (post.slug) {
     router.push(`/berita/${post.slug}`);
   }
 };
 
 defineProps<{
-  berita?: Post[]
+  berita?: PostItem[]
 }>();
 </script>
 

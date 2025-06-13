@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import TextBody from '@/components/TextBody.vue';
-import type { Post } from '@/core/types/post';
-import SectionLayout from '@/layouts/SectionLayout.vue';
+import type { PostItem } from '@/core/types/post';
 import { computed } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { toast } from 'vue3-toastify';
@@ -10,14 +9,14 @@ import CopyIcon from '@/assets/icon/copy.png';
 import WhatsappIcon from '@/assets/icon/wa.png';
 import FacebookIcon from '@/assets/icon/fb.png';
 import TwitterIcon from '@/assets/icon/x.png';
-import TitleSection from '@/components/TitleSection.vue';
+import TitleMain from '@/components/TitleMain.vue';
 
 const baseUrl = import.meta.env.VITE_APP_IMG_URL;
 
 const { copy, isSupported: isCopySupported } = useClipboard();
 
 const props = defineProps<{
-  post?: Post,
+  post?: PostItem,
   loading?: boolean
 }>();
 
@@ -64,7 +63,7 @@ const shareTo = (platform: string) => {
 </script>
 
 <template>
-  <SectionLayout>
+  <div class="py-[32px] px-[20px] md:py-[64px] md:px-[48px] lg:py-[80px] lg:px-[120px]">
     <template v-if="loading">
       <!-- Hero Section Skeleton -->
       <div class="w-full h-[60vh] bg-gray-300 animate-pulse relative">
@@ -80,12 +79,12 @@ const shareTo = (platform: string) => {
     <template v-else-if="post">
       <div class="space-y-4 lg:space-y-6">
         <div class="text-base font-bold flex items-center gap-4">
-          <div class="p-2 bg-gray-300 rounded-full">
-            <p class="text-sm">Kategori</p>
+          <div class="p-2 bg-primary/10 rounded-full">
+            <p class="text-sm text-primary">{{ post.category.name }}</p>
           </div>
           <p class="text-sm">5 Menit Baca</p>
         </div>
-        <TitleSection :text="post.title" />
+        <TitleMain :text="post.title"/>
       </div>
 
       <div class="space-y-4 lg:space-y-6 mt-4 md:mt-6">
@@ -93,15 +92,15 @@ const shareTo = (platform: string) => {
           <img :src="getImageUrl(post.image)" alt="Thumbnail"
             class="w-full h-full object-cover rounded-[16px] md:rounded-[24px] lg:rounded-[32px]">
         </div>
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center font-sora">
           <div class="flex gap-4 md:gap-5 lg:gap-6">
             <div class="text-base space-y-2">
               <TextBody>Penulis</TextBody>
-              <TextBody>Author</TextBody>
+              <TextBody weight-text="font-bold">{{ post.user.name }}</TextBody>
             </div>
             <div class="text-base space-y-2">
               <TextBody>Tanggal Publish</TextBody>
-              <TextBody>{{ new Date(post.pub_date).toLocaleDateString('id-ID', {
+              <TextBody weight-text="font-bold">{{ new Date(post.pub_date).toLocaleDateString('id-ID', {
                 day: 'numeric', month: 'long', year:
                 'numeric' }) }}</TextBody>
             </div>
@@ -134,5 +133,5 @@ const shareTo = (platform: string) => {
         </div>
       </div>
     </template>
-  </SectionLayout>
+  </div>
 </template>

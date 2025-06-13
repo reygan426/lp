@@ -12,12 +12,14 @@ import { useTestimoniStore } from '@/stores/testimoni';
 import { onMounted } from 'vue';
 import HeroAboutSection from '../about/sections/HeroAboutSection.vue';
 import Bg6 from '@/assets/bg6.jpg'
+import { useIdentityStore } from '@/stores/identity';
 
 const sliderStore = useSliderStore();
 const unggulanStore = useUnggulanStore();
 const partnerStore = usePartnerStore();
 const programStore = useProgramStore();
 const testimoniStore = useTestimoniStore();
+const identityStore = useIdentityStore()
 
 onMounted(async () => {
   await sliderStore.fetchSlider()
@@ -25,6 +27,7 @@ onMounted(async () => {
   await partnerStore.fetchPartner()
   await programStore.fetchProgram()
   await testimoniStore.fetchTestimonial()
+  await identityStore.fetchIdentity()
 });
 </script>
 
@@ -34,7 +37,7 @@ onMounted(async () => {
       :description="'Temukan cara praktis untuk memetakan potensi dan karakter — baik untuk individu, keluarga, tim sekolah, maupun perusahaan.'"
       page-name="Package" link-page="/package">
     </HeroAboutSection>
-    <UspSection :unggulan="unggulanStore.unggulans" />
+    <UspSection v-if="identityStore.identity" :unggulan="unggulanStore.unggulans" :identity="identityStore.identity"/>
     <!-- <MitraSection v-if="partnerStore.partners.length" :partners="partnerStore.partners" /> -->
     <ServiceSection />
     <TestimonialsSection :testimoni="testimoniStore.testimonials" />

@@ -31,7 +31,7 @@ const services = [
         link: '/program/jatidiri-corporate'
     }
     ,
-        {
+    {
         id: 3,
         number: "03",
         title: "Jatidiri University",
@@ -59,6 +59,15 @@ const services = [
         chart: Chart1,
         reverse: false,
         link: '/program/jatidiri-ku'
+    },
+    {
+        id: 6,
+        number: "06",
+        title: "Pelatihan Peer Konselor",
+        description: "Kenali dirimu lebih dalam dan jadi pendengar yang berdampak. Dengan Pelatihan Peer Konselor dari Jatidiri, kamu tidak hanya memahami potensi dan karakter dirimu sendiri, tapi juga belajar mendampingi orang lain dalam menemukan arah hidupnya.",
+        chart: Chart2,
+        reverse: true,
+        link: '/pelatihan-konselor'
     }
 ]
 </script>
@@ -99,7 +108,7 @@ const services = [
 
                     <div class="absolute bottom-0 left-0 z-10">
                         <h3 class="text-[16px] md:text-[30px] lg:text-[40px] font-bold text-primary">{{ service.number
-                            }}</h3>
+                        }}</h3>
                     </div>
                 </div>
 
@@ -111,13 +120,15 @@ const services = [
                     </div>
 
                     <div class="flex gap-4 lg:gap-6">
-                        <a :href="service.link">
+                        <a href="https://cek.jatidiri.app" target="_blank">
                             <ButtonSection>Check Now</ButtonSection>
                         </a>
-                        <ButtonSection bg-color="bg-transparent" bg-hover="bg-secondary" text-color="text-primary"
-                            text-hover="text-white" border-color="border-primary" arrow-color="primary"
-                            arrow-hover="white">
-                            Know More</ButtonSection>
+                        <a :href="service.link">
+                            <ButtonSection bg-color="bg-transparent" bg-hover="bg-secondary" text-color="text-primary"
+                                text-hover="text-white" border-color="border-primary" arrow-color="primary"
+                                arrow-hover="white">
+                                Know More</ButtonSection>
+                        </a>
                     </div>
                 </div>
             </div>
